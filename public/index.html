@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,183 +8,228 @@
     <script src="convert_settings.js" charset="utf-8" defer></script>
     <title>Upload Powerpoint</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link href="style.css" rel="stylesheet">
     <style>
-      html, body {
-      min-height: 100%;
-      background-color:rgba(255, 255, 255, 0.18)
-      }
-      body, div, form, input, select, textarea, label { 
-      padding: 0;
-      margin: 0;
-      outline: none;
-      font-family: Roboto, Arial, sans-serif;
-      font-size: 14px;
-      color: #666;
-      line-height: 22px;
-      }
-      h1 {
-      position: absolute;
-      margin: 0;
-      font-size: 40px;
-      color: rgb(255, 136, 0);
-      z-index: 2;
-      line-height: 83px;
-      }
-      form {
-      margin: auto;
-      margin-top: 50px;
-      text-align: center;
-      width: 80%;
-      padding: 20px;
-      border-radius: 6px;
-      background: #fff;
-      box-shadow: 0 0 8px  #cc7a00; 
-      }
-      .banner {
-      position: relative;
-      height: 350px;
-      background-image: url("logo polly.jpg");  
-      background-size: cover;
-      background-repeat: no-repeat;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      }
+        html,
+        body {
+            min-height: 100%;
+            background-color: rgba(255, 255, 255, 0.18)
+        }
 
-      input, select, textarea {
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 3px;
-      }
-      input {
-      width: 40%;
-      padding: 5px;
-      }
-      textarea {
-      width: calc(100% - 12px);
-      padding: 5px;
-      }
-      .item:hover p, .item:hover i, .question:hover p, .question label:hover, input:hover::placeholder {
-      color: #cc7a00;
-      }
-      .item input:hover, .item select:hover, .item textarea:hover {
-      border: 1px solid transparent;
-      box-shadow: 0 0 3px 0 #cc7a00;
-      color: #cc7a00;
-      }
-      .item {
-      position: relative;
-      margin: 10px 0;
-      }
-      .item span {
-      color: red;
-      }
-      input[type="date"]::-webkit-inner-spin-button {
-      display: none;
-      }
-      button {
-      width: 150px;
-      padding: 10px;
-      border: none;
-      border-radius: 5px; 
-      background: #ff9d09;
-      font-size: 16px;
-      color: #fff;
-      cursor: pointer;
-      }
-      button:hover {
-      background: #ff9800;
-      }
-      @media (min-width: 568px) {
-      .name-item, .city-item {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      }
-      .name-item input, .name-item div {
-      width: calc(50% - 20px);
-      }
-      .name-item div input {
-      width:97%;}
-      .name-item div label {
-      display:block;
-      padding-bottom:5px;
-      }
+        body,
+        div,
+        form,
+        input,
+        select,
+        textarea,
+        label {
+            padding: 0;
+            margin: 0;
+            outline: none;
+            font-family: Roboto, Arial, sans-serif;
+            font-size: 14px;
+            color: #666;
+            line-height: 22px;
+        }
 
-      .loader {
-    position: relative;
-    top: 50%;
-    left: 50%;
-}
+        h1 {
+            position: absolute;
+            margin: 0;
+            font-size: 40px;
+            color: rgb(255, 136, 0);
+            z-index: 2;
+            line-height: 83px;
+        }
 
-.loader .dots {
-    position: absolute;
-    padding: 10px;
-    border-radius: 50%;
-    background: #ff9d01;
-    -webkit-animation: myani 1s ease-in-out 0s infinite;
-    animation: myani 1s ease-in-out 0s infinite;
-}
-.loader .dots:nth-child(1) {
-    -webkit-animation-delay: 0s;
-    animation-delay: 0s;
-}
-.loader .dots:nth-child(2) {
-    -webkit-animation-delay: 0.15s;
-    animation-delay: 0.15s;
-}
-.loader .dots:nth-child(3) {
-    -webkit-animation-delay: 0.30s;
-    animation-delay: 0.30s;
-}
-.loader .dots:nth-child(4) {
-    -webkit-animation-delay: 0.45s;
-    animation-delay: 0.45s;
-}
+        form {
+            margin: auto;
+            margin-top: 50px;
+            text-align: center;
+            width: 80%;
+            padding: 20px;
+            border-radius: 6px;
+            background: #fff;
+            box-shadow: 0 0 8px #cc7a00;
+        }
+
+        .banner {
+            position: relative;
+            height: 350px;
+            background-image: url("logo polly.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        input,
+        select,
+        textarea {
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        input {
+            width: 40%;
+            padding: 5px;
+        }
+
+        textarea {
+            width: calc(100% - 12px);
+            padding: 5px;
+        }
+
+        .item:hover p,
+        .item:hover i,
+        .question:hover p,
+        .question label:hover,
+        input:hover::placeholder {
+            color: #cc7a00;
+        }
+
+        .item input:hover,
+        .item select:hover,
+        .item textarea:hover {
+            border: 1px solid transparent;
+            box-shadow: 0 0 3px 0 #cc7a00;
+            color: #cc7a00;
+        }
+
+        .item {
+            position: relative;
+            margin: 10px 0;
+        }
+
+        .item span {
+            color: red;
+        }
+
+        input[type="date"]::-webkit-inner-spin-button {
+            display: none;
+        }
+
+        button {
+            width: 150px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #ff9d09;
+            font-size: 16px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #ff9800;
+        }
+
+        @media (min-width: 568px) {
+
+            .name-item,
+            .city-item {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            .name-item input,
+            .name-item div {
+                width: calc(50% - 20px);
+            }
+
+            .name-item div input {
+                width: 97%;
+            }
+
+            .name-item div label {
+                display: block;
+                padding-bottom: 5px;
+            }
+
+            .loader {
+                position: relative;
+                top: 50%;
+                left: 50%;
+            }
+
+            .loader .dots {
+                position: absolute;
+                padding: 10px;
+                border-radius: 50%;
+                background: #ff9d01;
+                -webkit-animation: myani 1s ease-in-out 0s infinite;
+                animation: myani 1s ease-in-out 0s infinite;
+            }
+
+            .loader .dots:nth-child(1) {
+                -webkit-animation-delay: 0s;
+                animation-delay: 0s;
+            }
+
+            .loader .dots:nth-child(2) {
+                -webkit-animation-delay: 0.15s;
+                animation-delay: 0.15s;
+            }
+
+            .loader .dots:nth-child(3) {
+                -webkit-animation-delay: 0.30s;
+                animation-delay: 0.30s;
+            }
+
+            .loader .dots:nth-child(4) {
+                -webkit-animation-delay: 0.45s;
+                animation-delay: 0.45s;
+            }
 
 
 
-@keyframes myani {
-    0% {
-        -webkit-transform: translateX(-100px);
-        transform: translateX(-100px);
-        opacity: 0;
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        -webkit-transform: translateX(100px);
-        transform: translateX(100px);
-        opacity: 0;
-    }
-}
+            @keyframes myani {
+                0% {
+                    -webkit-transform: translateX(-100px);
+                    transform: translateX(-100px);
+                    opacity: 0;
+                }
+
+                50% {
+                    opacity: 1;
+                }
+
+                100% {
+                    -webkit-transform: translateX(100px);
+                    transform: translateX(100px);
+                    opacity: 0;
+                }
+            }
     </style>
 </head>
+
 <body>
     <form>
         <div class="banner"></div>
-          <p>Create your lesson here</p>
+        <p>Create your lesson here</p>
         <div id="UpBtn">
             <input type="file" id="inpFile">
             <button id="btnUpload">Upload file</button>
         </div><br>
         <p id="LoadDots">
-          <div class="loader">
+        <div class="loader">
             <div class="dots"></div>
             <div class="dots"></div>
             <div class="dots"></div>
             <div class="dots"></div>
             <div class="dots"></div>
-          </div>     
-    </p>
+        </div>
+        </p>
     </form>
     <form method="post" action="download" id="DownBtn">
 
     </form>
     <div id="id_alert" class="alertmessage"></div>
 </body>
+
 </html>
