@@ -19,63 +19,39 @@
     };
 
     convert_button.addEventListener('click', (e) => {
-
-        e.preventDefault();
         formData.append('myFile', inpFile.files[0]);
         xhr.open('post','upload-ppt',false);
         xhr.send(formData);
+        e.preventDefault();
         showDownloadBtn();
-        
     }); 
 
-    console.log('ciao');
     
-
     let showDownloadBtn = function(){
-        let  down = document.getElementById("DownBtn");
-        let  form = document.createElement("form");
+
+        let  div = document.createElement('div');
+        let  form = document.getElementById('DownBtn')
         let input = document.createElement("input");
-        var s = document.createElement('button');
+        let submit = document.createElement('button');
 
 
         form.setAttribute("method", "post");
         form.setAttribute("action", "download");
 
         
-        input.setAttribute("type", "hidden");
-        input.setAttribute("value", "12345");
-
-        s.appendChild(document.createTextNode('Download'))
-        s.setAttribute("type", "button");
-        s.setAttribute("value", "Submit");
-
-        form.appendChild(input);
-        form.appendChild(s);
-
-        down.appendChild(form);
-                
         
+        input.setAttribute("type", "hidden");
+        input.setAttribute('name','dwnFile');
+        input.setAttribute("value", `${file_to_download}`);
+
+        submit.appendChild(document.createTextNode('Download'))
+        submit.setAttribute("type", "submit");
+        //submit.setAttribute("value", "Download");
+
+        form.appendChild(div);
+        div.appendChild(input);
+        div.appendChild(submit);
+
     }
-
-    /* let downloadBtn = document.createElement('button');
-            let input = document.createElement('input');
-            let form = document.getElementById('DownForm');
-            let div = document.getElementById8('DownBtn');
-            
-            form.setAttribute('action','download');
-            form.setAttribute('method','post');
-
-            //input.setAttribute('type','hidden');
-            //input.setAttribute('value', `123455`);
-
-            downloadBtn.setAttribute('type','button');
-            downloadBtn.appendChild(document.createTextNode('Download'));
-
-            div.getElementById('DownBtn').appendChild(input);
-            div.appendChild(downloadBtn); */
-
-
-
-
     
 }

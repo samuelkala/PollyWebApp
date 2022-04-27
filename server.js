@@ -38,24 +38,24 @@ function uploadFile(req, res, next) {
 
 const app = express();
 
+const bodyParser = require('body-parser');
+
 app.use(express.static('public'));
-app.use(express.json()) // for parsing application/json
-app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended: true}));
  
 app.post('/upload-ppt', uploadFile, startPolly, (req,res) => {
   //console.log(req.file.filename);
   if(req.file == null){
     res.send('you haven\'t upload any file');
   }else{
-    //res.send(req.file.filename); 
-    res.send('file uploaded successfully');
+    res.send(req.file.filename); 
   }
   }
 );
 
 app.post('/download',(req,res) =>{
-  file = req.body;
-  file_to_download = './downloads/' + req.body.filename;
+  file_to_download = './downloads/' + req.body.dwnFile;
+  res.download(file_to_download);
 });
 
 
