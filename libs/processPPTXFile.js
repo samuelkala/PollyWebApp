@@ -52,8 +52,10 @@ async function processPPTXFile(fileName) {
     await zipMulti([`${relPath}${fileName}/_rels/`,`${relPath}${fileName}/[Content_Types].xml`,`${relPath}${fileName}/docProps/`,`${relPath}${fileName}/ppt/`], `${relPath}${fileName}_new.zip`);
     await delay(5000);
     
-    fs.renameSync(`${relPath}${fileName}.zip`, `${relPath}${fileName}.${fileExt}`);
-    fs.renameSync(`${relPath}${fileName}_new.zip`, `${relPath}${fileName}_new.${fileExt}`);
+    //fs.renameSync(`${relPath}${fileName}.zip`, `${relPath}${fileName}.${fileExt}`);
+    //fs.renameSync(`${relPath}${fileName}_new.zip`, `${relPath}${fileName}_new.${fileExt}`);
+    fs.unlinkSync(`${relPath}${fileName}.zip`);
+    fs.renameSync(`${relPath}${fileName}_new.zip`, `./downloads/${fileName}.${fileExt}`);
     await removeDir(`${relPath}${fileName}`);
 }
 

@@ -4,12 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Powerpoint</title>
+    <script src="convert_settings.js" charset="utf-8" defer></script>
+    <title>Polly</title>
 </head>
 <body>
-    <form action="upload-ppt" method="post" enctype="multipart/form-data">
-        <p><input type="file" name="file1" accept="application/vnd.openxmlformats-officedocument.presentationml.presentation">
-        <p><button type="submit">Submit</button>
+    <form>
+        <div id="UpBtn">
+            <input type="file" id="inpFile">
+            <button id="btnUpload">Upload file</button>
+        </div>
     </form>
+    <p id="DownBtn">
+        
+    </p>
+    
+    
+    <div id="id_alert" class="alertmessage"></div>
 </body>
 </html>
