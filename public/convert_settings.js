@@ -18,13 +18,26 @@
         }
     };
 
-    convert_button.addEventListener('click', (e) => {
-        formData.append('myFile', inpFile.files[0]);
+    convert_button.addEventListener('click', (e) => {  
+ //       showLoadingDots();     
+        formData.append('myFile', inpFile.files[0]);  
         xhr.open('post','upload-ppt',false);
-        xhr.send(formData);
+        xhr.send(formData); 
         e.preventDefault();
+ //       hideLoadingDots();
         showDownloadBtn();
     }); 
+
+    let showLoadingDots = function(){
+
+        document.getElementById("LoadDots").style.display = "inline";
+
+    }
+    let hideLoadingDots = function(){
+
+        document.getElementById("LoadDots").style.display = "none";
+
+    }
 
     
     let showDownloadBtn = function(){
@@ -33,6 +46,7 @@
         let  form = document.getElementById('DownBtn')
         let input = document.createElement("input");
         let submit = document.createElement('button');
+
 
 
         form.setAttribute("method", "post");
@@ -46,11 +60,13 @@
 
         submit.appendChild(document.createTextNode('Download'))
         submit.setAttribute("type", "submit");
-        //submit.setAttribute("value", "Download");
+        submit.setAttribute("value", "Download");
+        document.getElementById("LoadDots").style.display = "inline";
 
         form.appendChild(div);
         div.appendChild(input);
         div.appendChild(submit);
+        
 
     }
     

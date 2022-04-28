@@ -35,8 +35,9 @@
         }
 
         h1 {
-            position: absolute;
+            position: relative;
             margin: 0;
+            text-align: center;
             font-size: 40px;
             color: rgb(255, 136, 0);
             z-index: 2;
@@ -46,6 +47,7 @@
         form {
             margin: auto;
             margin-top: 50px;
+            margin-bottom: 30px;
             text-align: center;
             width: 80%;
             padding: 20px;
@@ -212,25 +214,24 @@
 
     <form>
         <div class="banner"></div>
-        <p>Create your lesson here</p>
-        <div id="UpBtn">
-            <input type="file" id="inpFile">
-            <button id="btnUpload">Upload file</button>
-        </div><br>
-        <p id="LoadDots">
-        <div class="loader">
+        <h1>Create your lesson easily</h1>
+    </form>
+    <div class="loader" id="LoadDots" style="display: none;">
             <div class="dots"></div>
             <div class="dots"></div>
             <div class="dots"></div>
             <div class="dots"></div>
             <div class="dots"></div>
         </div>
-        </p>
-    </form>
-
+        
     <form method="post" action="download" id="DownBtn">
+        <div id="UpBtn">
+            <input type="file" id="inpFile">
+            <button id="btnUpload">Convert my .pptx file</button>
+        </div><br>
 
     </form>
+    
 
     <div id="id_alert" class="alertmessage"></div>
 </body>
