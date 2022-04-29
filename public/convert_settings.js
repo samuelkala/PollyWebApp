@@ -18,13 +18,14 @@
         }
     };
 
-    convert_button.addEventListener('click', (e) => {  
- //       showLoadingDots();     
-        formData.append('myFile', inpFile.files[0]);  
+
+    
+    convert_button.addEventListener('click', (e) => { 
+//       showLoadingDots(); 
+        formData.append('myFile', inpFile.files[0]);
         xhr.open('post','upload-ppt',false);
         xhr.send(formData); 
         e.preventDefault();
- //       hideLoadingDots();
         showDownloadBtn();
     }); 
 
@@ -41,7 +42,7 @@
 
     
     let showDownloadBtn = function(){
-
+        
         let  div = document.createElement('div');
         let  form = document.getElementById('DownBtn')
         let input = document.createElement("input");
@@ -61,8 +62,8 @@
         submit.appendChild(document.createTextNode('Download'))
         submit.setAttribute("type", "submit");
         submit.setAttribute("value", "Download");
-        document.getElementById("LoadDots").style.display = "inline";
 
+        hideLoadingDots();
         form.appendChild(div);
         div.appendChild(input);
         div.appendChild(submit);
