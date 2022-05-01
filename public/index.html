@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polly</title>
     <script src="convert_settings.js" charset="utf-8" defer></script>
-    <title>Upload Powerpoint</title>
+    <title>Polly</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
         integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
@@ -208,21 +209,27 @@
                 }
             }
     </style>
+
 </head>
 
 <body>
 
     <form>
-        <div class="banner"></div>
+      <div class="banner"></div>
         <h1>Create your lesson easily</h1>
     </form>
-   
-        
-    <form method="post" action="download" id="DownBtn">
+    <form>
         <div id="UpBtn">
             <input type="file" id="inpFile">
-            <button id="btnUpload">Convert my .pptx file</button>
-        </div><br>
+            <button id="btnUpload">Upload file</button>
+        </div>
+    </form>
+    <form id="DownBtn" action="download" method="post">
+        <div>
+            <input id="hidInp" type="hidden" name="dwnFile">
+            <button type="submit" id="dwn">Convert my .pptx file</button>
+        </div>
+      <br>
         <div class="loader" id="LoadDots" style="display: inline;">
             <div class="dots"></div>
             <div class="dots"></div>
@@ -230,9 +237,8 @@
             <div class="dots"></div>
             <div class="dots"></div>
         </div>
-        <br>
+      <br>
     </form>
-    
 
     <div id="id_alert" class="alertmessage"></div>
 </body>
