@@ -1,57 +1,43 @@
 {   // avoid variables ending up in the global scope
 
     let file_to_download;
-    let error;
-    let convert_button = document.getElementById('btnUpload');
-
+    let upload_button = document.getElementById('btnUpload');
+    let download_button = document.getElementById('dwn');
+    let alert = document.getElementById('id_alert');
+    let hidInput = document.getElementById('hidInp');
+    download_button.style.display = 'none';
     const inpFile = document.getElementById('inpFile');
-    const xhr = new XMLHttpRequest();
-    const formData = new FormData();
+    let formData;
 
-    xhr.onreadystatechange = function () {
-        if(xhr.readyState == XMLHttpRequest.DONE){
-            if(xhr.status == 200){
-                file_to_download = xhr.responseText;
-            }else{
-                error = 'Not received name of the file to download';
-            }
-        }
-    };
 
-    convert_button.addEventListener('click', (e) => {
-        formData.append('myFile', inpFile.files[0]);
-        xhr.open('post','upload-ppt',false);
-        xhr.send(formData);
+    upload_button.addEventListener('click', async (e) => {
         e.preventDefault();
-        showDownloadBtn();
-    }); 
+        alert.innerHTML = "";
+        download_button.style.display = 'none';
+        formData = new FormData();
+        formData.append('myFile', inpFile.files[0]);
+        try {
+            const response = await fetch('upload-ppt', {
+                method: 'POST',
+                body: formData
+            });
 
-    
-    let showDownloadBtn = function(){
+            file_to_download = await response.json();
+            hidInput.setAttribute("value", `${file_to_download}`);
+            download_button.style.display = 'block';
 
-        let  div = document.createElement('div');
-        let  form = document.getElementById('DownBtn')
-        let input = document.createElement("input");
-        let submit = document.createElement('button');
+        } catch (err) {
+            alert.innerHTML = "";
+            alert.innerHTML = "Error during upload! Please try again!"
+        }
+    });
 
 
-        form.setAttribute("method", "post");
-        form.setAttribute("action", "download");
 
-        
-        
-        input.setAttribute("type", "hidden");
-        input.setAttribute('name','dwnFile');
-        input.setAttribute("value", `${file_to_download}`);
+    download_button.addEventListener('click', () => {
+        download_button.style.display = 'none';
+        document.getElementById('inpFile').value = '';
+    })
 
-        submit.appendChild(document.createTextNode('Download'))
-        submit.setAttribute("type", "submit");
-        //submit.setAttribute("value", "Download");
 
-        form.appendChild(div);
-        div.appendChild(input);
-        div.appendChild(submit);
-
-    }
-    
 }

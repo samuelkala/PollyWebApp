@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const {startApp} = require('./GUI');
 let file_to_download;
 
@@ -19,11 +20,14 @@ var storage = multer.diskStorage({
 
 function uploadFile(req, res, next) {
   const upload = multer({storage: storage}).single('myFile');
+  
+  //single('myFile');
 
   upload(req, res, function (err) {
       if (err instanceof multer.MulterError) {
           // A Multer error occurred when uploading.
-          console.log('Multer error occured');
+          console.log('Multer error occured:');
+          console.log(err);
       } else if (err) {
           // An unknown error occurred when uploading.
           console.log('Unknown error occured');
@@ -33,12 +37,11 @@ function uploadFile(req, res, next) {
   })
 }
 
-//const upload = multer({storage: storage });
-
 
 const app = express();
 
 const bodyParser = require('body-parser');
+const { fstat } = require('fs');
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -46,21 +49,30 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.post('/upload-ppt', uploadFile, startPolly, (req,res) => {
   //console.log(req.file.filename);
   if(req.file == null){
-    res.send('you haven\'t upload any file');
+    res.sendStatus(400).send('error while uploading the file!');
   }else{
-    res.send(req.file.filename); 
+    res.send(JSON.stringify(req.file.filename)); 
   }
   }
 );
 
 app.post('/download',(req,res) =>{
   file_to_download = './downloads/' + req.body.dwnFile;
-  res.download(file_to_download);
+  res.download(file_to_download, (err) =>{
+    if(err){
+      res.sendStatus(400).send('Error during Download');
+    }
+    fs.unlinkSync(file_to_download);
+  });
 });
 
 
 async function startPolly(req, res, next){
-  await startApp(req.file.filename);
+  if(req.file != null){
+    if(req.file.filename != null){
+      await startApp(req.file.filename);
+    }
+  }
   next();
 };
 
