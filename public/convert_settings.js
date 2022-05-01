@@ -9,7 +9,6 @@
     const inpFile = document.getElementById('inpFile');
     let formData;
 
-
     upload_button.addEventListener('click', async (e) => {
         e.preventDefault();
         alert.innerHTML = "";
@@ -32,12 +31,9 @@
         }
     });
 
-
-
     download_button.addEventListener('click', () => {
         download_button.style.display = 'none';
         document.getElementById('inpFile').value = '';
     })
-
 
 }
