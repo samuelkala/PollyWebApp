@@ -6,8 +6,8 @@
     let loadingDots = document.getElementById('LoadDots');
     let alert = document.getElementById('id_alert');
     let hidInput = document.getElementById('hidInp');
-//    let missingMessage = document.getElementById('noFile');
- //   let doneMessage = document.getElementById('doneDown');    
+    let missingMessage = document.getElementById('error');
+    let doneMessage = document.getElementById('done');    
     download_button.style.display = 'none';
     const inpFile = document.getElementById('inpFile');
     let formData;
@@ -16,7 +16,8 @@
         e.preventDefault();
         alert.innerHTML = "";    
         download_button.style.display = 'none';
- //       missingMessage.style.display = 'none';
+        missingMessage.style.display = 'none';
+        doneMessage.style.display = 'none';
         loadingDots.style.display = 'inline';
         formData = new FormData();
         formData.append('myFile', inpFile.files[0]);
@@ -31,15 +32,17 @@
             loadingDots.style.display = 'none';           
             download_button.style.display = 'inline';
 
-        } catch (err) {
- //           missingMessage.style.display = 'inline';           
+        } catch (err) {          
             alert.innerHTML = "";
             alert.innerHTML = "Error during upload! Please try again!"
+            loadingDots.style.display = 'none';
+            missingMessage.style.display = 'inline'; 
         }
     });
 
     download_button.addEventListener('click', () => {
         download_button.style.display = 'none';
+        doneMessage.style.display = 'inline'; 
         document.getElementById('inpFile').value = '';
     })
 
