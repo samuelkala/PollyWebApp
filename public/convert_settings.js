@@ -14,7 +14,7 @@
 
     upload_button.addEventListener('click', async (e) => {
         e.preventDefault();
-        alert.innerHTML = "";    
+        //alert.innerHTML = "";    
         download_button.style.display = 'none';
         missingMessage.style.display = 'none';
         doneMessage.style.display = 'none';
@@ -33,8 +33,8 @@
             download_button.style.display = 'inline';
 
         } catch (err) {          
-            alert.innerHTML = "";
-            alert.innerHTML = "Error during upload! Please try again!"
+            /* alert.innerHTML = "";
+            alert.innerHTML = "Error during upload! Please try again!" */
             loadingDots.style.display = 'none';
             missingMessage.style.display = 'inline'; 
         }

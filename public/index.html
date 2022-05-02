@@ -44,7 +44,7 @@
             z-index: 2;
             line-height: 83px;
         }
-        
+
         h2 {
             display: none;
             position: relative;
@@ -201,25 +201,25 @@
                 animation-delay: 0.45s;
             }
 
+        }
 
-
-            @keyframes myani {
-                0% {
-                    -webkit-transform: translateX(-100px);
-                    transform: translateX(-100px);
-                    opacity: 0;
-                }
-
-                50% {
-                    opacity: 1;
-                }
-
-                100% {
-                    -webkit-transform: translateX(100px);
-                    transform: translateX(100px);
-                    opacity: 0;
-                }
+        @keyframes myani {
+            0% {
+                -webkit-transform: translateX(-100px);
+                transform: translateX(-100px);
+                opacity: 0;
             }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                -webkit-transform: translateX(100px);
+                transform: translateX(100px);
+                opacity: 0;
+            }
+        }
     </style>
 
 </head>
@@ -227,7 +227,7 @@
 <body>
 
     <form>
-      <div class="banner"></div>
+        <div class="banner"></div>
         <h1>Create your lesson easily</h1>
     </form>
     <form id="DownBtn" action="download" method="post">
@@ -235,10 +235,14 @@
             <input type="file" id="inpFile">
             <button id="btnUpload">Convert this file</button>
         </div>
-        <div ><h2 id="error">Please upload a new pptx file to convert</h2></div>
-        <div ><h2 id="done">Your lesson has been downloaded</h2></div>
         <div>
-            <input id="hidInp" type="hidden" name="dwnFile" position = "relative">
+            <h2 id="error">Please upload a new pptx file to convert</h2>
+        </div>
+        <div>
+            <h2 id="done">Your lesson has been downloaded</h2>
+        </div>
+        <div>
+            <input id="hidInp" type="hidden" name="dwnFile" position="relative">
             <button type="submit" id="dwn">Download my lesson</button>
         </div>
         <div class="loader" id="LoadDots" style="display: none;">
@@ -248,7 +252,7 @@
             <div class="dots"></div>
             <div class="dots"></div>
         </div>
-      <br>
+        <br>
     </form>
 
     <div id="id_alert" class="alertmessage"></div>
