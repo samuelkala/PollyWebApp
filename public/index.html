@@ -218,19 +218,16 @@
       <div class="banner"></div>
         <h1>Create your lesson easily</h1>
     </form>
-    <form>
+    <form id="DownBtn" action="download" method="post">
         <div id="UpBtn">
             <input type="file" id="inpFile">
-            <button id="btnUpload">Upload file</button>
+            <button id="btnUpload">Convert this file</button>
         </div>
-    </form>
-    <form id="DownBtn" action="download" method="post">
         <div>
-            <input id="hidInp" type="hidden" name="dwnFile">
-            <button type="submit" id="dwn">Convert my .pptx file</button>
+            <input id="hidInp" type="hidden" name="dwnFile" position = "relative">
+            <button type="submit" id="dwn">Download my lesson</button>
         </div>
-      <br>
-        <div class="loader" id="LoadDots" style="display: inline;">
+        <div class="loader" id="LoadDots" style="display: none;">
             <div class="dots"></div>
             <div class="dots"></div>
             <div class="dots"></div>
