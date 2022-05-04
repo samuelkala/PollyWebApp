@@ -1,9 +1,14 @@
+require('dotenv').config();
+
+
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const {startApp} = require('./GUI');
-let file_to_download;
+const bodyParser = require('body-parser');
+const azureRouter = require('./routes/azure');
+
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -37,13 +42,10 @@ function uploadFile(req, res, next) {
   })
 }
 
-
 const app = express();
 
-const bodyParser = require('body-parser');
-const { fstat } = require('fs');
-
 app.use(express.static('public'));
+app.use('/azure_convert',azureRouter);
 app.use(bodyParser.urlencoded({extended: true}));
  
 app.post('/upload-ppt', uploadFile, startPolly, (req,res) => {
@@ -57,7 +59,7 @@ app.post('/upload-ppt', uploadFile, startPolly, (req,res) => {
 );
 
 app.post('/download',(req,res) =>{
-  file_to_download = './downloads/' + req.body.dwnFile;
+  let file_to_download = './downloads/' + req.body.dwnFile;
   res.download(file_to_download, (err) =>{
     if(err){
       res.sendStatus(400).send('Error during Download');
@@ -75,6 +77,7 @@ async function startPolly(req, res, next){
   }
   next();
 };
+
 
 //start app 
 const port = 3000;

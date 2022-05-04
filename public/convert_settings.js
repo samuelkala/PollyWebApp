@@ -4,7 +4,6 @@
     let upload_button = document.getElementById('btnUpload');
     let download_button = document.getElementById('dwn');
     let loadingDots = document.getElementById('LoadDots');
-    let alert = document.getElementById('id_alert');
     let hidInput = document.getElementById('hidInp');
     let missingMessage = document.getElementById('error');
     let doneMessage = document.getElementById('done');    
