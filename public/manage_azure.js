@@ -65,6 +65,7 @@
         });
 
         selectedVoice = voices[0].ShortName;
+        voiceOptions.disabled = false;
         console.log(selectedVoice);
     }
 
@@ -110,8 +111,9 @@
     }
 
 
-    function Settings(voice, speed, pitch) {
+    function Settings(voice, speakingstyle, speed, pitch) {
         this.voice = voice;
+        this.speakingstyle = speakingstyle
         this.speed = speed;
         this.pitch = pitch;
     }
@@ -139,7 +141,7 @@
 
 
     function createDefaultSettings(){
-        return new Settings(selectedVoice,selectedSpeed,selectedPitch);
+        return new Settings(selectedVoice, speakingStyle, selectedSpeed, selectedPitch);
     }
 
     async function getAuthorizationToken() {
@@ -199,7 +201,7 @@
     }, false);
 
     settingsButton.addEventListener('click', () => {
-        let modifiedSettings = new Settings(selectedVoice,selectedSpeed,selectedPitch);
+        let modifiedSettings = new Settings(selectedVoice,speakingStyle,selectedSpeed,selectedPitch);
         modifySettings(allsettings,modifiedSettings,selectedSlide);
         console.log('check if the selected slide has been modified');
     })
