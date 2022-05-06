@@ -1,5 +1,7 @@
-{
-    let number_of_slides = 0;
+{   
+    //now hardcoded 
+    //We will get the info about the number_of_slides server side
+    let number_of_slides = 11;
     let authorizationToken;
     let region;
     let authorizationendpoint = 'azure_convert/api/get-speech-token';
@@ -7,15 +9,45 @@
     let getVoices = document.getElementById('getVoices');
     let languageOptions = document.getElementById('languageOptions');
     let voiceOptions = document.getElementById('voiceOptions');
+    let styleOptions = document.getElementById('styleOptions');
+    let settingsButton = document.getElementById('settingsBtn');
+    let speedSlider = document.getElementById('myRangeSpeed');
+    let pitchSlider = document.getElementById('myRangePitch');
+    let slideNumber = document.getElementById('slidenumber');
     let mapLanguageName = new Map();
     let allVoices = [];
+    let allSlides = [];
+    const speakingStyles = ["affectionate","angry","assistant","calm","chat","cheerful","customerservice",
+    "depressed","disgruntled","embarrassed","empathetic","envious","fearful","gentle","lyrical","narration-professional",
+    "newscast","newscast-casual","newscast-formal","sad","serious"];
     //not to send to the server because it is not needed for SSML
     let selectedLanguage;
+    //to send to the server for SSML synthesis
     let selectedVoice;
-    let selectedSpeed;
-    let selectedPitch;
+    let selectedSlide = '1';
+    //initialize speed and pitch with the html default values
+    let selectedSpeed = speedSlider.value;
+    let selectedPitch = pitchSlider.value;
     let speakingStyle;
-    let settings = [];
+
+
+    //This map will contain the settings for each slide
+    let allsettings = new Map();
+
+    //settings is the settings for one slide
+    //all settings id the Map which contains the settings of all the slides
+    let initSettings = function(allsettings,number_of_slides,settings){
+        //at the beginning all the slides have the same settings
+        for(let i = 1; i <= number_of_slides; i++){
+            allsettings.set(i.toString(),settings);
+        }
+    }
+
+    let modifySettings = function(allsettings, settings, selectedSlide){
+        //put in the selectedSlide the new settings
+        allsettings.set(selectedSlide, settings);
+        console.log('check if slide modified correctly');
+    }
 
     let getAllVoices = function (info, allVoices){
         info.forEach((element, index) =>{
@@ -51,6 +83,8 @@
         languageOptions.selectedIndex = selectId;
         languageOptions.disabled = false;
         loadVoices(selectedLanguage);
+        styleOptions.disabled = false;
+        speakingStyle = speakingStyles[0];
     }
 
     let fillMap = function (info) {
@@ -76,14 +110,39 @@
     }
 
 
-    function Settings(language, voice, speed, pitch) {
-        this.language = language;
+    function Settings(voice, speed, pitch) {
         this.voice = voice;
         this.speed = speed;
         this.pitch = pitch;
     }
 
-    (async function getAuthorizationToken() {
+
+    //this function initiliazes all the Web Page
+    (async function InitializeConvertAzure(){
+        await getAuthorizationToken();
+        fillNumberOfSlides();
+        await getSettings();
+        //init settings for each slide with default parameters
+        let settings = createDefaultSettings();
+        initSettings(allsettings,number_of_slides,settings);
+        console.log('check if all slides are with default settings');
+    })();
+
+    function fillNumberOfSlides(){
+        slideNumber.innerHTML = "";
+        for(let i = 1; i <= number_of_slides; i++){
+            allSlides.push(i.toString());
+            slideNumber.innerHTML += "<option value=\"" + i + "\">" + i + "</option>";
+        }
+
+    }
+
+
+    function createDefaultSettings(){
+        return new Settings(selectedVoice,selectedSpeed,selectedPitch);
+    }
+
+    async function getAuthorizationToken() {
         try {
             const response = await fetch(authorizationendpoint);
             const info = await response.json();
@@ -92,11 +151,12 @@
             console.log('Token fetched from back-end: ' + authorizationToken);
         } catch (err) {
             console.log(err);
-            errorAlert.innerHTML = 'error while getting authorization Token';
+            errorAlert.innerHTML = "";
+            errorAlert.innerHTML = 'error while getting authorization Token! Reload the WebPage!';
         }
-    })();
+    };
 
-    getVoices.addEventListener('click', async () => {
+    async function getSettings() {
         try {
             const response = await fetch('https://' + region + ".tts.speech." +
                 (region.startsWith("china") ? "azure.cn" : "microsoft.com") +
@@ -110,13 +170,12 @@
             getAllVoices(info, allVoices);
             fillMap(info);
             loadLanguages();
-            console.log('hello');
         } catch (err) {
             console.log(err);
-            console.log('error during the retrieving the voices');
+            errorAlert.innerHTML = "";
+            errorAlert.innerHTML = "Error during the retrieving of available voices. Reload the Web Page";
         }
-    })
-
+    }
     //this method triggers the language option in order to display
     //the correct voices for a particular language
     document.addEventListener('click', function (event) {
@@ -127,14 +186,32 @@
             selectedVoice = event.target.value;
             console.log(selectedVoice);
         }
+        if(speakingStyles.includes(event.target.value)){
+            speakingStyle = event.target.value;
+            console.log(speakingStyle);
+        }
+        if(allSlides.includes(event.target.value)){
+            selectedSlide = event.target.value;
+            console.log(selectedSlide);
+        }
+
+
     }, false);
 
+    settingsButton.addEventListener('click', () => {
+        let modifiedSettings = new Settings(selectedVoice,selectedSpeed,selectedPitch);
+        modifySettings(allsettings,modifiedSettings,selectedSlide);
+        console.log('check if the selected slide has been modified');
+    })
 
+    speedSlider.addEventListener('change', ()=>{
+        selectedSpeed = speedSlider.value;
+        document.getElementById('rangevalueSpeed').textContent = speedSlider.value;
+    })
 
-
-
-
-
-
+    pitchSlider.addEventListener('change', ()=>{
+        selectedPitch = pitchSlider.value;
+        document.getElementById('rangevaluePitch').textContent = pitchSlider.value;
+    })
 
 }
