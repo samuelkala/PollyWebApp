@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convert Azure</title>
+    <script src="manage_azure.js" charset="utf-8" defer></script>
+    <style>
+        td {
+            padding: 0 20px;
+        }
+
+        table {
+            border-spacing: 35px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="font-weight:500;" align="center">Microsoft convert</h1>
+    <table>
+        <tr>
+            <td>
+                <label>Slide number:</label>
+                <br>
+                <select id="slidenumber"></select>
+            </td>
+            <td>
+                <label>Language</label>
+                <br>
+                <select id="languageOptions" disabled>
+                    <option>Please update voice list first.</option>
+                </select>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <label>Voice</label>
+                <br>
+                <select id="voiceOptions" disabled>
+                    <option>Please update voice list first.</option>
+                </select>
+            </td>
+            <td>
+                <label>Test here</label>
+                <br><br>
+                <textarea id="synthesisText" style="display: inline-block;width:400px;height:100px"
+                    placeholder="Input text or ssml for synthesis."></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <label>Speaking style</label>
+                <br>
+                <select id="styleOptions" disabled>
+                    <option value="affectionate">affectionate</option>
+                    <option value="angry">angry</option>
+                    <option value="assistant">assistant</option>
+                    <option value="calm">calm</option>
+                    <option value="chat">chat</option>
+                    <option value="cheerful">cheerful</option>
+                    <option value="customerservice">customer service</option>
+                    <option value="depressed">depressed</option>
+                    <option value="disgruntled">disgruntled</option>
+                    <option value="embarrassed">embarrassed</option>
+                    <option value="empathetic">empathetic</option>
+                    <option value="envious">envious</option>
+                    <option value="fearful">fearful</option>
+                    <option value="gentle">gentle</option>
+                    <option value="lyrical">lyrical</option>
+                    <option value="narration-professional">narration-professional</option>
+                    <option value="newscast">newscast</option>
+                    <option value="newscast-casual">newscast-casual</option>
+                    <option value="newscast-formal">newscast-formal</option>
+                    <option value="sad">sad</option>
+                    <option value="serious">serious</option>
+                </select>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <label>Speaking speed</label>
+                <div class="slidecontainerSpeed">
+                    <output id="rangevalueSpeed">1</output>
+                    <input type="range" min="0.00" max="3.00" value="1.00" class="slider" step="0.01"
+                        id="myRangeSpeed">
+                </div>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <label>Pitch</label>
+                <div class="slidecontainerPitch">
+                    <output id="rangevaluePitch">1</output>
+                    <input type="range" min="0.00" max="2.00" value="1.00" class="slider" step="0.02" id="myRangePitch">
+                </div>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <button id="settingsBtn" type="button">Conferm settings for this slide</button>
+            </td>
+            <td>
+                <button id="convertBtn" type="">Convert PowerPoint</button>
+            </td>
+            <td></td>
+        </tr>
+    </table>
+    <div id="error"></div>
+</body>
+
+</html>
