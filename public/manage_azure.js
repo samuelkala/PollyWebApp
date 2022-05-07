@@ -32,25 +32,26 @@
 
 
     //This map will contain the settings for each slide
-    let allsettings = new Map();
+    let allsettings = [];
 
     //settings is the settings for one slide
     //all settings id the Map which contains the settings of all the slides
-    let initSettings = function (allsettings, number_of_slides, settings) {
+    let initSettings = function (allsettings, number_of_slides) {
         //at the beginning all the slides have the same settings
         for (let i = 1; i <= number_of_slides; i++) {
-            allsettings.set(i.toString(), settings);
+            allsettings.push(createDefaultSettings(i.toString()));
         }
     }
 
     let modifySettings = function (allsettings, settings, selectedSlide) {
         //put in the selectedSlide the new settings
-        allsettings.set(selectedSlide, settings);
+        allsettings[Number(selectedSlide) - 1] = settings;
+        //allsettings.set(selectedSlide, settings);
         console.log('check if slide modified correctly');
     }
 
     let getAllVoices = function (info, allVoices) {
-        info.forEach((element, index) => {
+        info.forEach((element) => {
             allVoices.push(element.ShortName);
         });
     }
@@ -59,7 +60,7 @@
         let voices = mapLanguageName.get(language);
         voiceOptions.innerHTML = "";
         // display voices for clicked language
-        voices.forEach((element, index) => {
+        voices.forEach((element) => {
             voiceOptions.innerHTML += "<option value=\"" + element.ShortName + "\">" +
                 element.LocalName + "</option>";
         });
@@ -92,7 +93,7 @@
         if (info[0].LocaleName != undefined) {
             let curLocale = info[0].LocaleName;
             let names = [];
-            info.forEach((element, index) => {
+            info.forEach((element) => {
                 if (curLocale === element.LocaleName) {
                     names.push(new Name(element.LocalName, element.ShortName));
                 } else {
@@ -111,7 +112,8 @@
     }
 
 
-    function Settings(voice, speakingstyle, speed, pitch) {
+    function Settings(n_slide, voice, speakingstyle, speed, pitch) {
+        this.n_slide = n_slide,
         this.voice = voice;
         this.speakingstyle = speakingstyle
         this.speed = speed;
@@ -125,8 +127,8 @@
         fillNumberOfSlides();
         await getSettings();
         //init settings for each slide with default parameters
-        let settings = createDefaultSettings();
-        initSettings(allsettings, number_of_slides, settings);
+        //let settings = createDefaultSettings();
+        initSettings(allsettings, number_of_slides);
         console.log('check if all slides are with default settings');
     })();
 
@@ -140,8 +142,8 @@
     }
 
 
-    function createDefaultSettings() {
-        return new Settings(selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
+    function createDefaultSettings(n_slide) {
+        return new Settings(n_slide, selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
     }
 
 
@@ -189,16 +191,6 @@
         return ((Number(pitch) - 1) * 50).toString() + '%';
     }
 
-    function mapToObj(inputMap) {
-        let obj = {};
-
-        inputMap.forEach(function (value, key) {
-            obj[key] = value
-        });
-
-        return obj;
-    }
-
     //this method triggers the language option in order to display
     //the correct voices for a particular language
     document.addEventListener('click', function (event) {
@@ -222,7 +214,7 @@
     }, false);
 
     settingsButton.addEventListener('click', () => {
-        let modifiedSettings = new Settings(selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
+        let modifiedSettings = new Settings(selectedSlide, selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
         modifySettings(allsettings, modifiedSettings, selectedSlide);
         console.log('check if the selected slide has been modified');
     })
@@ -238,7 +230,7 @@
     })
 
     convertButton.addEventListener('click', async () => {
-        settings_to_send = JSON.stringify(mapToObj(allsettings));
+        settings_to_send = JSON.stringify(allsettings);
         try {
             const response = await fetch('azure_convert/getconvparams', {
                 method: 'POST',
