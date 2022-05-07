@@ -4,7 +4,7 @@
     let number_of_slides = 11;
     let authorizationToken;
     let region;
-    let authorizationendpoint = 'azure_convert/api/get-speech-token';
+    let authorizationendpoint = '../azure_convert/api/get-speech-token';
     let errorAlert = document.getElementById('error');
     let languageOptions = document.getElementById('languageOptions');
     let voiceOptions = document.getElementById('voiceOptions');
@@ -47,6 +47,16 @@
         this.speed = speed;
         this.pitch = pitch;
     }
+
+    //this function initiliazes all the Web Page
+    (async function InitializeConvertAzure() {
+        await getAuthorizationToken();
+        fillNumberOfSlides();
+        await getSettings();
+        //init settings for each slide with default parameters
+        initSettings(allsettings, number_of_slides);
+        console.log('check if all slides are with default settings');
+    })()
 
     function initSettings(allsettings, number_of_slides) {
         //at the beginning all the slides have the same settings a part from field 'n_slide'
@@ -170,6 +180,7 @@
         }
     }
 
+
     function convertSpeed(speed) {
         return ((Number(speed) - 1) * 100).toString() + '%';
     }
@@ -220,7 +231,7 @@
     convertButton.addEventListener('click', async () => {
         settings_to_send = JSON.stringify(allsettings);
         try {
-            const response = await fetch('azure_convert/getconvparams', {
+            const response = await fetch('../azure_convert/getconvparams', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -235,15 +246,5 @@
         }
 
     })
-
-    //this function initiliazes all the Web Page
-    (async function InitializeConvertAzure() {
-        await getAuthorizationToken();
-        fillNumberOfSlides();
-        await getSettings();
-        //init settings for each slide with default parameters
-        initSettings(allsettings, number_of_slides);
-        console.log('check if all slides are with default settings');
-    })()
 
 }

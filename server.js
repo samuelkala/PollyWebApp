@@ -1,13 +1,18 @@
-require('dotenv').config();
-
-
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const {startApp} = require('./GUI');
+const { startApp } = require('./startPolly');
 const bodyParser = require('body-parser');
 const azureRouter = require('./routes/azure');
+const port = 3000;
+const app = express();
+require('dotenv').config();
+
+app.use(express.static('public'));
+app.use(express.json());
+app.use('/azure_convert', azureRouter);
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 var storage = multer.diskStorage({
@@ -20,69 +25,58 @@ var storage = multer.diskStorage({
   }
 })
 
-//TO DO
-//Check if file extension is pptx or ppt
 
 function uploadFile(req, res, next) {
-  const upload = multer({storage: storage}).single('myFile');
-  
-  //single('myFile');
-
+  const upload = multer({ storage: storage }).single('myFile');
   upload(req, res, function (err) {
-      if (err instanceof multer.MulterError) {
-          // A Multer error occurred when uploading.
-          console.log('Multer error occured:');
-          console.log(err);
-      } else if (err) {
-          // An unknown error occurred when uploading.
-          console.log('Unknown error occured');
-      }
-      // Everything went fine. 
-      next()
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading.
+      console.log('Multer error occured:');
+      console.log(err);
+    } else if (err) {
+      // An unknown error occurred when uploading.
+      console.log('Unknown error occured');
+    }
+    // Everything went fine. 
+    next()
   })
 }
 
-const app = express();
+app.get('/',function(req,res) {
+  res.sendFile(path.join(__dirname + '/public/home/index.html'));
+});
 
-app.use(express.static('public'));
-app.use(express.json());
-app.use('/azure_convert',azureRouter);
-app.use(bodyParser.urlencoded({extended: true}));
- 
-app.post('/upload-ppt', uploadFile, startPolly, (req,res) => {
-  //console.log(req.file.filename);
-  if(req.file == null){
+
+app.post('/upload-ppt', uploadFile, startPolly, (req, res) => {
+  if (req.file == null) {
     res.sendStatus(400).send('error while uploading the file!');
-  }else{
-    res.send(JSON.stringify(req.file.filename)); 
+  } else {
+    res.send(JSON.stringify(req.file.filename));
   }
-  }
-);
+}
+)
 
-app.post('/download',(req,res) =>{
+app.post('/download', (req, res) => {
   let file_to_download = './downloads/' + req.body.dwnFile;
-  res.download(file_to_download, (err) =>{
-    if(err){
+  res.download(file_to_download, (err) => {
+    if (err) {
       res.sendStatus(400).send('Error during Download');
     }
     fs.unlinkSync(file_to_download);
   });
-});
+})
 
 
-async function startPolly(req, res, next){
-  if(req.file != null){
-    if(req.file.filename != null){
+async function startPolly(req, res, next) {
+  if (req.file != null) {
+    if (req.file.filename != null) {
       await startApp(req.file.filename);
     }
   }
   next();
-};
-
+}
 
 //start app 
-const port = 3000;
-
-app.listen(port, () => 
+app.listen(port, () =>
   console.log(`App is listening on port ${port}.`)
-);
+)
