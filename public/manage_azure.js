@@ -33,6 +33,21 @@
     let selectedPitch = pitchSlider.value;
     let speakingStyle;
 
+
+    function Name(LocalName, ShortName) {
+        this.LocalName = LocalName;
+        this.ShortName = ShortName;
+    }
+
+
+    function Settings(n_slide, voice, speakingstyle, speed, pitch) {
+        this.n_slide = n_slide,
+        this.voice = voice;
+        this.speakingstyle = speakingstyle
+        this.speed = speed;
+        this.pitch = pitch;
+    }
+
     function initSettings(allsettings, number_of_slides) {
         //at the beginning all the slides have the same settings a part from field 'n_slide'
         for (let i = 1; i <= number_of_slides; i++) {
@@ -100,33 +115,9 @@
             });
             allLanguages = Array.from(mapLanguageName.keys());
         }
-    };
-
-
-    function Name(LocalName, ShortName) {
-        this.LocalName = LocalName;
-        this.ShortName = ShortName;
     }
 
 
-    function Settings(n_slide, voice, speakingstyle, speed, pitch) {
-        this.n_slide = n_slide,
-        this.voice = voice;
-        this.speakingstyle = speakingstyle
-        this.speed = speed;
-        this.pitch = pitch;
-    }
-
-
-    //this function initiliazes all the Web Page
-    (async function InitializeConvertAzure() {
-        await getAuthorizationToken();
-        fillNumberOfSlides();
-        await getSettings();
-        //init settings for each slide with default parameters
-        initSettings(allsettings, number_of_slides);
-        console.log('check if all slides are with default settings');
-    })();
 
     function fillNumberOfSlides() {
         slideNumber.innerHTML = "";
@@ -156,7 +147,7 @@
             errorAlert.innerHTML = "";
             errorAlert.innerHTML = 'error while getting authorization Token! Reload the WebPage!';
         }
-    };
+    }
 
     async function getSettings() {
         try {
@@ -208,7 +199,7 @@
         }
 
 
-    }, false);
+    }, false)
 
     settingsButton.addEventListener('click', () => {
         let modifiedSettings = new Settings(selectedSlide, selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
@@ -244,5 +235,15 @@
         }
 
     })
+
+    //this function initiliazes all the Web Page
+    (async function InitializeConvertAzure() {
+        await getAuthorizationToken();
+        fillNumberOfSlides();
+        await getSettings();
+        //init settings for each slide with default parameters
+        initSettings(allsettings, number_of_slides);
+        console.log('check if all slides are with default settings');
+    })()
 
 }
