@@ -1,4 +1,4 @@
-{   
+{
     //now hardcoded 
     //We will get the info about the number_of_slides server side
     let number_of_slides = 11;
@@ -6,7 +6,6 @@
     let region;
     let authorizationendpoint = 'azure_convert/api/get-speech-token';
     let errorAlert = document.getElementById('error');
-    let getVoices = document.getElementById('getVoices');
     let languageOptions = document.getElementById('languageOptions');
     let voiceOptions = document.getElementById('voiceOptions');
     let styleOptions = document.getElementById('styleOptions');
@@ -14,12 +13,13 @@
     let speedSlider = document.getElementById('myRangeSpeed');
     let pitchSlider = document.getElementById('myRangePitch');
     let slideNumber = document.getElementById('slidenumber');
+    let convertButton = document.getElementById('convertBtn');
     let mapLanguageName = new Map();
     let allVoices = [];
     let allSlides = [];
-    const speakingStyles = ["affectionate","angry","assistant","calm","chat","cheerful","customerservice",
-    "depressed","disgruntled","embarrassed","empathetic","envious","fearful","gentle","lyrical","narration-professional",
-    "newscast","newscast-casual","newscast-formal","sad","serious"];
+    const speakingStyles = ["affectionate", "angry", "assistant", "calm", "chat", "cheerful", "customerservice",
+        "depressed", "disgruntled", "embarrassed", "empathetic", "envious", "fearful", "gentle", "lyrical", "narration-professional",
+        "newscast", "newscast-casual", "newscast-formal", "sad", "serious"];
     //not to send to the server because it is not needed for SSML
     let selectedLanguage;
     //to send to the server for SSML synthesis
@@ -36,21 +36,21 @@
 
     //settings is the settings for one slide
     //all settings id the Map which contains the settings of all the slides
-    let initSettings = function(allsettings,number_of_slides,settings){
+    let initSettings = function (allsettings, number_of_slides, settings) {
         //at the beginning all the slides have the same settings
-        for(let i = 1; i <= number_of_slides; i++){
-            allsettings.set(i.toString(),settings);
+        for (let i = 1; i <= number_of_slides; i++) {
+            allsettings.set(i.toString(), settings);
         }
     }
 
-    let modifySettings = function(allsettings, settings, selectedSlide){
+    let modifySettings = function (allsettings, settings, selectedSlide) {
         //put in the selectedSlide the new settings
         allsettings.set(selectedSlide, settings);
         console.log('check if slide modified correctly');
     }
 
-    let getAllVoices = function (info, allVoices){
-        info.forEach((element, index) =>{
+    let getAllVoices = function (info, allVoices) {
+        info.forEach((element, index) => {
             allVoices.push(element.ShortName);
         });
     }
@@ -120,19 +120,19 @@
 
 
     //this function initiliazes all the Web Page
-    (async function InitializeConvertAzure(){
+    (async function InitializeConvertAzure() {
         await getAuthorizationToken();
         fillNumberOfSlides();
         await getSettings();
         //init settings for each slide with default parameters
         let settings = createDefaultSettings();
-        initSettings(allsettings,number_of_slides,settings);
+        initSettings(allsettings, number_of_slides, settings);
         console.log('check if all slides are with default settings');
     })();
 
-    function fillNumberOfSlides(){
+    function fillNumberOfSlides() {
         slideNumber.innerHTML = "";
-        for(let i = 1; i <= number_of_slides; i++){
+        for (let i = 1; i <= number_of_slides; i++) {
             allSlides.push(i.toString());
             slideNumber.innerHTML += "<option value=\"" + i + "\">" + i + "</option>";
         }
@@ -140,9 +140,11 @@
     }
 
 
-    function createDefaultSettings(){
-        return new Settings(selectedVoice, speakingStyle, selectedSpeed, selectedPitch);
+    function createDefaultSettings() {
+        return new Settings(selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
     }
+
+
 
     async function getAuthorizationToken() {
         try {
@@ -178,21 +180,40 @@
             errorAlert.innerHTML = "Error during the retrieving of available voices. Reload the Web Page";
         }
     }
+
+    function convertSpeed(speed) {
+        return ((Number(speed) - 1) * 100).toString() + '%';
+    }
+
+    function convertPitch(pitch) {
+        return ((Number(pitch) - 1) * 50).toString() + '%';
+    }
+
+    function mapToObj(inputMap) {
+        let obj = {};
+
+        inputMap.forEach(function (value, key) {
+            obj[key] = value
+        });
+
+        return obj;
+    }
+
     //this method triggers the language option in order to display
     //the correct voices for a particular language
     document.addEventListener('click', function (event) {
         if (Array.from(mapLanguageName.keys()).includes(event.target.value)) {
             loadVoices(`${event.target.value}`);
         }
-        if(allVoices.includes(event.target.value)){
+        if (allVoices.includes(event.target.value)) {
             selectedVoice = event.target.value;
             console.log(selectedVoice);
         }
-        if(speakingStyles.includes(event.target.value)){
+        if (speakingStyles.includes(event.target.value)) {
             speakingStyle = event.target.value;
             console.log(speakingStyle);
         }
-        if(allSlides.includes(event.target.value)){
+        if (allSlides.includes(event.target.value)) {
             selectedSlide = event.target.value;
             console.log(selectedSlide);
         }
@@ -201,19 +222,38 @@
     }, false);
 
     settingsButton.addEventListener('click', () => {
-        let modifiedSettings = new Settings(selectedVoice,speakingStyle,selectedSpeed,selectedPitch);
-        modifySettings(allsettings,modifiedSettings,selectedSlide);
+        let modifiedSettings = new Settings(selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
+        modifySettings(allsettings, modifiedSettings, selectedSlide);
         console.log('check if the selected slide has been modified');
     })
 
-    speedSlider.addEventListener('change', ()=>{
+    speedSlider.addEventListener('change', () => {
         selectedSpeed = speedSlider.value;
         document.getElementById('rangevalueSpeed').textContent = speedSlider.value;
     })
 
-    pitchSlider.addEventListener('change', ()=>{
+    pitchSlider.addEventListener('change', () => {
         selectedPitch = pitchSlider.value;
         document.getElementById('rangevaluePitch').textContent = pitchSlider.value;
+    })
+
+    convertButton.addEventListener('click', async () => {
+        settings_to_send = JSON.stringify(mapToObj(allsettings));
+        try {
+            const response = await fetch('azure_convert/getconvparams', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: settings_to_send
+            });
+            const info = await response.json();
+            console.log(info);
+        } catch (error) {
+            console.log(error);
+            console.log('error during the sending of the parameters');
+        }
+
     })
 
 }

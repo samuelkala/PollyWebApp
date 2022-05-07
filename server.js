@@ -45,6 +45,7 @@ function uploadFile(req, res, next) {
 const app = express();
 
 app.use(express.static('public'));
+app.use(express.json());
 app.use('/azure_convert',azureRouter);
 app.use(bodyParser.urlencoded({extended: true}));
  

@@ -13,7 +13,8 @@ router.get('/', (req, res) => {
 });
 
 router.post('/getconvparams', (req, res) => {
-
+    let settings = req.body;
+    console.log(settings);
 });
 
 router.get('/api/get-speech-token', async (req, res, next) => {
