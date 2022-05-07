@@ -15,8 +15,11 @@
     let slideNumber = document.getElementById('slidenumber');
     let convertButton = document.getElementById('convertBtn');
     let mapLanguageName = new Map();
+    let allLanguages = [];
     let allVoices = [];
     let allSlides = [];
+    //This array will contain the settings for each slide
+    let allsettings = [];
     const speakingStyles = ["affectionate", "angry", "assistant", "calm", "chat", "cheerful", "customerservice",
         "depressed", "disgruntled", "embarrassed", "empathetic", "envious", "fearful", "gentle", "lyrical", "narration-professional",
         "newscast", "newscast-casual", "newscast-formal", "sad", "serious"];
@@ -30,33 +33,26 @@
     let selectedPitch = pitchSlider.value;
     let speakingStyle;
 
-
-    //This map will contain the settings for each slide
-    let allsettings = [];
-
-    //settings is the settings for one slide
-    //all settings id the Map which contains the settings of all the slides
-    let initSettings = function (allsettings, number_of_slides) {
-        //at the beginning all the slides have the same settings
+    function initSettings(allsettings, number_of_slides) {
+        //at the beginning all the slides have the same settings a part from field 'n_slide'
         for (let i = 1; i <= number_of_slides; i++) {
             allsettings.push(createDefaultSettings(i.toString()));
         }
     }
 
-    let modifySettings = function (allsettings, settings, selectedSlide) {
+    function modifySettings(allsettings, settings, selectedSlide) {
         //put in the selectedSlide the new settings
         allsettings[Number(selectedSlide) - 1] = settings;
-        //allsettings.set(selectedSlide, settings);
         console.log('check if slide modified correctly');
     }
 
-    let getAllVoices = function (info, allVoices) {
+    function getAllVoices(info, allVoices) {
         info.forEach((element) => {
             allVoices.push(element.ShortName);
         });
     }
 
-    let loadVoices = function (language) {
+    function loadVoices(language) {
         let voices = mapLanguageName.get(language);
         voiceOptions.innerHTML = "";
         // display voices for clicked language
@@ -70,7 +66,7 @@
         console.log(selectedVoice);
     }
 
-    let loadLanguages = function () {
+    function loadLanguages() {
         languageOptions.innerHTML = "";
         let languages = Array.from(mapLanguageName.keys());
         if (languages.includes('English (United States)')) {
@@ -89,7 +85,7 @@
         speakingStyle = speakingStyles[0];
     }
 
-    let fillMap = function (info) {
+    function fillMap(info) {
         if (info[0].LocaleName != undefined) {
             let curLocale = info[0].LocaleName;
             let names = [];
@@ -102,6 +98,7 @@
                     curLocale = element.LocaleName;
                 }
             });
+            allLanguages = Array.from(mapLanguageName.keys());
         }
     };
 
@@ -127,7 +124,6 @@
         fillNumberOfSlides();
         await getSettings();
         //init settings for each slide with default parameters
-        //let settings = createDefaultSettings();
         initSettings(allsettings, number_of_slides);
         console.log('check if all slides are with default settings');
     })();
@@ -191,10 +187,11 @@
         return ((Number(pitch) - 1) * 50).toString() + '%';
     }
 
-    //this method triggers the language option in order to display
-    //the correct voices for a particular language
+    //this method is listening for clicks on all the Html document
+    //based on what part of the whole document is clicked there is a particular behaviour
+    //this method is used to manage events on dynamically created Html elements
     document.addEventListener('click', function (event) {
-        if (Array.from(mapLanguageName.keys()).includes(event.target.value)) {
+        if (allLanguages.includes(event.target.value)) {
             loadVoices(`${event.target.value}`);
         }
         if (allVoices.includes(event.target.value)) {
