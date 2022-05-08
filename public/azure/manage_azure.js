@@ -98,7 +98,7 @@
         } else {
             selectId = 0;
         }
-        selectedLanguage = languages.at(selectId);
+        selectedLanguage = allLanguages.at(selectId);
         allLanguages.forEach((element) => {
             languageOptions.innerHTML += "<option value=\"" + element + "\">" + element + "</option>";
         });
