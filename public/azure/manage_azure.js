@@ -93,15 +93,14 @@
 
     function loadLanguages() {
         languageOptions.innerHTML = "";
-        let languages = Array.from(mapLanguageName.keys());
-        if (languages.includes('English (United States)')) {
-            selectId = languages.indexOf('English (United States)');
+        if (allLanguages.includes('English (United States)')) {
+            selectId = allLanguages.indexOf('English (United States)');
         } else {
             selectId = 0;
         }
         selectedLanguage = languages.at(selectId);
-        mapLanguageName.forEach((value, key) => {
-            languageOptions.innerHTML += "<option value=\"" + key + "\">" + key + "</option>";
+        allLanguages.forEach((element) => {
+            languageOptions.innerHTML += "<option value=\"" + element + "\">" + element + "</option>";
         });
         languageOptions.selectedIndex = selectId;
         languageOptions.disabled = false;
@@ -182,11 +181,11 @@
 
 
     function convertSpeed(speed) {
-        return ((Number(speed) - 1) * 100).toString() + '%';
+        return Math.round(((Number(speed) - 1) * 100)).toString() + '%';
     }
 
     function convertPitch(pitch) {
-        return ((Number(pitch) - 1) * 50).toString() + '%';
+        return Math.round(((Number(pitch) - 1) * 50)).toString() + '%';
     }
 
     //this method is listening for clicks on all the Html document
@@ -229,7 +228,7 @@
     })
 
     convertButton.addEventListener('click', async () => {
-        settings_to_send = JSON.stringify(allsettings);
+        let settings_to_send = JSON.stringify(allsettings);
         try {
             const response = await fetch('../azure_convert/getconvparams', {
                 method: 'POST',
