@@ -1,3 +1,3 @@
 # PollyWebApp
 
-This app converts power point files' footnotes in speech.
+This app hola power point files' footnotes in speech.
