@@ -18,11 +18,9 @@
     let allLanguages = [];
     let allVoices = [];
     let allSlides = [];
+    let allStyles = [];
     //This array will contain the settings for each slide
     let allsettings = [];
-    const speakingStyles = ["affectionate", "angry", "assistant", "calm", "chat", "cheerful", "customerservice",
-        "depressed", "disgruntled", "embarrassed", "empathetic", "envious", "fearful", "gentle", "lyrical", "narration-professional",
-        "newscast", "newscast-casual", "newscast-formal", "sad", "serious"];
     //not to send to the server because it is not needed for SSML
     let selectedLanguage;
     //to send to the server for SSML synthesis
@@ -32,11 +30,14 @@
     let selectedSpeed = speedSlider.value;
     let selectedPitch = pitchSlider.value;
     let speakingStyle;
+    // variable to track the maximum number of styles of all the available voices
+    let maxStyles = 0;
 
 
-    function Name(LocalName, ShortName) {
+    function Name(LocalName, ShortName, StyleList) {
         this.LocalName = LocalName;
         this.ShortName = ShortName;
+        this.StyleList = StyleList;
     }
 
 
@@ -88,7 +89,30 @@
 
         selectedVoice = voices[0].ShortName;
         voiceOptions.disabled = false;
+        loadSpeakingStyles(voices, selectedVoice);
         console.log(selectedVoice);
+    }
+
+    function loadSpeakingStyles(voices, selVoice) {
+        let voice = voices.find(v => {
+            return v.ShortName === selVoice;
+        });
+
+        let styles = voice.StyleList;
+        
+        styleOptions.innerHTML = "";
+        if (styles != undefined) {
+            styleOptions.innerHTML += "<option value=style0>general</option>";
+            styles.forEach((element, index) => {
+                styleOptions.innerHTML += "<option value=\"style" + (index + 1) + "\">" +
+                    element + "</option>";
+            });
+        } else {
+            styleOptions.innerHTML += "<option value=style0>general</option>";
+        }
+        speakingStyle = 'general';
+        styleOptions.disabled = false;
+        console.log('check if speaking styles loaded correctly');
     }
 
     function loadLanguages() {
@@ -105,8 +129,6 @@
         languageOptions.selectedIndex = selectId;
         languageOptions.disabled = false;
         loadVoices(selectedLanguage);
-        styleOptions.disabled = false;
-        speakingStyle = speakingStyles[0];
     }
 
     function fillMap(info) {
@@ -115,7 +137,12 @@
             let names = [];
             info.forEach((element) => {
                 if (curLocale === element.LocaleName) {
-                    names.push(new Name(element.LocalName, element.ShortName));
+                    names.push(new Name(element.LocalName, element.ShortName, element.StyleList));
+                    if (element.StyleList != undefined) {
+                        if (element.StyleList.length > maxStyles) {
+                            maxStyles = element.StyleList.length;
+                        }
+                    }
                 } else {
                     mapLanguageName.set(`${curLocale}`, names);
                     names = new Array();
@@ -123,6 +150,9 @@
                 }
             });
             allLanguages = Array.from(mapLanguageName.keys());
+            for (let i = 0; i <= maxStyles; i++) {
+                allStyles.push('style' + i.toString());
+            }
         }
     }
 
@@ -193,14 +223,18 @@
     //this method is used to manage events on dynamically created Html elements
     document.addEventListener('click', function (event) {
         if (allLanguages.includes(event.target.value)) {
-            loadVoices(`${event.target.value}`);
+            selectedLanguage = event.target.value;
+            loadVoices(event.target.value);
         }
         if (allVoices.includes(event.target.value)) {
+            let voices = mapLanguageName.get(selectedLanguage);
             selectedVoice = event.target.value;
+            loadSpeakingStyles(voices, selectedVoice);
             console.log(selectedVoice);
         }
-        if (speakingStyles.includes(event.target.value)) {
-            speakingStyle = event.target.value;
+        if (allStyles.includes(event.target.value)) {
+            let selectedStyle = styleOptions.options[styleOptions.selectedIndex]; 
+            speakingStyle = selectedStyle.text;
             console.log(speakingStyle);
         }
         if (allSlides.includes(event.target.value)) {
