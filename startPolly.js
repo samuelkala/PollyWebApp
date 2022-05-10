@@ -9,7 +9,7 @@ const { generateAllAudios } = require('./libs/generateAllAudios');
 
 const { processPPTXFile } = require('./libs/processPPTXFile');
 
-async function startApp(filename) {
+async function startApp(filename, settings) {
 
     let finalConfig = null;
     
@@ -27,7 +27,7 @@ async function startApp(filename) {
     }
 
     await authenticate(finalConfig.config, finalConfig.sharedConfig.aws_pool_id);
-    await processPPTXFile(filename);
+    await processPPTXFile(filename, settings);
 }
 //startApp()
 

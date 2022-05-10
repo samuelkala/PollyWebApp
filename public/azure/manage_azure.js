@@ -1,7 +1,10 @@
+
+
 {
     //now hardcoded 
     //We will get the info about the number_of_slides server side
     let number_of_slides = 11;
+    let file_to_download = localStorage.getItem('filename');
     let authorizationToken;
     let region;
     let authorizationendpoint = '../azure_convert/api/get-speech-token';
@@ -51,6 +54,7 @@
 
     //this function initiliazes all the Web Page
     (async function InitializeConvertAzure() {
+        //console.log(localStorage.getItem('filename'));
         await getAuthorizationToken();
         fillNumberOfSlides();
         await getSettings();
@@ -116,6 +120,7 @@
     }
 
     function loadLanguages() {
+        let selectId;
         languageOptions.innerHTML = "";
         if (allLanguages.includes('English (United States)')) {
             selectId = allLanguages.indexOf('English (United States)');
@@ -262,7 +267,10 @@
     })
 
     convertButton.addEventListener('click', async () => {
-        let settings_to_send = JSON.stringify(allsettings);
+        let settings_to_send = JSON.stringify({
+            file_to_download : file_to_download,
+            settings : allsettings
+        });
         try {
             const response = await fetch('../azure_convert/getconvparams', {
                 method: 'POST',

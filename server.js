@@ -2,7 +2,6 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { startApp } = require('./startPolly');
 const bodyParser = require('body-parser');
 const azureRouter = require('./routes/azure');
 const port = 3000;
@@ -47,7 +46,7 @@ app.get('/',function(req,res) {
 });
 
 
-app.post('/upload-ppt', uploadFile, startPolly, (req, res) => {
+app.post('/upload-ppt', uploadFile, (req, res) => {
   if (req.file == null) {
     res.sendStatus(400).send('error while uploading the file!');
   } else {
@@ -65,16 +64,6 @@ app.post('/download', (req, res) => {
     fs.unlinkSync(file_to_download);
   });
 })
-
-
-async function startPolly(req, res, next) {
-  if (req.file != null) {
-    if (req.file.filename != null) {
-      await startApp(req.file.filename);
-    }
-  }
-  next();
-}
 
 //start app 
 app.listen(port, () =>

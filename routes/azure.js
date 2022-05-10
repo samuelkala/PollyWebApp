@@ -2,7 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const pino = require('express-pino-logger')();
 const cors = require('cors');
-
+const { startApp } = require('../startPolly');
 const router = express.Router();
 
 router.use(pino);
@@ -12,9 +12,19 @@ router.get('/', (req, res) => {
     res.send('azure convertion')
 });
 
-router.post('/getconvparams', (req, res) => {
-    let settings = req.body;
-    console.log(settings);
+router.post('/getconvparams', startPolly, (req, res) => {
+    let settings = [];
+    settings = req.body.settings;
+
+    /* for(let i = 0; i < settings.length; i++){
+        console.log(settings[0]);
+    } */
+    settings.forEach((element) => {
+        console.log(element.voice);
+    });
+
+    console.log(req.body.file_to_download);
+    //console.log(settings);
 });
 
 router.get('/api/get-speech-token', async (req, res, next) => {
@@ -35,5 +45,16 @@ router.get('/api/get-speech-token', async (req, res, next) => {
         res.status(401).send('There was an error authorizing your speech key.');
     }
 });
+
+
+async function startPolly(req, res, next) {
+    if (req.body != null) {
+      if (req.body.settings != undefined && req.body.file_to_download != undefined) {
+        await startApp(req.body.file_to_download,req.body.settings);
+      }
+    }
+    next();
+  }
+
 
 module.exports = router;
