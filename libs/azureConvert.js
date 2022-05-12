@@ -1,35 +1,54 @@
 const sdkAzure = require("microsoft-cognitiveservices-speech-sdk");
 require('dotenv').config();
 
-const speechConfig = 
-sdk.SpeechConfig.fromSubscription(process.env.SPEECH_KEY,process.env.SPEECH_REGION);
+const speechConfig =
+  sdkAzure.SpeechConfig.fromSubscription(process.env.SPEECH_KEY, process.env.SPEECH_REGION);
 
-let audioConfig;
+const AUDIO_FORMAT = sdkAzure.SpeechSynthesisOutputFormat.Audio16Khz64KBitRateMonoMp3;
+speechConfig.speechSynthesisOutputFormat = AUDIO_FORMAT;
 
-let synthesizer; 
+async function generateAudioAzure(text, filename, audiopath) {
+  return new Promise((resolve, reject) => {
+    let filePath = audiopath + '/' + filename + '.mp3';
+    let audioConfig = sdkAzure.AudioConfig.fromAudioFileOutput(filePath);
+    let synthesizer = new sdkAzure.SpeechSynthesizer(speechConfig, audioConfig);
+    synthesizer.speakSsmlAsync(text, (result) => {
+      if (result.reason === sdkAzure.ResultReason.SynthesizingAudioCompleted) {
+        console.log("synthesis finished");
+        resolve(filePath);
 
-async function generateAudioAzure(text, filename, audiopath){
-    return new Promise((resolve, reject) => {
-        audioConfig = sdkAzure.AudioConfig.fromAudioFileOutput(audiopath + filename);
-        synthesizer = new sdkAzure.SpeechSynthesizer(speechConfig, audioConfig);
-        synthesizer.speakSsmlAsync(text,complete_cb,err_cb);
-        
-    })
+      } else {
+        console.error("Speech synthesis canceled, " + result.errorDetails);
+        reject(result.errorDetails);
+      }
+      synthesizer.close();
+      synthesizer = null;
+    },
+    (err) => {
+        console.log('Got an error');
+        console.trace("err - " + err);
+        reject(err);
+        synthesizer.close();
+        synthesizer = null;
+    });
+
+    /* synthesizer.synthesisCompleted = function (s, e) {
+      console.log(sdkAzure.ResultReason[e.result.reason]);
+      resolve(filePath);
+      synthesizer.close();
+      synthesizer = null;
+    };
+
+    synthesizer.SynthesisCanceled = function (s, e) {
+      console.log(e.result.errorDetails);
+      reject(e.result.errorDetails);
+      synthesizer.close();
+      synthesizer = null;
+    } */
+
+  })
 }
 
-function complete_cb(result) {
-    if (result.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted) {
-      console.log("synthesis finished");
-    } else if (result.reason === SpeechSDK.ResultReason.Canceled) {
-      console.log("synthesis failed. Error detail: " + result.errorDetails);
-    }
-    synthesizer.close();
-    synthesizer = undefined;
-  };
-
-
-  function err_cb(err) {
-    console.log(err);
-    synthesizer.close();
-    synthesizer = undefined;
-  };
+module.exports = {
+  generateAudioAzure
+}
