@@ -31,21 +31,6 @@ async function generateAudioAzure(text, filename, audiopath) {
         synthesizer.close();
         synthesizer = null;
     });
-
-    /* synthesizer.synthesisCompleted = function (s, e) {
-      console.log(sdkAzure.ResultReason[e.result.reason]);
-      resolve(filePath);
-      synthesizer.close();
-      synthesizer = null;
-    };
-
-    synthesizer.SynthesisCanceled = function (s, e) {
-      console.log(e.result.errorDetails);
-      reject(e.result.errorDetails);
-      synthesizer.close();
-      synthesizer = null;
-    } */
-
   })
 }
 
