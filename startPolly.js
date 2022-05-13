@@ -3,9 +3,7 @@ const Fs = require('fs');
 
 const { checkConfig } = require('./libs/manageConfig');
 const { authenticate, generateAudio } = require('./libs/polly');
-const { readFile } = require('./libs/readFile');
 const { getPollyParams } = require('./libs/getPollyParams');
-const { generateAllAudios } = require('./libs/generateAllAudios');
 
 const { processPPTXFile } = require('./libs/processPPTXFile');
 

@@ -1,8 +1,7 @@
 const sdkAzure = require("microsoft-cognitiveservices-speech-sdk");
 require('dotenv').config();
 
-const speechConfig =
-  sdkAzure.SpeechConfig.fromSubscription(process.env.SPEECH_KEY, process.env.SPEECH_REGION);
+const speechConfig = sdkAzure.SpeechConfig.fromSubscription(process.env.SPEECH_KEY, process.env.SPEECH_REGION);
 
 const AUDIO_FORMAT = sdkAzure.SpeechSynthesisOutputFormat.Audio16Khz64KBitRateMonoMp3;
 speechConfig.speechSynthesisOutputFormat = AUDIO_FORMAT;
