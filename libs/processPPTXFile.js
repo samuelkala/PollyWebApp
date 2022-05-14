@@ -43,15 +43,18 @@ async function processPPTXFile(fileName, settings) {
 
     // config for polly. for azure we have the settings in the incoming settings JSON
     //coming from the client and in the .env file wher we have the access credentials for azure
-    let finalConfig = await checkConfig('./config.json');
-    await authenticate(finalConfig.config, finalConfig.sharedConfig.aws_pool_id);
+
+    /* let finalConfig = await checkConfig('./config.json');
+    await authenticate(finalConfig.config, finalConfig.sharedConfig.aws_pool_id); */
+
     ///////////////////////////////////////////////////////////////////////////
 
     //this is necessary also for azure
     await addAudioToSlides(`${relPath}${fileName}`)
     
     let notes = await getNotes(`${relPath}${fileName}/ppt/notesSlides/`,'azure', settings);
-    await processPPTXAudioHelper(notes, 'azure', finalConfig, fileName, relPath);
+    //await processPPTXAudioHelper(notes, 'azure', finalConfig, fileName, relPath);
+    await processPPTXAudioHelper(notes, 'azure', fileName, relPath);
 
     await zipMulti([`${relPath}${fileName}/_rels/`,`${relPath}${fileName}/[Content_Types].xml`,`${relPath}${fileName}/docProps/`,`${relPath}${fileName}/ppt/`], `${relPath}${fileName}_new.zip`);
     await delay(5000);

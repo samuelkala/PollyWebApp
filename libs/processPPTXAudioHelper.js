@@ -14,7 +14,8 @@ const { generateAudioAzure} = require('./azureConvert');
 const delay = (duration) =>
     new Promise(resolve => setTimeout(resolve, duration));
 
-async function processPPTXAudioHelper(notes, convertionType, finalConfig, fileName, relPath) {
+    //async function processPPTXAudioHelper(notes, convertionType, finalConfig, fileName, relPath)
+async function processPPTXAudioHelper(notes, convertionType, fileName, relPath) {
     return new Promise(async (resolve) => {
         promiseArray = [];
         if (convertionType.localeCompare('aws') === 0) {

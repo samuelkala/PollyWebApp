@@ -9,7 +9,7 @@ const { processPPTXFile } = require('./libs/processPPTXFile');
 
 async function startApp(filename, settings) {
 
-    let finalConfig = null;
+    /* let finalConfig = null;
     
     // If configuration is not present create config.json
     try {
@@ -24,7 +24,7 @@ async function startApp(filename, settings) {
         finalConfig = await checkConfig('./config.json');
     }
 
-    await authenticate(finalConfig.config, finalConfig.sharedConfig.aws_pool_id);
+    await authenticate(finalConfig.config, finalConfig.sharedConfig.aws_pool_id) */;
     await processPPTXFile(filename, settings);
 }
 //startApp()
