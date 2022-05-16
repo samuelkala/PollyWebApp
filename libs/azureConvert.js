@@ -32,7 +32,18 @@ async function generateAudioAzure(text, filename, audiopath) {
     });
   })
 }
-
+async function tryAudioAzure(){
+  /*return new Promise((resolve, reject) => {
+    player = new sdkAzure.SpeakerAudioDestination();
+    audioConfig  = sdkAzure.AudioConfig.fromSpeakerOutput(player);
+    synthesizer = new sdkAzure.SpeechSynthesizer(speechConfig, audioConfig);
+    text = "Hello, i'm your customized voice";
+    
+    synthesizer.speakSsmlAsync(text,complete_cb,err_cb);
+})*/
+  console.log('TRY AUDIO.');
+}
 module.exports = {
-  generateAudioAzure
+  generateAudioAzure,
+  tryAudioAzure
 }

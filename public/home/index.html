@@ -17,7 +17,9 @@
             min-height: 100%;
             background-color: rgba(255, 255, 255, 0.18)
         }
-
+        .wrapper {
+    text-align: center;
+        }
         body,
         div,
         form,
@@ -225,36 +227,40 @@
 
 <body>
 
-    <form>
-        <div class="banner"></div>
-        <h1>Create your lesson easily</h1>
-    </form>
     <form id="DownBtn" action="download" method="post">
-        <div id="UpBtn">
-            <input type="file" id="inpFile">
-            <button id="btnUpload">Convert this file</button>
-        </div>
-        <div>
-            <h2 id="error">Please upload a new pptx file to convert</h2>
-        </div>
-        <div>
-            <h2 id="done">Your lesson has been downloaded</h2>
-        </div>
+        <div class="banner"></div>
+        <h3 style="font-size: 40px; color: rgb(255, 136, 0);">Create your lesson easily!</h3>
+        <br>
         <div>
             <input id="hidInp" type="hidden" name="dwnFile" position="relative">
             <button type="submit" id="dwn">Download my lesson</button>
         </div>
-        <div class="loader" id="LoadDots" style="display: none;">
-            <div class="dots"></div>
-            <div class="dots"></div>
-            <div class="dots"></div>
-            <div class="dots"></div>
-            <div class="dots"></div>
-        </div>
-        <br>
-    </form>
 
-    <button onclick="document.location='azure/convert_azure.html'">Azure Convert</button>
+    <div id="UpBtn">
+        <input type="file" id="inpFile">
+        <button id="btnUpload">Upload this file</button>
+    </div>
+    <div>
+        <h2 id="error" >Please upload a new pptx file to convert</h2>
+    </div>
+    <div>
+        <h2 id="done" >Your lesson has been downloaded</h2>
+    </div>
+
+    <div class="loader" id="LoadDots" style="display: none;">
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+    </div>
+    <br>
+</form>
+
+<div class="wrapper">
+<button id="voiceset" hidden= "hidden" onclick="document.location='azure/convert_azure.html'">Continue to voice customization</button>
+</div>
+
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 
-
 {
+ //   const  { tryAudioAzure } = require('libs\azureConvert.js');
     //now hardcoded 
     //We will get the info about the number_of_slides server side
     let number_of_slides = 11;
@@ -17,6 +17,7 @@
     let pitchSlider = document.getElementById('myRangePitch');
     let slideNumber = document.getElementById('slidenumber');
     let convertButton = document.getElementById('convertBtn');
+    let testButton = document.getElementById('test');
     let mapLanguageName = new Map();
     let allLanguages = [];
     let allVoices = [];
@@ -287,5 +288,10 @@
         }
 
     })
+    testButton.addEventListener('click', async () => {
+       console.log('audio started');
+         
+       tryAudioAzure();    
 
+    })
 }

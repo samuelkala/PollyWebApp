@@ -5,6 +5,7 @@
     let hidInput = document.getElementById('hidInp');
     let missingMessage = document.getElementById('error');
     let doneMessage = document.getElementById('done');
+    let voiceSet = document.getElementById('voiceset');
     download_button.style.display = 'none';
     const inpFile = document.getElementById('inpFile');
     let formData;
@@ -27,7 +28,8 @@
             localStorage.setItem('filename', file_to_download);
             hidInput.setAttribute("value", `${file_to_download}`);
             loadingDots.style.display = 'none';
-            download_button.style.display = 'inline';
+            voiceset.removeAttribute("hidden");
+//            download_button.style.display = 'inline';
 
         } catch (err) {
             /* alert.innerHTML = "";
