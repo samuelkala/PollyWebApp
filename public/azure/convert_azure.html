@@ -57,7 +57,6 @@
             z-index: 2;
             line-height: 83px;
         }
-
         #wrapper {
   display: flex;
 }
@@ -69,6 +68,7 @@
 #right {
   flex: 1;
 }
+
         form {
             margin: auto;
             margin-top: 50px;
@@ -165,6 +165,28 @@
   border-radius: 230px;
   margin: 4px 2px;
 }
+  #leftbox {
+                float:left; 
+                position:relative;
+                background:rgb(255, 255, 255);
+                width:25%;
+                height:80px;
+            }
+            #middlebox{
+                float:left; 
+                position:relative;
+                background:rgb(255, 255, 255);
+                width:50%;
+                height:80px;
+            }
+            #rightbox{
+                float:right;
+                position:relative;
+                background:rgb(255, 255, 255);
+                width:25%;
+                height:80px;
+            }
+
 
         @media (min-width: 568px) {
 
@@ -225,7 +247,10 @@
             }
 
         }
-
+p{
+    height: auto;
+    position:relative;
+}
         @keyframes myani {
             0% {
                 -webkit-transform: translateX(-100px);
@@ -304,7 +329,7 @@ svg#play:hover #triangle {
 
 <body>
     <form>
-   
+       <h1>Customize and test voices</h1>
                 <label>Slide number </label>
 
                 <select id="slidenumber"></select>
@@ -338,32 +363,33 @@ svg#play:hover #triangle {
                             <input type="range" min="0.00" max="2.00" value="1.00" class="slider" step="0.02" id="myRangePitch">
                         </div></div>
                   </div>
-                
-                    <table border="0"> <tbody><tr>
-                    <td style="padding-left:450px; padding-top:10px;"><h1>VOICE</h1> </td>
-                    <td style="padding-left:10px; padding-top:10px;">
-                <button id="test" class="button button1" type="button" style="background-color: rgb(255, 187, 0);">   
-                <svg id="play"  viewBox="0 0 163 163" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"="0px">    
-                    <g fill="none">
-                        <g  transform="translate(2.000000, 2.000000)" stroke-width="4">
-                            <path d="M10,80 C10,118.107648 40.8923523,149 79,149 L79,149 C117.107648,149 148,118.107648 148,80 C148,41.8923523 117.107648,11 79,11" id="lineOne" stroke="#403e3d"></path>
-                            <path d="M105.9,74.4158594 L67.2,44.2158594 C63.5,41.3158594 58,43.9158594 58,48.7158594 L58,109.015859 C58,113.715859 63.4,116.415859 67.2,113.515859 L105.9,83.3158594 C108.8,81.1158594 108.8,76.6158594 105.9,74.4158594 L105.9,74.4158594 Z" id="triangle" stroke="#403e3d"></path>
-                            <path d="M159,79.5 C159,35.5933624 123.406638,0 79.5,0 C35.5933624,0 0,35.5933624 0,79.5 C0,123.406638 35.5933624,159 79.5,159 L79.5,159" id="lineTwo" stroke="#403e3d"></path>
-                        </g>
-                    </g>
-                </svg></button></td>
-                <td style="padding-left:10px; padding-top:10px;"><h1>TEST</h1> </td></tr></tbody> </table>
-                    <br>
-                    <table border="0"> <tbody><tr>
-                        <td style="padding-left:370px; padding-top:15px;"><button id="settingsBtn" type="button">Confirm these settings for the slide</button></td>
-                        <td style="padding-left:10px; padding-top:10px;"  >
-                            <button id="convertBtn"  class="button" type="button"  style="font-size: 27px;">Start conversion</button>
-                        </td>
-                    <td style="padding-left:10px; padding-top:30px;">  
-                                      <button id="allsettingsBtn" type="button">Confirm these settings for all slides</button><br><br>
-                    </td></tr></tbody> </table>
-    <div id="error"></div>
-</form>
+                  <br>
+                          
+                        <div id = "leftbox">
+                            <button id="settingsBtn" type="button">Confirm these settings for the slide</button>
+                        </div> 
+                          
+                        <div id = "middlebox">
+                            <button id="test" class="button button1" type="button" style="background-color: rgb(255, 187, 0);">   
+                                <svg id="play"  viewBox="0 0 163 163" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"="0px">    
+                                    <g fill="none">
+                                        <g  transform="translate(2.000000, 2.000000)" stroke-width="4">
+                                            <path d="M10,80 C10,118.107648 40.8923523,149 79,149 L79,149 C117.107648,149 148,118.107648 148,80 C148,41.8923523 117.107648,11 79,11" id="lineOne" stroke="#403e3d"></path>
+                                            <path d="M105.9,74.4158594 L67.2,44.2158594 C63.5,41.3158594 58,43.9158594 58,48.7158594 L58,109.015859 C58,113.715859 63.4,116.415859 67.2,113.515859 L105.9,83.3158594 C108.8,81.1158594 108.8,76.6158594 105.9,74.4158594 L105.9,74.4158594 Z" id="triangle" stroke="#403e3d"></path>
+                                            <path d="M159,79.5 C159,35.5933624 123.406638,0 79.5,0 C35.5933624,0 0,35.5933624 0,79.5 C0,123.406638 35.5933624,159 79.5,159 L79.5,159" id="lineTwo" stroke="#403e3d"></path>
+                                        </g>
+                                    </g>
+                                </svg></button>
+                        </div>
+                          
+                        <div id = "rightbox">
+                            <button id="allsettingsBtn" type="button">Confirm these settings for all slides</button>
+                        </div>
+                    
+
+                        <br><br><br><br><br><br><br>
+            <button id="convertBtn"  class="button" type="button"  style="font-size: 60px; width: 700px;">Start conversion</button>
+       </form>
 </body>
 
 </html>
