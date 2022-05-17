@@ -1,6 +1,6 @@
 
 {
- //   const  { tryAudioAzure } = require('libs\azureConvert.js');
+
     //now hardcoded 
     //We will get the info about the number_of_slides server side
     let number_of_slides = 11;
@@ -288,9 +288,10 @@
         }
 
     })
+
     testButton.addEventListener('click', async () => {
        console.log('audio started');
-         
+       var  tryAudioAzure = require('libs\azureConvert.js'); 
        tryAudioAzure();    
 
     })
