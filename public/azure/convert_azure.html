@@ -391,6 +391,11 @@ svg#play:hover #triangle {
                         <br><br><br><br><br><br><br>
             <button id="convertBtn"  class="button" type="button"  style="font-size: 60px; width: 700px;">Start conversion</button>
        </form>
+       <form id="DownBtn" action="download" method="post"><div>
+        <input id="hidInp" type="hidden" name="dwnFile" position="relative">
+        <button type="submit" id="dwn">Download my lesson</button>
+        <button id="return" hidden= "hidden" onclick="document.location='home/index.html'">Done, return to homepage</button>
+    </div></form>
 </body>
 
 </html>

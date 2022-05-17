@@ -36,6 +36,10 @@
     let speakingStyle;
     // variable to track the maximum number of styles of all the available voices
     let maxStyles = 0;
+    let download_button = document.getElementById('dwn');
+    let returnbutton = document.getElementById('return');
+    download_button.style.display = 'none';
+    returnbutton.style.display = 'none';
 
 
     function Name(LocalName, ShortName, StyleList) {
@@ -272,6 +276,8 @@
             file_to_download : file_to_download,
             settings : allsettings
         });
+        download_button.style.display = 'inline';
+
         try {
             const response = await fetch('../azure_convert/getconvparams', {
                 method: 'POST',
@@ -288,11 +294,18 @@
         }
 
     })
+    download_button.addEventListener('click', () => {
+        download_button.style.display = 'none';
+        returnbutton.style.display = 'inline';
+  //      document.getElementById('inpFile').value = '';
+    })
 
     testButton.addEventListener('click', async () => {
        console.log('audio started');
-       var  tryAudioAzure = require('libs\azureConvert.js'); 
-       tryAudioAzure();    
+//       var  tryAudioAzure = require('libs\azureConvert.js'); 
+ //      tryAudioAzure();    
 
     })
+
+    
 }
