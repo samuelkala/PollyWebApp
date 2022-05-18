@@ -32,16 +32,16 @@
             margin: 0;
             outline: none;
             font-family: Roboto, Arial, sans-serif;
-            font-size: 25px;
+            font-size: 23px;
             color: #666;
-            line-height: 22px;
+            line-height: 15px;
         }
 
         h1 {
             position: relative;
             margin: 0;
             text-align: center;
-            font-size: 25px;
+            font-size: 28px;
             color: rgb(255, 136, 0);
             z-index: 2;
             line-height: 83px;
@@ -96,7 +96,7 @@
         select,
         textarea {
             margin-bottom: 10px;
-            border: 4px solid rgb(255, 187, 0);
+            border: 2px solid rgb(255, 187, 0);
             border-radius: 5px;
         }
 
@@ -142,20 +142,21 @@
         button {
             width: 150px;
             padding: 10px;
-            border: none;
+            border: 2px solid #ff9d09;
             border-radius: 5px;
-            background: #ff9d09;
+            background: #ffffff;
             font-size: 16px;
-            color: rgb(255, 255, 255);
+            color: #ff9d09;
             cursor: pointer;
         }
 
         button:hover {
             background: #ff9800;
+            color: #ffffff;
         }
         .button1 {
-  background-color: rgb(255, 136, 0);
-  border: none;
+  background-color: #ff990076;
+  border: 2px solid #ff9800;
   color: white;
   padding: 2px;
   text-align: center;
@@ -270,7 +271,7 @@ p{
         }
         svg#play {
   width:50px;
- margin: 20px auto;
+ margin: 2px auto;
  display:block;
   cursor: pointer;
   transform-origin: 50% 50%;
@@ -328,11 +329,23 @@ svg#play:hover #triangle {
 </head>
 
 <body>
-    <form>
+    
+        <img src="backg.jpg" width="100%" 
+        height="100%" style="position: absolute;  right: 0px; top: 0px;"/>
+        <div style="position: relative; left: 2%; top: 5%; text-align: center;"> 
+            <form  style="width:50%">
        <h1>Customize and test voices</h1>
+
                 <label>Slide number </label>
 
                 <select id="slidenumber"></select>
+                <br><br>
+                <label>Text-to-speech service </label>
+                 
+                <select id="tts">
+                    <option value="aws">Amazon Polly</option>
+                    <option value="microsoft">Microsoft Azure</option>
+                </select>
                 <br><br>
                 <label><h>Language</h></label>
                 <select id="languageOptions" disabled>
@@ -371,7 +384,7 @@ svg#play:hover #triangle {
                         
                         
                         <div id = "middlebox">
-                            <button id="test" title="test" class="button button1" type="button" style="background-color: rgb(255, 187, 0);">   
+                            <button id="test" title="test" class="button button1" type="button" style="background-color: #ff990068;">   
                                 <svg id="play"  viewBox="0 0 163 163" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"="0px">    
                                     <g fill="none">
                                         <g  transform="translate(2.000000, 2.000000)" stroke-width="4">
@@ -390,8 +403,9 @@ svg#play:hover #triangle {
 
                         <br><br><br><br><br><br><br>
             <button id="convertBtn"  class="button" type="button"  style="font-size: 60px; width: 700px;">Start conversion</button>
-       </form>
-       <form id="DownBtn" action="download" method="post"><div>
+        </form>
+        </div> 
+       <form id="DownBtn" action="download" method="post" style="width:50%; position: relative; left: 2%;" ><div>
         <input id="hidInp" type="hidden" name="dwnFile" position="relative">
         <button type="submit" id="dwn">Download my lesson</button>
         <button id="return" hidden= "hidden" onclick="document.location='home/index.html'">Done, return to homepage</button>
