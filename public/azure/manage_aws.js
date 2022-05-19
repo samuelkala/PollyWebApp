@@ -1,12 +1,23 @@
 {
     let languageOptions = document.getElementById('languageOptionsAws');
     let voiceOptions = document.getElementById('voiceOptionsAws');
+    let selectedVoice;
+    let selectedEngine;
     let voices = [];
+    let names_engine = [];
     let languages = [];
     let polly;
     let mapLanguageName = new Map();
     let params = {
     };
+
+    function Settings(voice, engine, speakingstyle, speed, pitch) {
+        this.voice = voice;
+        this.engine = engine;
+        this.speakingstyle = speakingstyle;
+        this.speed = speed;
+        this.pitch = pitch;
+    }
 
     (async function init() {
         configAws();
@@ -23,7 +34,6 @@
     };
 
     function getVoices() {
-
         return new Promise((res, rej) => {
             (function getVoicesInternal() {
                 polly.describeVoices(params, (err, data) => {
@@ -71,10 +81,45 @@
                 languageOptions.innerHTML += "<option value=\"" + lang + "\">" +
                     lang + "</option>";
             });
+            if(languages.includes('US English')){
+                languageOptions.selectedIndex = languages.indexOf('US English');
+                loadNames('US English');
+            }else{
+                languageOptions.selectedIndex = 0;
+                loadNames(languages.at(0));
+            }
+            languageOptions.disabled = false;
         }
     }
 
+    function loadNames(language) {
+        voiceOptions.innerHTML = "";
+        let names = mapLanguageName.get(language);
+        names.forEach((element) => {
+            element.SupportedEngines.forEach((engine) => {
+                voiceOptions.innerHTML += "<option value=\"" + element.Name + "-" + engine + "\">" +
+                    element.Name + " (" + engine + ")" + "</option>";
+                names_engine.push(element.Name + '-' + engine);
+            })
+        })
+        voiceOptions.selectedIndex = 0;
+        voiceOptions.disabled = false;
+    }
 
+
+    document.addEventListener('click', function (event) {
+        if (languages.includes(event.target.value)) {
+            loadNames(event.target.value);
+        }
+        if(names_engine.includes(event.target.value)){
+            let split = event.target.value.split('-');
+            selectedVoice = split[0];
+            selectedEngine = split[1];
+            console.log('check');
+        }
+
+
+    }, false)
 
 
 
