@@ -6,7 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Convert Azure</title>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1135.0.min.js" defer></script>
     <script src="manage_azure.js" charset="utf-8" defer></script>
+    <script src="manage_aws.js" charset="utf-8" defer></script>
     <style>
         td {
             padding: 0 20px;
@@ -19,7 +21,6 @@
         }
     </style>
 </head>
-
 <body>
     <h1 style="font-weight:500;" align="center">Microsoft convert</h1>
     <table>
@@ -30,28 +31,35 @@
                 <select id="slidenumber"></select>
             </td>
             <td>
-                <label>Language</label>
+                <label>Azure Languages</label>
                 <br>
                 <select id="languageOptions" disabled>
                     <option>Please update voice list first.</option>
                 </select>
             </td>
-            <td></td>
+            <td>
+                <label>Aws Languages</label>
+                <br>
+                <select id="languageOptionsAws"disabled>
+                    <option>Please update voice list first.</option>
+                </select>
+            </td>
         </tr>
         <tr>
             <td></td>
             <td>
-                <label>Voice</label>
+                <label>Azure Voices</label>
                 <br>
                 <select id="voiceOptions" disabled>
                     <option>Please update voice list first.</option>
                 </select>
             </td>
             <td>
-                <label>Test here</label>
-                <br><br>
-                <textarea id="synthesisText" style="display: inline-block;width:400px;height:100px"
-                    placeholder="Input text or ssml for synthesis."></textarea>
+                <label>Aws Voices</label>
+                <br>
+                <select id="voiceOptionsAws" disabled>
+                    <option>Please update voice list first.</option>
+                </select>
             </td>
         </tr>
         <tr>

@@ -4,7 +4,7 @@ const Fs = require('fs');
 // Set the region where your identity pool exists (us-east-1, eu-west-1)
 AWS.config.region = 'us-east-1';
 
-let Polly;
+//let Polly;
 
 /**
  * Authenticate using Amazon Cognito 
@@ -76,12 +76,17 @@ async function authenticate (config, poolId) {
 /*
  * Instantiates Polly object with default values 
  */
-const instantiatePolly = () => {
+/* const instantiatePolly = () => {
     Polly = new AWS.Polly({
         signatureVersion: 'v4',
         region: 'us-east-1',
     });
-}
+} */
+
+const Polly = new AWS.Polly({
+    signatureVersion: 'v4',
+    region: 'us-east-1'
+})
 
 /**
  * Synthesize speech request

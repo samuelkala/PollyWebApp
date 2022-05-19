@@ -52,9 +52,9 @@ async function processPPTXFile(fileName, settings) {
     //this is necessary also for azure
     await addAudioToSlides(`${relPath}${fileName}`)
     
-    let notes = await getNotes(`${relPath}${fileName}/ppt/notesSlides/`,'azure', settings);
+    let notes = await getNotes(`${relPath}${fileName}/ppt/notesSlides/`,'aws', settings);
     //await processPPTXAudioHelper(notes, 'azure', finalConfig, fileName, relPath);
-    await processPPTXAudioHelper(notes, 'azure', fileName, relPath);
+    await processPPTXAudioHelper(notes, 'aws', fileName, relPath);
 
     await zipMulti([`${relPath}${fileName}/_rels/`,`${relPath}${fileName}/[Content_Types].xml`,`${relPath}${fileName}/docProps/`,`${relPath}${fileName}/ppt/`], `${relPath}${fileName}_new.zip`);
     await delay(5000);
