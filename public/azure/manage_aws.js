@@ -17,10 +17,11 @@
     let params = {
     };
 
-    function Settings(voice, engine, speakingstyle, speed, pitch) {
+    function Settings(voice, engine, timbre, speed, pitch) {
+        this.type = 'aws';
         this.voice = voice;
         this.engine = engine;
-        this.speakingstyle = speakingstyle;
+        this.timbre = timbre;
         this.speed = speed;
         this.pitch = pitch;
     }
@@ -128,7 +129,7 @@
 
     function convertTimbre(timbre) {
         let result = Math.round(((Number(timbre) - 1) * 50)).toString() + '%';
-        //because timbre need sign in SSml tag for Aws
+        //because timbre needs sign in SSml tag for Aws
         if(result > 0){
             return '+' + result;
         }
