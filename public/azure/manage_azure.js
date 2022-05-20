@@ -1,5 +1,5 @@
-let hello = 'Hellooooo!!! How are you!'
-
+//This array will contain the settings for each slide
+let allStyles = [];
 {
     //now hardcoded 
     //We will get the info about the number_of_slides server side
@@ -22,7 +22,7 @@ let hello = 'Hellooooo!!! How are you!'
     let allLanguages = [];
     let allVoices = [];
     let allSlides = [];
-    let allStyles = [];
+    
     //This array will contain the settings for each slide
     let allsettings = [];
     //not to send to the server because it is not needed for SSML
@@ -46,7 +46,8 @@ let hello = 'Hellooooo!!! How are you!'
 
 
     function Settings(n_slide, voice, speakingstyle, speed, pitch) {
-        this.n_slide = n_slide,
+        this.type = 'azure';
+        this.n_slide = n_slide;
         this.voice = voice;
         this.speakingstyle = speakingstyle
         this.speed = speed;
