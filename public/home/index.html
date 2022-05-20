@@ -15,7 +15,6 @@
         html,
         body {
             min-height: 100%;
-            background-color: rgba(255, 255, 255, 0.18)
         }
         .wrapper {
     text-align: center;
@@ -72,9 +71,9 @@
 
         .banner {
             position: relative;
-            height: 350px;
-            background-image: url("home/logo polly.jpg");
-            background-size: cover;
+            height: 280px;
+            background-image: url("home/logopolly.jpg");
+            background-size:cover;
             background-repeat: no-repeat;
             display: flex;
             justify-content: center;
@@ -225,9 +224,14 @@
 
 </head>
 
-<body>
+<body>       
+    <img src="home/background.jpg" width="100%" 
+    height="100%" style="position: absolute;  right: 0px; top: 0px;"/>
 
-    <form id="DownBtn" action="download" method="post">
+    <div style="position: relative; left: 2%; top: 5%; text-align: center;"> 
+
+    <form  id="DownBtn" action="download" method="post" style="width:50%">
+        <br>
         <div class="banner"></div>
         <h3 style="font-size: 40px; color: rgb(255, 136, 0);">Create your lesson easily!</h3>
         <br>
@@ -256,10 +260,10 @@
     </div>
     <br>
 </form>
-
-<div class="wrapper">
+    <div class="wrapper">
 <button id="voiceset" hidden= "hidden" onclick="document.location='azure/convert_azure.html'">Continue to voice customization</button>
-</div>
+</div></div>
+
 
 </body>
 
