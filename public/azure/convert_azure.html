@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convert Azure</title>
+    <title>Convert Panel</title>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1135.0.min.js" defer></script>
     <script src="manage_azure.js" charset="utf-8" defer></script>
     <script src="manage_aws.js" charset="utf-8" defer></script>
@@ -22,7 +22,7 @@
     </style>
 </head>
 <body>
-    <h1 style="font-weight:500;" align="center">Microsoft convert</h1>
+    <h1 style="font-weight:500;" align="center">Convert Panel</h1>
     <table>
         <tr>
             <td>
@@ -67,11 +67,16 @@
             <td>
                 <label>Speaking style</label>
                 <br>
-                <select id="styleOptions" disabled>
-                    
-                </select>
+                <select id="styleOptions" disabled></select>
             </td>
-            <td></td>
+            <td>
+                <label>Voice Timbre</label>
+                <div class="slidecontainerTimbre">
+                    <output id="rangevalueTimbreAws">1</output>
+                    <input type="range" min="0.00" max="3.00" value="1.00" class="slider" step="0.02"
+                        id="timbreRangeAws">
+                </div>
+            </td>
         </tr>
         <tr>
             <td></td>
@@ -83,7 +88,14 @@
                         id="myRangeSpeed">
                 </div>
             </td>
-            <td></td>
+            <td>
+                <label>Speaking speed</label>
+                <div class="slidecontainerSpeed">
+                    <output id="rangevalueSpeedAws">1</output>
+                    <input type="range" min="0.00" max="3.00" value="1.00" class="slider" step="0.01"
+                        id="myRangeSpeedAws">
+                </div>
+            </td>
         </tr>
         <tr>
             <td></td>
@@ -94,7 +106,13 @@
                     <input type="range" min="0.00" max="2.00" value="1.00" class="slider" step="0.02" id="myRangePitch">
                 </div>
             </td>
-            <td></td>
+            <td>
+                <label>Pitch</label>
+                <div class="slidecontainerPitch">
+                    <output id="rangevaluePitchAws">1</output>
+                    <input type="range" min="0.00" max="2.00" value="1.00" class="slider" step="0.02" id="myRangePitchAws">
+                </div>
+            </td>
         </tr>
         <tr>
             <td>

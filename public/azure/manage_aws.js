@@ -1,8 +1,14 @@
 {
     let languageOptions = document.getElementById('languageOptionsAws');
     let voiceOptions = document.getElementById('voiceOptionsAws');
+    let speedSlider = document.getElementById('myRangeSpeedAws');
+    let pitchSlider = document.getElementById('myRangePitchAws');
+    let timbreSlider = document.getElementById('timbreRangeAws');
     let selectedVoice;
     let selectedEngine;
+    let selectedSpeed;
+    let selectedPitch;
+    let selectedTimbre;
     let voices = [];
     let names_engine = [];
     let languages = [];
@@ -25,6 +31,7 @@
         getLanguages(voices);
         fillMap();
         loadLanguages();
+        console.log(hello);
     })();
 
     function configAws() {
@@ -107,6 +114,27 @@
     }
 
 
+    function convertSpeed(speed) {
+        let n_speed = Number(speed);
+        if(n_speed < 1.2){
+            return '20%';
+        }
+        return Math.round(((n_speed - 1) * 100)).toString() + '%';
+    }
+
+    function convertPitch(pitch) {
+        return Math.round(((Number(pitch) - 1) * 50)).toString() + '%';
+    }
+
+    function convertTimbre(timbre) {
+        let result = Math.round(((Number(timbre) - 1) * 50)).toString() + '%';
+        //because timbre need sign in SSml tag for Aws
+        if(result > 0){
+            return '+' + result;
+        }
+        return result;
+    }
+
     document.addEventListener('click', function (event) {
         if (languages.includes(event.target.value)) {
             loadNames(event.target.value);
@@ -121,6 +149,19 @@
 
     }, false)
 
+    speedSlider.addEventListener('change', () => {
+        selectedSpeed = speedSlider.value;
+        document.getElementById('rangevalueSpeedAws').textContent = speedSlider.value;
+    })
 
+    pitchSlider.addEventListener('change', () => {
+        selectedPitch = pitchSlider.value;
+        document.getElementById('rangevaluePitchAws').textContent = pitchSlider.value;
+    })
+
+    timbreSlider.addEventListener('change', () => {
+        selectedTimbre = timbreSlider.value;
+        document.getElementById('rangevalueTimbreAws').textContent = timbreSlider.value;
+    })
 
 }
