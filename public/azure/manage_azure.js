@@ -1,6 +1,8 @@
 //This array will contain the settings for each slide
+
 let allStyles = [];
 {
+
     //now hardcoded 
     //We will get the info about the number_of_slides server side
     
@@ -18,6 +20,7 @@ let allStyles = [];
     let pitchSlider = document.getElementById('myRangePitch');
     let slideNumber = document.getElementById('slidenumber');
     let convertButton = document.getElementById('convertBtn');
+    let testButton = document.getElementById('test');
     let mapLanguageName = new Map();
     let allLanguages = [];
     let allVoices = [];
@@ -36,6 +39,10 @@ let allStyles = [];
     let speakingStyle;
     // variable to track the maximum number of styles of all the available voices
     let maxStyles = 0;
+    let download_button = document.getElementById('dwn');
+    let returnbutton = document.getElementById('return');
+    download_button.style.display = 'none';
+    returnbutton.style.display = 'none';
 
 
     function Name(LocalName, ShortName, StyleList) {
@@ -273,6 +280,8 @@ let allStyles = [];
             file_to_download : file_to_download,
             settings : allsettings
         });
+        download_button.style.display = 'inline';
+
         try {
             const response = await fetch('../azure_convert/getconvparams', {
                 method: 'POST',
@@ -289,5 +298,18 @@ let allStyles = [];
         }
 
     })
+    download_button.addEventListener('click', () => {
+        download_button.style.display = 'none';
+        returnbutton.style.display = 'inline';
+  //      document.getElementById('inpFile').value = '';
+    })
 
+    testButton.addEventListener('click', async () => {
+       console.log('audio started');
+//       var  tryAudioAzure = require('libs\azureConvert.js'); 
+ //      tryAudioAzure();    
+
+    })
+
+    
 }
