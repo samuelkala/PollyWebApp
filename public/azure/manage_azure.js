@@ -1,4 +1,6 @@
+//This array will contain the settings for each slide
 
+let allStyles = [];
 {
 
     //now hardcoded 
@@ -23,7 +25,7 @@
     let allLanguages = [];
     let allVoices = [];
     let allSlides = [];
-    let allStyles = [];
+    
     //This array will contain the settings for each slide
     let allsettings = [];
     //not to send to the server because it is not needed for SSML
@@ -51,7 +53,8 @@
 
 
     function Settings(n_slide, voice, speakingstyle, speed, pitch) {
-        this.n_slide = n_slide,
+        this.type = 'azure';
+        this.n_slide = n_slide;
         this.voice = voice;
         this.speakingstyle = speakingstyle
         this.speed = speed;
