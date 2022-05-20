@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convert Azure</title>
+    <title>Convert Panel</title>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1135.0.min.js" defer></script>
     <script src="manage_azure.js" charset="utf-8" defer></script>
+    <script src="manage_aws.js" charset="utf-8" defer></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;900&display=swap" rel="stylesheet">
@@ -14,6 +16,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
         integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     
+
+
     <style>
         html,
         body {
@@ -327,7 +331,6 @@ svg#play:hover #triangle {
 }
     </style>
 </head>
-
 <body>
     
         <img src="backg.jpg" width="100%" 
@@ -410,6 +413,62 @@ svg#play:hover #triangle {
         <button type="submit" id="dwn">Download my lesson</button>
         <button id="return" hidden= "hidden" onclick="document.location='home/index.html'">Done, return to homepage</button>
     </div></form>
+    <table>
+        <tr>
+            <td>
+                <label>Aws Languages</label>
+                <br>
+                <select id="languageOptionsAws"disabled>
+                    <option>Please update voice list first.</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <label>Aws Voices</label>
+                <br>
+                <select id="voiceOptionsAws" disabled>
+                    <option>Please update voice list first.</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <label>Voice Timbre</label>
+                <div class="slidecontainerTimbre">
+                    <output id="rangevalueTimbreAws">1</output>
+                    <input type="range" min="0.00" max="3.00" value="1.00" class="slider" step="0.02"
+                        id="timbreRangeAws">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+
+            <td>
+                <label>Speaking speed</label>
+                <div class="slidecontainerSpeed">
+                    <output id="rangevalueSpeedAws">1</output>
+                    <input type="range" min="0.00" max="3.00" value="1.00" class="slider" step="0.01"
+                        id="myRangeSpeedAws">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+
+            <td>
+                <label>Pitch</label>
+                <div class="slidecontainerPitch">
+                    <output id="rangevaluePitchAws">1</output>
+                    <input type="range" min="0.00" max="2.00" value="1.00" class="slider" step="0.02" id="myRangePitchAws">
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div id="error"></div>
 </body>
 
 </html>

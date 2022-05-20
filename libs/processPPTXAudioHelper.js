@@ -1,6 +1,6 @@
 const { getPollyParams } = require('./getPollyParams');
 const { generateAudio } = require('./polly');
-const { generateAudioAzure} = require('./azureConvert');
+const { generateAudioAzure } = require('./azureConvert');
 
 /**
  * processPPTXAudioHelper helps perform audio conversion for processPPTXFile
@@ -11,16 +11,27 @@ const { generateAudioAzure} = require('./azureConvert');
  * @sample processPPTXAudioHelper(['Some text I want to convert'], Json, 'filename', './<path>/);
  */
 
+
+
 const delay = (duration) =>
     new Promise(resolve => setTimeout(resolve, duration));
 
-    //async function processPPTXAudioHelper(notes, convertionType, finalConfig, fileName, relPath)
+//async function processPPTXAudioHelper(notes, convertionType, finalConfig, fileName, relPath)
 async function processPPTXAudioHelper(notes, convertionType, fileName, relPath) {
     return new Promise(async (resolve) => {
-        promiseArray = [];
+        let promiseArray = [];
+        let pollyParams = {
+            "Text": "",
+            "OutputFormat": "mp3",
+            "Engine": "neural",
+            "TextType": "ssml",
+            "VoiceId": "Brian"
+        }
         if (convertionType.localeCompare('aws') === 0) {
             for (i in notes) {
-                let pollyParams = getPollyParams(notes[i][1], finalConfig.sharedConfig)
+                //let pollyParams = getPollyParams(notes[i][1], finalConfig.sharedConfig)
+                pollyParams.Text = "";
+                pollyParams.Text = notes[i][1];
                 promiseArray.push(generateAudio(pollyParams, `media${notes[i][0]}`, `${relPath}${fileName}/ppt/media/`));
                 await delay(200);
             };

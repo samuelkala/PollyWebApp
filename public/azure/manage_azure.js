@@ -3,6 +3,7 @@
 
     //now hardcoded 
     //We will get the info about the number_of_slides server side
+    
     let number_of_slides = 11;
     let file_to_download = localStorage.getItem('filename');
     let authorizationToken;
