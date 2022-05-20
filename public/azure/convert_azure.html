@@ -413,61 +413,39 @@ svg#play:hover #triangle {
         <button type="submit" id="dwn">Download my lesson</button>
         <button id="return" hidden= "hidden" onclick="document.location='home/index.html'">Done, return to homepage</button>
     </div></form>
-    <table>
-        <tr>
-            <td>
+
                 <label>Aws Languages</label>
-                <br>
+
                 <select id="languageOptionsAws"disabled>
                     <option>Please update voice list first.</option>
                 </select>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
+                <br><br>
                 <label>Aws Voices</label>
-                <br>
+
                 <select id="voiceOptionsAws" disabled>
                     <option>Please update voice list first.</option>
                 </select>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
+                <br><br>
                 <label>Voice Timbre</label>
                 <div class="slidecontainerTimbre">
                     <output id="rangevalueTimbreAws">1</output>
                     <input type="range" min="0.00" max="3.00" value="1.00" class="slider" step="0.02"
                         id="timbreRangeAws">
                 </div>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-
-            <td>
+                <br>
                 <label>Speaking speed</label>
                 <div class="slidecontainerSpeed">
                     <output id="rangevalueSpeedAws">1</output>
                     <input type="range" min="0.00" max="3.00" value="1.00" class="slider" step="0.01"
                         id="myRangeSpeedAws">
                 </div>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-
-            <td>
+                <br>
                 <label>Pitch</label>
                 <div class="slidecontainerPitch">
                     <output id="rangevaluePitchAws">1</output>
                     <input type="range" min="0.00" max="2.00" value="1.00" class="slider" step="0.02" id="myRangePitchAws">
                 </div>
-            </td>
-        </tr>
-    </table>
+
     <div id="error"></div>
 </body>
 
