@@ -1,12 +1,33 @@
+//Global Variables
 //This array will contain the settings for each slide
+let allsettings = [];
+let slideNumber = document.getElementById('slidenumber');
+let allSlides = [];
+let selectedSlide = '1';
+let number_of_slides = 11;
 
-let allStyles = [];
+function modifySettings(allsettings, settings, selectedSlide) {
+    //put in the selectedSlide the new settings
+    allsettings[Number(selectedSlide) - 1] = settings;
+    console.log('check if slide modified correctly');
+}    
+
+function modifyAllSettings(allsettings, settings){
+    for(let i = 0; i < allsettings.length; i++){
+        allsettings[i] = settings;
+    }
+    console.log('check if slides modified correctly');
+}
+    
+function convertPitch(pitch) {
+    return Math.round(((Number(pitch) - 1) * 50)).toString() + '%';
+}
+
+
 {
 
     //now hardcoded 
     //We will get the info about the number_of_slides server side
-    
-    let number_of_slides = 11;
     let file_to_download = localStorage.getItem('filename');
     let authorizationToken;
     let region;
@@ -18,21 +39,18 @@ let allStyles = [];
     let settingsButton = document.getElementById('settingsBtn');
     let speedSlider = document.getElementById('myRangeSpeed');
     let pitchSlider = document.getElementById('myRangePitch');
-    let slideNumber = document.getElementById('slidenumber');
+    let allsettingsBtn = document.getElementById('allsettingsBtnAzure')
     let convertButton = document.getElementById('convertBtn');
     let testButton = document.getElementById('test');
     let mapLanguageName = new Map();
     let allLanguages = [];
     let allVoices = [];
-    let allSlides = [];
-    
-    //This array will contain the settings for each slide
-    let allsettings = [];
+    let allStyles = [];
     //not to send to the server because it is not needed for SSML
     let selectedLanguage;
     //to send to the server for SSML synthesis
     let selectedVoice;
-    let selectedSlide = '1';
+    
     //initialize speed and pitch with the html default values
     let selectedSpeed = speedSlider.value;
     let selectedPitch = pitchSlider.value;
@@ -52,9 +70,8 @@ let allStyles = [];
     }
 
 
-    function Settings(n_slide, voice, speakingstyle, speed, pitch) {
+    function Settings(voice, speakingstyle, speed, pitch) {
         this.type = 'azure';
-        this.n_slide = n_slide;
         this.voice = voice;
         this.speakingstyle = speakingstyle
         this.speed = speed;
@@ -62,7 +79,7 @@ let allStyles = [];
     }
 
     //this function initiliazes all the Web Page
-    (async function InitializeConvertAzure() {
+    (async function initAzure() {
         //console.log(localStorage.getItem('filename'));
         await getAuthorizationToken();
         fillNumberOfSlides();
@@ -73,16 +90,9 @@ let allStyles = [];
     })()
 
     function initSettings(allsettings, number_of_slides) {
-        //at the beginning all the slides have the same settings a part from field 'n_slide'
         for (let i = 1; i <= number_of_slides; i++) {
-            allsettings.push(createDefaultSettings(i.toString()));
+            allsettings.push(createDefaultSettings());
         }
-    }
-
-    function modifySettings(allsettings, settings, selectedSlide) {
-        //put in the selectedSlide the new settings
-        allsettings[Number(selectedSlide) - 1] = settings;
-        console.log('check if slide modified correctly');
     }
 
     function getAllVoices(info, allVoices) {
@@ -182,8 +192,8 @@ let allStyles = [];
     }
 
 
-    function createDefaultSettings(n_slide) {
-        return new Settings(n_slide, selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
+    function createDefaultSettings() {
+        return new Settings(selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
     }
 
 
@@ -228,9 +238,6 @@ let allStyles = [];
         return Math.round(((Number(speed) - 1) * 100)).toString() + '%';
     }
 
-    function convertPitch(pitch) {
-        return Math.round(((Number(pitch) - 1) * 50)).toString() + '%';
-    }
 
     //this method is listening for clicks on all the Html document
     //based on what part of the whole document is clicked there is a particular behaviour
@@ -251,16 +258,16 @@ let allStyles = [];
             speakingStyle = selectedStyle.text;
             console.log(speakingStyle);
         }
+
         if (allSlides.includes(event.target.value)) {
             selectedSlide = event.target.value;
             console.log(selectedSlide);
         }
 
-
     }, false)
 
     settingsButton.addEventListener('click', () => {
-        let modifiedSettings = new Settings(selectedSlide, selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
+        let modifiedSettings = new Settings(selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
         modifySettings(allsettings, modifiedSettings, selectedSlide);
         console.log('check if the selected slide has been modified');
     })
@@ -273,6 +280,11 @@ let allStyles = [];
     pitchSlider.addEventListener('change', () => {
         selectedPitch = pitchSlider.value;
         document.getElementById('rangevaluePitch').textContent = pitchSlider.value;
+    })
+
+    allsettingsBtn.addEventListener('click', () => {
+        let settingsAllSlides = new Settings(selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
+        modifyAllSettings(allsettings, settingsAllSlides);
     })
 
     convertButton.addEventListener('click', async () => {

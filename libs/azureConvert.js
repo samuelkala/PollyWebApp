@@ -41,7 +41,7 @@ async function tryAudioAzure(){
     text = "Hello, i'm your customized voice";
     synthesizer.speakSsmlAsync(text, (result) => {
       if (result.reason === sdkAzure.ResultReason.SynthesizingAudioCompleted) {
-        console.log("synthesis finished");
+        console.log("Generating Audio");
         resolve(filePath);
 
       } else {
