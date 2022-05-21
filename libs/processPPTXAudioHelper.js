@@ -1,6 +1,13 @@
-const { getPollyParams } = require('./getPollyParams');
-const { generateAudio } = require('./polly');
+const { generateAudioAws } = require('./awsConvert');
 const { generateAudioAzure } = require('./azureConvert');
+
+const pollyParams = {
+    "Text": "",
+    "OutputFormat": "mp3",
+    "Engine": "",
+    "TextType": "ssml",
+    "VoiceId": ""
+}
 
 /**
  * processPPTXAudioHelper helps perform audio conversion for processPPTXFile
@@ -16,27 +23,20 @@ const { generateAudioAzure } = require('./azureConvert');
 const delay = (duration) =>
     new Promise(resolve => setTimeout(resolve, duration));
 
-//async function processPPTXAudioHelper(notes, convertionType, finalConfig, fileName, relPath)
-async function processPPTXAudioHelper(notes, convertionType, fileName, relPath) {
+
+async function processPPTXAudioHelper(notes, settings, fileName, relPath) {
     return new Promise(async (resolve) => {
         let promiseArray = [];
-        let pollyParams = {
-            "Text": "",
-            "OutputFormat": "mp3",
-            "Engine": "neural",
-            "TextType": "ssml",
-            "VoiceId": "Brian"
-        }
-        if (convertionType.localeCompare('aws') === 0) {
-            for (i in notes) {
-                //let pollyParams = getPollyParams(notes[i][1], finalConfig.sharedConfig)
-                pollyParams.Text = "";
+        let j;
+        for(i in notes){
+            j = Number(notes[i][0]) - 1;
+            if(settings[j].type.localeCompare('aws') === 0){
                 pollyParams.Text = notes[i][1];
-                promiseArray.push(generateAudio(pollyParams, `media${notes[i][0]}`, `${relPath}${fileName}/ppt/media/`));
+                pollyParams.Engine = settings[j].engine;
+                pollyParams.VoiceId = settings[j].voice;
+                promiseArray.push(generateAudioAws(pollyParams, `media${notes[i][0]}`, `${relPath}${fileName}/ppt/media/`));
                 await delay(200);
-            };
-        } else {
-            for (i in notes) {
+            } else {
                 promiseArray.push(generateAudioAzure(notes[i][1], `media${notes[i][0]}`, `${relPath}${fileName}/ppt/media/`));
                 await delay(200);
             }

@@ -1,9 +1,11 @@
 const path = require('path');
 const fs = require('fs');
 
+const {addAwsSsml} = require('./addSsml');
+const {addAzureSsml} = require('./addSsml');
+
 const Entities = require('html-entities').AllHtmlEntities;
 const entities = new Entities();
-const mainSSmlAzure = '<speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">';
 
 /**
  * getNotes takes a path to folder containing xmls and then parses each file for extrating lecture notes
@@ -13,7 +15,7 @@ const mainSSmlAzure = '<speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:
  * @sample  getNotes('path/to/xmls')
  */
 
-async function getNotes(folderPath, convertionType, settings) {
+async function getNotes(folderPath, settings) {
     return new Promise((resolve, reject) => {
         let texts=[];
 
@@ -46,12 +48,14 @@ async function getNotes(folderPath, convertionType, settings) {
                             text += entities.decode(xmlContent.slice(openTextTag+5, closeTextTag))
                             openTextTag = xmlContent.indexOf('<a:t>', closeTextTag)
                         }
-                        // Add <speak> tag for Polly
-                        if(convertionType.localeCompare('azure') === 0){
-                            text = addAzureSsml(text, settings[Number(slide_number)-1]);
+                        // Add Ssml tags for azure or polly
+
+                        if(settings[Number(slide_number - 1)].type.localeCompare('azure') === 0){
+                            text = addAzureSsml(text, settings[Number(slide_number) - 1]);
                         }else{
-                            text = '<speak>' + text + '</speak>'
+                            text = addAwsSsml(text, settings[Number(slide_number) - 1]);
                         }
+
                         texts.push([slide_number,text]);
                     }
                 }
@@ -65,35 +69,7 @@ async function getNotes(folderPath, convertionType, settings) {
     }); 
 }
 
-function addAzureSsml(text, settings){
-    text = mainSSmlAzure + addAzureVoice(settings.voice) + addAzureStyle(settings.speakingstyle) +
-    addAzureSpeedPitch(settings.speed,settings.pitch) + text + closeTagAzure(settings.speakingstyle);
-    return text;
-}
 
-function addAzureVoice(voice){
-    return '<voice name="' + voice + '">';
-}
-
-function addAzureSpeedPitch(speed, pitch){
-    return '<prosody rate="' + speed + '" pitch="' + pitch + '">';
-}
-
-function addAzureStyle(style){
-    if(!(style.localeCompare('general') === 0)){
-        return '<mstts:express-as style="' + style + '" >';
-    }else{
-        return '';
-    }
-}
-
-function closeTagAzure(style){
-    if(!(style.localeCompare('general') === 0)){
-        return '</prosody></mstts:express-as></voice></speak>';
-    }else{
-        return '</prosody></voice></speak>';
-    }
-}
 
 
 module.exports = {

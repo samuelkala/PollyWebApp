@@ -121,16 +121,14 @@
 
     function convertSpeed(speed) {
         let n_speed = Number(speed);
-        if(n_speed < 1.2){
-            return '20%';
-        }
-        return Math.round(((n_speed - 1) * 100)).toString() + '%';
+        return Math.round((n_speed + 0.2) * 100).toString() + '%';
+
     }
 
     function convertTimbre(timbre) {
         let result = Math.round(((Number(timbre) - 1) * 50)).toString() + '%';
         //because timbre needs sign in SSml tag for Aws
-        if(result > 0){
+        if(result >= 0){
             return '+' + result;
         }
         return result;
