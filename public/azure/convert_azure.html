@@ -14,16 +14,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Zen+Tokyo+Zoo&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
         integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    
-
-
     <style>
         html,
         body {
             min-height: 100%;
             background-color: rgba(255, 255, 255, 0.18)
         }
-        
+
         body,
         div,
         form,
@@ -62,17 +59,18 @@
             z-index: 2;
             line-height: 83px;
         }
+
         #wrapper {
-  display: flex;
-}
+            display: flex;
+        }
 
-#left {
-  flex: 0 0 50%;
-}
+        #left {
+            flex: 0 0 50%;
+        }
 
-#right {
-  flex: 1;
-}
+        #right {
+            flex: 1;
+        }
 
         form {
             margin: auto;
@@ -85,6 +83,7 @@
             background: #fff;
             box-shadow: 0 0 8px #cc7a00;
         }
+
         .banner {
             position: relative;
             height: 350px;
@@ -159,6 +158,7 @@
             background: #ff9800;
             color: #ffffff;
         }
+
         .button1 {
   background-color: #ff990076;
   border: 2px solid #ff9800;
@@ -233,10 +233,12 @@ table {
             }
 
         }
-p{
-    height: auto;
-    position:relative;
-}
+
+        p {
+            height: auto;
+            position: relative;
+        }
+
         @keyframes myani {
             0% {
                 -webkit-transform: translateX(-100px);
@@ -254,66 +256,72 @@ p{
                 opacity: 0;
             }
         }
+
         svg#play {
-  width:50px;
- margin: 2px auto;
- display:block;
-  cursor: pointer;
-  transform-origin: 50% 50%;
-}
+            width: 50px;
+            margin: 2px auto;
+            display: block;
+            cursor: pointer;
+            transform-origin: 50% 50%;
+        }
 
-svg#play #triangle {
-  fill:rgba(22,22,22,0);
-  transition:500ms;
-  transform-origin: 50% 50%;
-}
-svg#play:hover #triangle {
-  fill:#000000;
-  transform-origin: 50% 50%;
-}
+        svg#play #triangle {
+            fill: rgba(22, 22, 22, 0);
+            transition: 500ms;
+            transform-origin: 50% 50%;
+        }
 
- svg #lineOne, svg #lineTwo {
-  transform-origin: 50% 50%;
-  transition: 1s;
-} 
+        svg#play:hover #triangle {
+            fill: #000000;
+            transform-origin: 50% 50%;
+        }
 
- svg:hover #lineOne {
-  transform: rotate(260deg);
-   -webkit-transform: rotate(260deg);
--moz-transform: rotate(260deg);
--o-transform: rotate(260deg);
-   transform-origin: 50% 50%;
-} 
+        svg #lineOne,
+        svg #lineTwo {
+            transform-origin: 50% 50%;
+            transition: 1s;
+        }
 
- svg:hover #lineTwo {
-  transform: rotate(-450deg);
-   transform-origin: 50% 50%;
-} 
-#vbottomdates {
-    color:black;
-    display:block;
-    float:left;
-}
-#vbottomcreator {
-    color:black;
-    display:inline-block;
-}
-#vbottomdevelopment {
-    color:black;
-    display:block;
-    float:right;
-    display:inline-block;
-}
-.center {
-    width:100%;
-    margin:0 auto;
-    display:inline-block;
-    text-align:center;
-}
+        svg:hover #lineOne {
+            transform: rotate(260deg);
+            -webkit-transform: rotate(260deg);
+            -moz-transform: rotate(260deg);
+            -o-transform: rotate(260deg);
+            transform-origin: 50% 50%;
+        }
+
+        svg:hover #lineTwo {
+            transform: rotate(-450deg);
+            transform-origin: 50% 50%;
+        }
+
+        #vbottomdates {
+            color: black;
+            display: block;
+            float: left;
+        }
+
+        #vbottomcreator {
+            color: black;
+            display: inline-block;
+        }
+
+        #vbottomdevelopment {
+            color: black;
+            display: block;
+            float: right;
+        }
+
+        .center {
+            width: 100%;
+            margin: 0 auto;
+            display: inline-block;
+            text-align: center;
+        }
     </style>
 </head>
+
 <body>
-    
         <img src="backg.jpg" width="100%" 
         height="100%" style="position: absolute;  right: 0px; top: 0px;"/>
         <div style="position: relative; left: 2%; top: 5%;  text-align: center;"> 
@@ -411,13 +419,95 @@ svg#play:hover #triangle {
                     <input type="range" min="0.00" max="3.00" value="1.00" class="slider" step="0.01"
                         id="myRangeSpeedAws">
                 </div>
-                <br>
-                <label>Pitch</label>
-                <div class="slidecontainerPitch">
-                    <output id="rangevaluePitchAws">1</output>
-                    <input type="range" min="0.00" max="2.00" value="1.00" class="slider" step="0.02" id="myRangePitchAws">
+                <div id="right"> <label>Pitch</label>
+                    <div class="slidecontainerPitch">
+                        <output id="rangevaluePitch">1</output>
+                        <input type="range" min="0.00" max="2.00" value="1.00" class="slider" step="0.02"
+                            id="myRangePitch">
+                    </div>
                 </div>
+            </div>
+            <br>
 
+            <div id="leftbox">
+                <button id="settingsBtn" type="button">Confirm these settings for the slide</button>
+            </div>
+
+
+            <div id="middlebox">
+                <button id="test" title="test" class="button button1" type="button"
+                    style="background-color: #ff990068;">
+                    <svg id="play" viewBox="0 0 163 163" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"="0px">
+                        <g fill="none">
+                            <g transform="translate(2.000000, 2.000000)" stroke-width="4">
+                                <path
+                                    d="M10,80 C10,118.107648 40.8923523,149 79,149 L79,149 C117.107648,149 148,118.107648 148,80 C148,41.8923523 117.107648,11 79,11"
+                                    id="lineOne" stroke="#403e3d"></path>
+                                <path
+                                    d="M105.9,74.4158594 L67.2,44.2158594 C63.5,41.3158594 58,43.9158594 58,48.7158594 L58,109.015859 C58,113.715859 63.4,116.415859 67.2,113.515859 L105.9,83.3158594 C108.8,81.1158594 108.8,76.6158594 105.9,74.4158594 L105.9,74.4158594 Z"
+                                    id="triangle" stroke="#403e3d"></path>
+                                <path
+                                    d="M159,79.5 C159,35.5933624 123.406638,0 79.5,0 C35.5933624,0 0,35.5933624 0,79.5 C0,123.406638 35.5933624,159 79.5,159 L79.5,159"
+                                    id="lineTwo" stroke="#403e3d"></path>
+                            </g>
+                        </g>
+                    </svg></button>
+            </div>
+
+            <div id="rightbox">
+                <button id="allsettingsBtnAzure" type="button">Confirm these settings for all slides</button>
+            </div>
+
+
+            <br><br><br><br><br><br><br>
+            <button id="convertBtn" class="button" type="button" style="font-size: 60px; width: 700px;">Start
+                conversion</button>
+        </form>
+    </div>
+    <form id="DownBtn" action="download" method="post" style="width:50%; position: relative; left: 2%;">
+        <div>
+            <input id="hidInp" type="hidden" name="dwnFile" position="relative">
+            <button type="submit" id="dwn">Download my lesson</button>
+            <button id="return" hidden="hidden" onclick="document.location='home/index.html'">Done, return to
+                homepage</button>
+        </div>
+    </form>
+    <label>Aws Languages</label>
+
+    <select id="languageOptionsAws" disabled>
+        <option>Please update voice list first.</option>
+    </select>
+    <br><br>
+    <label>Aws Voices</label>
+
+    <select id="voiceOptionsAws" disabled>
+        <option>Please update voice list first.</option>
+    </select>
+    <br><br>
+    <label>Voice Timbre</label>
+    <div class="slidecontainerTimbre">
+        <output id="rangevalueTimbreAws">1</output>
+        <input type="range" min="0.00" max="3.00" value="1.00" class="slider" step="0.02" id="timbreRangeAws">
+    </div>
+    <br>
+    <label>Speaking speed</label>
+    <div class="slidecontainerSpeed">
+        <output id="rangevalueSpeedAws">0.80</output>
+        <input type="range" min="0.00" max="1.80" value="0.80" class="slider" step="0.01" id="myRangeSpeedAws">
+    </div>
+    <br>
+    <label>Pitch</label>
+    <div class="slidecontainerPitch">
+        <output id="rangevaluePitchAws">1</output>
+        <input type="range" min="0.00" max="2.00" value="1.00" class="slider" step="0.02" id="myRangePitchAws">
+    </div>
+    <div>
+        <button id="settingsBtnAws" type="button">Confirm these settings for the slide</button>
+    </div>
+    <div id="rightbox">
+        <button id="allsettingsBtnAws" type="button">Confirm these settings for all slides</button>
+    </div>
     <div id="error"></div>
 </body>
 

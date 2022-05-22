@@ -4,11 +4,13 @@
     let speedSlider = document.getElementById('myRangeSpeedAws');
     let pitchSlider = document.getElementById('myRangePitchAws');
     let timbreSlider = document.getElementById('timbreRangeAws');
+    let settingsButton = document.getElementById('settingsBtnAws');
+    let allsettingsBtn = document.getElementById('allsettingsBtnAws');
     let selectedVoice;
     let selectedEngine;
-    let selectedSpeed;
-    let selectedPitch;
-    let selectedTimbre;
+    let selectedSpeed = speedSlider.value;
+    let selectedPitch = pitchSlider.value;
+    let selectedTimbre = timbreSlider.value;
     let voices = [];
     let names_engine = [];
     let languages = [];
@@ -26,13 +28,12 @@
         this.pitch = pitch;
     }
 
-    (async function init() {
+    (async function initAws() {
         configAws();
         await getVoices();
         getLanguages(voices);
         fillMap();
         loadLanguages();
-        console.log(hello);
     })();
 
     function configAws() {
@@ -103,38 +104,36 @@
     function loadNames(language) {
         voiceOptions.innerHTML = "";
         let names = mapLanguageName.get(language);
-        names.forEach((element) => {
-            element.SupportedEngines.forEach((engine) => {
+        names.forEach((element, i) => {
+            element.SupportedEngines.forEach((engine, j) => {
+                if(i === 0 && j === 0){
+                    selectedVoice = element.Name;
+                    selectedEngine = engine;
+                }
                 voiceOptions.innerHTML += "<option value=\"" + element.Name + "-" + engine + "\">" +
                     element.Name + " (" + engine + ")" + "</option>";
                 names_engine.push(element.Name + '-' + engine);
             })
         })
-        voiceOptions.selectedIndex = 0;
         voiceOptions.disabled = false;
     }
 
 
     function convertSpeed(speed) {
         let n_speed = Number(speed);
-        if(n_speed < 1.2){
-            return '20%';
-        }
-        return Math.round(((n_speed - 1) * 100)).toString() + '%';
-    }
+        return Math.round((n_speed + 0.2) * 100).toString() + '%';
 
-    function convertPitch(pitch) {
-        return Math.round(((Number(pitch) - 1) * 50)).toString() + '%';
     }
 
     function convertTimbre(timbre) {
         let result = Math.round(((Number(timbre) - 1) * 50)).toString() + '%';
         //because timbre needs sign in SSml tag for Aws
-        if(result > 0){
+        if(result >= 0){
             return '+' + result;
         }
         return result;
     }
+
 
     document.addEventListener('click', function (event) {
         if (languages.includes(event.target.value)) {
@@ -146,7 +145,6 @@
             selectedEngine = split[1];
             console.log('check');
         }
-
 
     }, false)
 
@@ -163,6 +161,17 @@
     timbreSlider.addEventListener('change', () => {
         selectedTimbre = timbreSlider.value;
         document.getElementById('rangevalueTimbreAws').textContent = timbreSlider.value;
+    })
+
+    settingsButton.addEventListener('click', () => {
+        let modifiedSettings = new Settings(selectedVoice, selectedEngine, convertTimbre(selectedTimbre),convertSpeed(selectedSpeed),convertPitch(selectedPitch));
+        modifySettings(allsettings, modifiedSettings, selectedSlide);
+        console.log('check if the selected slide has been modified');
+    })
+
+    allsettingsBtn.addEventListener('click', () => {
+        let settingsAllSlides = new Settings(selectedVoice, selectedEngine, convertTimbre(selectedTimbre),convertSpeed(selectedSpeed),convertPitch(selectedPitch));
+        modifyAllSettings(allsettings, settingsAllSlides);
     })
 
 }
