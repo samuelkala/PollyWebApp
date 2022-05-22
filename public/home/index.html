@@ -16,9 +16,11 @@
         body {
             min-height: 100%;
         }
+
         .wrapper {
-    text-align: center;
+            text-align: center;
         }
+
         body,
         div,
         form,
@@ -73,7 +75,7 @@
             position: relative;
             height: 280px;
             background-image: url("home/logopolly.jpg");
-            background-size:cover;
+            background-size: cover;
             background-repeat: no-repeat;
             display: flex;
             justify-content: center;
@@ -223,48 +225,40 @@
     </style>
 
 </head>
+<body>
+    <img src="home/background.jpg" width="100%" height="100%" style="position: absolute;  right: 0px; top: 0px;" />
 
-<body>       
-    <img src="home/background.jpg" width="100%" 
-    height="100%" style="position: absolute;  right: 0px; top: 0px;"/>
+    <div style="position: relative; left: 2%; top: 5%; text-align: center;">
 
-    <div style="position: relative; left: 2%; top: 5%; text-align: center;"> 
+        <form id="DownBtn" action="download" method="post" style="width:50%">
+            <br>
+            <div class="banner"></div>
+            <h3 style="font-size: 40px; color: rgb(255, 136, 0);">Create your lesson easily!</h3>
+            <br>
+            <div id="UpBtn">
+                <input type="file" id="inpFile">
+                <button id="btnUpload">Upload this file</button>
+            </div>
+            <div>
+                <h2 id="error">Please upload a new pptx file to convert</h2>
+            </div>
+            <div>
+                <h2 id="done">Your lesson has been downloaded</h2>
+            </div>
 
-    <form  id="DownBtn" action="download" method="post" style="width:50%">
-        <br>
-        <div class="banner"></div>
-        <h3 style="font-size: 40px; color: rgb(255, 136, 0);">Create your lesson easily!</h3>
-        <br>
-        <div>
-            <input id="hidInp" type="hidden" name="dwnFile" position="relative">
-            <button type="submit" id="dwn">Download my lesson</button>
+            <div class="loader" id="LoadDots" style="display: none;">
+                <div class="dots"></div>
+                <div class="dots"></div>
+                <div class="dots"></div>
+                <div class="dots"></div>
+                <div class="dots"></div>
+            </div>
+            <br>
+        </form>
+        <div class="wrapper">
+            <button id="voiceset" onclick="document.location='azure/convert_azure.html'">Continue to
+                voice customization</button>
         </div>
-
-    <div id="UpBtn">
-        <input type="file" id="inpFile">
-        <button id="btnUpload">Upload this file</button>
     </div>
-    <div>
-        <h2 id="error" >Please upload a new pptx file to convert</h2>
-    </div>
-    <div>
-        <h2 id="done" >Your lesson has been downloaded</h2>
-    </div>
-
-    <div class="loader" id="LoadDots" style="display: none;">
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-    </div>
-    <br>
-</form>
-    <div class="wrapper">
-<button id="voiceset" hidden= "hidden" onclick="document.location='azure/convert_azure.html'">Continue to voice customization</button>
-</div></div>
-
-
 </body>
-
 </html>

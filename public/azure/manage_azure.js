@@ -3,8 +3,9 @@
 let allsettings = [];
 let slideNumber = document.getElementById('slidenumber');
 let allSlides = [];
+let number_of_slides = localStorage.getItem('n_slides');
 let selectedSlide = '1';
-let number_of_slides = 11;
+let file_to_download = localStorage.getItem('filename');
 
 function modifySettings(allsettings, settings, selectedSlide) {
     //put in the selectedSlide the new settings
@@ -25,10 +26,7 @@ function convertPitch(pitch) {
 
 
 {
-
-    //now hardcoded 
-    //We will get the info about the number_of_slides server side
-    let file_to_download = localStorage.getItem('filename');
+    
     let authorizationToken;
     let region;
     let authorizationendpoint = '../azure_convert/api/get-speech-token';
@@ -292,8 +290,6 @@ function convertPitch(pitch) {
             file_to_download : file_to_download,
             settings : allsettings
         });
-        download_button.style.display = 'inline';
-
         try {
             const response = await fetch('../azure_convert/getconvparams', {
                 method: 'POST',
@@ -303,6 +299,7 @@ function convertPitch(pitch) {
                 body: settings_to_send
             });
             const info = await response.json();
+            download_button.style.display = 'inline';
             console.log(info);
         } catch (error) {
             console.log(error);

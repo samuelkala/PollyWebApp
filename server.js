@@ -4,9 +4,21 @@ const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const azureRouter = require('./routes/azure');
+const camaro = require('camaro');
+const {unzip} = require('./libs/compress');
 const port = 3000;
 const app = express();
+const relPath = './SharedFolder/pptx/';
+const template = {
+  data: '//Slides'
+}
+
 require('dotenv').config();
+
+//xml tag where to get the number of Slides
+
+
+
 
 app.use(express.static('public'));
 app.use(express.json());
@@ -37,8 +49,28 @@ function uploadFile(req, res, next) {
       console.log('Unknown error occured');
     }
     // Everything went fine. 
-    next()
+    next();
   })
+}
+
+async function getNumberOfSlides(req, res, next){
+  try {
+    let fileName = req.file.filename;
+    let fileNameSplit = fileName.split('.');
+    fileName = fileNameSplit[0];
+    let fileExt = fileNameSplit[1];
+    fs.renameSync(`${relPath}${fileName}.${fileExt}`, `${relPath}${fileName}.zip`);
+    await unzip(`${relPath}${fileName}.zip`, `${relPath}${fileName}`)
+    let data = fs.readFileSync(`${relPath}${fileName}` + '/docProps/app.xml', 'utf8')
+    let xml = data;
+    let number_of_slides = await camaro.transform(xml, template);
+    res.locals.number_of_slides = number_of_slides.data;
+    res.locals.fileName = fileName + '.' + fileExt;
+  } catch (err) {
+    console.error(err)
+  }
+  
+  next();
 }
 
 app.get('/',function(req,res) {
@@ -46,11 +78,15 @@ app.get('/',function(req,res) {
 });
 
 
-app.post('/upload-ppt', uploadFile, (req, res) => {
+app.post('/upload-ppt', uploadFile, getNumberOfSlides , (req, res) => {
   if (req.file == null) {
     res.sendStatus(400).send('error while uploading the file!');
   } else {
-    res.send(JSON.stringify(req.file.filename));
+    let to_send = {
+      number_of_slides: res.locals.number_of_slides,
+      file_to_download: res.locals.fileName
+    }
+    res.send(JSON.stringify(to_send));
   }
 }
 )
@@ -65,7 +101,7 @@ app.post('/download', (req, res) => {
   });
 })
 
-//start app 
-app.listen(port, () =>
-  console.log(`App is listening on port ${port}.`)
-)
+
+app.listen(port, () => {
+  console.log('App is listening on port ' + `${port}`);
+})

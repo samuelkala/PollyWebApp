@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const { unzip, zipMulti } = require('./compress');
+const { zipMulti } = require('./compress');
 const { removeDir } = require('./removeDir')
 
 const  { addAudioToSlides } = require('./addAudioToSlides');
@@ -35,9 +35,8 @@ async function processPPTXFile(fileName, settings) {
     let fileNameSplit = fileName.split('.')
     fileName = fileNameSplit[0];
     let fileExt = fileNameSplit[1];
-
-    fs.renameSync(`${relPath}${fileName}.${fileExt}`, `${relPath}${fileName}.zip`);
-    await unzip(`${relPath}${fileName}.zip`, `${relPath}${fileName}`)
+    /* fs.renameSync(`${relPath}${fileName}.${fileExt}`, `${relPath}${fileName}.zip`);
+    await unzip(`${relPath}${fileName}.zip`, `${relPath}${fileName}`) */
 
     await addAudioToSlides(`${relPath}${fileName}`)
     

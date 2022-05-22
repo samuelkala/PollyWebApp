@@ -17,7 +17,7 @@ const Polly = new AWS.Polly({
  */
 async function generateAudioAws (params, fileName, audioPath) {
     return new Promise((resolve, reject) => {
-        console.log('\nGenerating Audio');
+        console.log('\nGenerating Audio Aws...');
         Polly.synthesizeSpeech(params, (err, data) => {
             if (err) {
                 if (err.hasOwnProperty('originalError')) {

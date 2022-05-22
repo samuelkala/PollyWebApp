@@ -1,19 +1,16 @@
 {
     let upload_button = document.getElementById('btnUpload');
-    let download_button = document.getElementById('dwn');
     let loadingDots = document.getElementById('LoadDots');
-    let hidInput = document.getElementById('hidInp');
     let missingMessage = document.getElementById('error');
     let doneMessage = document.getElementById('done');
     let voiceSet = document.getElementById('voiceset');
-    download_button.style.display = 'none';
+    voiceSet.style.display = 'none';
     const inpFile = document.getElementById('inpFile');
     let formData;
 
     upload_button.addEventListener('click', async (e) => {
         e.preventDefault();
-        //alert.innerHTML = "";    
-        download_button.style.display = 'none';
+        voiceSet.style.display = 'none';
         missingMessage.style.display = 'none';
         doneMessage.style.display = 'none';
         loadingDots.style.display = 'inline';
@@ -24,13 +21,11 @@
                 method: 'POST',
                 body: formData
             });
-            let file_to_download = await response.json();
-            localStorage.setItem('filename', file_to_download);
-            hidInput.setAttribute("value", `${file_to_download}`);
+            let info = await response.json();
+            localStorage.setItem('filename', info.file_to_download);
+            localStorage.setItem('n_slides', info.number_of_slides);
             loadingDots.style.display = 'none';
-            voiceset.removeAttribute("hidden");
-//            download_button.style.display = 'inline';
-
+            voiceSet.style.display = 'inline'
         } catch (err) {
             /* alert.innerHTML = "";
             alert.innerHTML = "Error during upload! Please try again!" */
@@ -39,15 +34,5 @@
         }
     });
 
-    download_button.addEventListener('click', () => {
-        download_button.style.display = 'none';
-        doneMessage.style.display = 'inline';
-        document.getElementById('inpFile').value = '';
-    })
-
 }
-
-/* export {
-    file_to_download,
-}; */
 
