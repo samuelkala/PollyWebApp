@@ -261,7 +261,6 @@ function convertPitch(pitch) {
             selectedSlide = event.target.value;
             console.log(selectedSlide);
         }
-
     }, false)
 
     settingsButton.addEventListener('click', () => {
@@ -319,6 +318,44 @@ function convertPitch(pitch) {
  //      tryAudioAzure();    
 
     })
-
     
 }
+
+
+
+function selectService() {
+    let tts = document.getElementById("tts")
+    let lAzure = document.getElementById('lAzure');
+    let vAzure = document.getElementById('vAzure');
+    let sAzure = document.getElementById('sAzure');
+    let slidecontainerSpeed = document.getElementById('slidecontainerSpeed');
+    let slidecontainerPitch = document.getElementById('slidecontainerPitch');
+    let lAws = document.getElementById('lAws');
+    let vAws = document.getElementById('vAws');
+    let tAws = document.getElementById('tAws');
+    let sAws = document.getElementById('sAws');
+    let pAws = document.getElementById('pAws');
+    if (tts.value == "microsoft") {
+        lAzure.removeAttribute("hidden");
+        vAzure.removeAttribute("hidden");
+        sAzure.removeAttribute("hidden");
+        slidecontainerSpeed.removeAttribute("hidden");
+        slidecontainerPitch.removeAttribute("hidden");
+        lAws.setAttribute("hidden","hidden");
+        vAws.setAttribute("hidden","hidden");
+        tAws.setAttribute("hidden","hidden");
+        sAws.setAttribute("hidden","hidden");
+        pAws.setAttribute("hidden","hidden");
+    } else {
+        lAws.removeAttribute("hidden");
+        vAws.removeAttribute("hidden");
+        tAws.removeAttribute("hidden");
+        sAws.removeAttribute("hidden");
+        pAws.removeAttribute("hidden");
+        lAzure.setAttribute("hidden","hidden");
+        vAzure.setAttribute("hidden","hidden");
+        sAzure.setAttribute("hidden","hidden");
+        slidecontainerSpeed.setAttribute("hidden","hidden");
+        slidecontainerPitch.setAttribute("hidden","hidden");
+}  }
+    
