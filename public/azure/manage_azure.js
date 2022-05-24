@@ -22,6 +22,9 @@ download_button.style.display = 'none';
 //returnbutton.style.display = 'none';
 errorAlert.innerHTML = "";
 hidInput.value = file_to_download;
+let loadingDots = document.getElementById('LoadDots');
+let doneMessage = document.getElementById('done');
+
 
 
 function modifySettings(allsettings, settings, selectedSlide) {
@@ -302,6 +305,8 @@ function convertPitch(pitch) {
             file_to_download: file_to_download,
             settings: allsettings
         });
+        doneMessage.style.display = 'none';
+        loadingDots.style.display = 'inline';
         try {
             const response = await fetch('../azure_convert/getconvparams', {
                 method: 'POST',
@@ -311,9 +316,11 @@ function convertPitch(pitch) {
                 body: settings_to_send
             });
             await response.json();
+            loadingDots.style.display = 'none';
             download_button.style.display = 'inline';
 
         } catch (error) {
+            loadingDots.style.display = 'none';
             console.log(error);
             errorAlert.innerHTML = "Error during the convertion. Return to Home and retry!";
             returnbutton.style.display = 'inline';
@@ -325,7 +332,7 @@ function convertPitch(pitch) {
 
 download_button.addEventListener('click', async () => {
     download_button.style.display = 'none';
-
+    doneMessage.style.display = 'inline';
 })
 
 function selectService() {

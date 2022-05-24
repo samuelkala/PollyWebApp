@@ -231,20 +231,18 @@
             <div>
                 <h2 id="error">Please upload a new pptx file to convert</h2>
             </div>
-            <div>
-                <h2 id="done">Your lesson has been downloaded</h2>
+                <div class="loader" id="LoadDots" style="display: none;">
+                <div class="dots"></div>
+                <div class="dots"></div>
+                <div class="dots"></div>
+                <div class="dots"></div>
+                <div class="dots"></div>
             </div>
 
-            <div class="loader" id="LoadDots" style="display: none;">
-                <div class="dots"></div>
-                <div class="dots"></div>
-                <div class="dots"></div>
-                <div class="dots"></div>
-                <div class="dots"></div>
-            </div>
             <br>
         </form>
-        <div class="wrapper">
+
+            <div class="wrapper">
             <button id="voiceset" onclick="document.location='azure/convert_azure.html'">Continue to
                 voice customization</button>
         </div>

@@ -103,7 +103,17 @@
             align-items: center;
             text-align: center;
         }
-
+        form1 {
+            margin: auto;
+            margin-top: 50px;
+            margin-bottom: 30px;
+            text-align: center;
+            width: 80%;
+            padding: 20px;
+            border-radius: 6px;
+            background: #fff;
+            box-shadow: 0 0 8px #ffffff;
+        }
         input,
         select,
         textarea {
@@ -474,10 +484,24 @@
         </form>
     </div>
     <div>
-        <form method="post" action="../download">
+        <form class="form form1" method="post" action="../download">
             <input id="hidInp" type="hidden" name="dwnFile" position="relative">
             <button type="submit" id="dwn" class="button button2" type="button">Download my lesson</button>
+            <div class="loader" id="LoadDots" style="display: none;">
+                <div class="dots"></div>
+                <div class="dots"></div>
+                <div class="dots"></div>
+                <div class="dots"></div>
+                <div class="dots"></div>
+            </div>
+            <div>
+                <h2 id="done">Your lesson has been downloaded</h2>
+            </div>
         </form>
+        <div>
+            <h2 id="done">Your lesson has been downloaded</h2>
+        </div>
+
         <button id="return"  onclick="document.location='/'"> Return to
             Homepage</button>
     </div>
