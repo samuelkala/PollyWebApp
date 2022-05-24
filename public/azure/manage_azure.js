@@ -6,38 +6,52 @@ let allSlides = [];
 let number_of_slides = localStorage.getItem('n_slides');
 let selectedSlide = '1';
 let file_to_download = localStorage.getItem('filename');
+let tts = document.getElementById("tts")
+let lAzure = document.getElementById('lAzure');
+let vAzure = document.getElementById('vAzure');
+let sAzure = document.getElementById('sAzure');
+let slidecontainerSpeed = document.getElementById('slidecontainerSpeed');
+let slidecontainerPitch = document.getElementById('slidecontainerPitch');
+let settingsBtn = document.getElementById('settingsBtn');
+let allsettingsBtn = document.getElementById('allsettingsBtn');
+let download_button = document.getElementById('dwn');
+let returnbutton = document.getElementById('return');
+let errorAlert = document.getElementById('error');
+let hidInput = document.getElementById('hidInp');
+download_button.style.display = 'none';
+//returnbutton.style.display = 'none';
+errorAlert.innerHTML = "";
+hidInput.value = file_to_download;
+
 
 function modifySettings(allsettings, settings, selectedSlide) {
     //put in the selectedSlide the new settings
     allsettings[Number(selectedSlide) - 1] = settings;
     console.log('check if slide modified correctly');
-}    
+}
 
-function modifyAllSettings(allsettings, settings){
-    for(let i = 0; i < allsettings.length; i++){
+function modifyAllSettings(allsettings, settings) {
+    for (let i = 0; i < allsettings.length; i++) {
         allsettings[i] = settings;
     }
     console.log('check if slides modified correctly');
 }
-    
+
 function convertPitch(pitch) {
     return Math.round(((Number(pitch) - 1) * 50)).toString() + '%';
 }
 
 
 {
-    
+
     let authorizationToken;
     let region;
     let authorizationendpoint = '../azure_convert/api/get-speech-token';
-    let errorAlert = document.getElementById('error');
     let languageOptions = document.getElementById('languageOptions');
     let voiceOptions = document.getElementById('voiceOptions');
     let styleOptions = document.getElementById('styleOptions');
-    let settingsButton = document.getElementById('settingsBtn');
     let speedSlider = document.getElementById('myRangeSpeed');
     let pitchSlider = document.getElementById('myRangePitch');
-    let allsettingsBtn = document.getElementById('allsettingsBtnAzure')
     let convertButton = document.getElementById('convertBtn');
     let testButton = document.getElementById('test');
     let mapLanguageName = new Map();
@@ -48,17 +62,14 @@ function convertPitch(pitch) {
     let selectedLanguage;
     //to send to the server for SSML synthesis
     let selectedVoice;
-    
+
     //initialize speed and pitch with the html default values
     let selectedSpeed = speedSlider.value;
     let selectedPitch = pitchSlider.value;
     let speakingStyle;
     // variable to track the maximum number of styles of all the available voices
     let maxStyles = 0;
-    let download_button = document.getElementById('dwn');
-    let returnbutton = document.getElementById('return');
-    download_button.style.display = 'none';
-    returnbutton.style.display = 'none';
+
 
 
     function Name(LocalName, ShortName, StyleList) {
@@ -120,7 +131,7 @@ function convertPitch(pitch) {
         });
 
         let styles = voice.StyleList;
-        
+
         styleOptions.innerHTML = "";
         if (styles != undefined) {
             styleOptions.innerHTML += "<option value=style0>general</option>";
@@ -205,7 +216,6 @@ function convertPitch(pitch) {
             console.log('Token fetched from back-end: ' + authorizationToken);
         } catch (err) {
             console.log(err);
-            errorAlert.innerHTML = "";
             errorAlert.innerHTML = 'error while getting authorization Token! Reload the WebPage!';
         }
     }
@@ -226,7 +236,6 @@ function convertPitch(pitch) {
             loadLanguages();
         } catch (err) {
             console.log(err);
-            errorAlert.innerHTML = "";
             errorAlert.innerHTML = "Error during the retrieving of available voices. Reload the Web Page";
         }
     }
@@ -252,7 +261,7 @@ function convertPitch(pitch) {
             console.log(selectedVoice);
         }
         if (allStyles.includes(event.target.value)) {
-            let selectedStyle = styleOptions.options[styleOptions.selectedIndex]; 
+            let selectedStyle = styleOptions.options[styleOptions.selectedIndex];
             speakingStyle = selectedStyle.text;
             console.log(speakingStyle);
         }
@@ -263,10 +272,12 @@ function convertPitch(pitch) {
         }
     }, false)
 
-    settingsButton.addEventListener('click', () => {
-        let modifiedSettings = new Settings(selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
-        modifySettings(allsettings, modifiedSettings, selectedSlide);
-        console.log('check if the selected slide has been modified');
+    settingsBtn.addEventListener('click', () => {
+        if (tts.value === 'microsoft') {
+            let modifiedSettings = new Settings(selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
+            modifySettings(allsettings, modifiedSettings, selectedSlide);
+            console.log('check if the selected slide has been modified');
+        }
     })
 
     speedSlider.addEventListener('change', () => {
@@ -280,14 +291,16 @@ function convertPitch(pitch) {
     })
 
     allsettingsBtn.addEventListener('click', () => {
-        let settingsAllSlides = new Settings(selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
-        modifyAllSettings(allsettings, settingsAllSlides);
+        if (tts.value === 'microsoft') {
+            let settingsAllSlides = new Settings(selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
+            modifyAllSettings(allsettings, settingsAllSlides);
+        }
     })
 
     convertButton.addEventListener('click', async () => {
         let settings_to_send = JSON.stringify({
-            file_to_download : file_to_download,
-            settings : allsettings
+            file_to_download: file_to_download,
+            settings: allsettings
         });
         try {
             const response = await fetch('../azure_convert/getconvparams', {
@@ -297,65 +310,48 @@ function convertPitch(pitch) {
                 },
                 body: settings_to_send
             });
-            const info = await response.json();
+            await response.json();
             download_button.style.display = 'inline';
-            console.log(info);
+
         } catch (error) {
             console.log(error);
-            console.log('error during the sending of the parameters');
+            errorAlert.innerHTML = "Error during the convertion. Return to Home and retry!";
+            returnbutton.style.display = 'inline';
         }
 
     })
-    download_button.addEventListener('click', () => {
-        download_button.style.display = 'none';
-        returnbutton.style.display = 'inline';
-  //      document.getElementById('inpFile').value = '';
-    })
 
-    testButton.addEventListener('click', async () => {
-       console.log('audio started');
-//       var  tryAudioAzure = require('libs\azureConvert.js'); 
- //      tryAudioAzure();    
-
-    })
-    
 }
 
+download_button.addEventListener('click', async () => {
+    download_button.style.display = 'none';
 
+})
 
 function selectService() {
-    let tts = document.getElementById("tts")
-    let lAzure = document.getElementById('lAzure');
-    let vAzure = document.getElementById('vAzure');
-    let sAzure = document.getElementById('sAzure');
-    let slidecontainerSpeed = document.getElementById('slidecontainerSpeed');
-    let slidecontainerPitch = document.getElementById('slidecontainerPitch');
-    let lAws = document.getElementById('lAws');
-    let vAws = document.getElementById('vAws');
-    let tAws = document.getElementById('tAws');
-    let sAws = document.getElementById('sAws');
-    let pAws = document.getElementById('pAws');
     if (tts.value == "microsoft") {
         lAzure.removeAttribute("hidden");
         vAzure.removeAttribute("hidden");
         sAzure.removeAttribute("hidden");
         slidecontainerSpeed.removeAttribute("hidden");
         slidecontainerPitch.removeAttribute("hidden");
-        lAws.setAttribute("hidden","hidden");
-        vAws.setAttribute("hidden","hidden");
-        tAws.setAttribute("hidden","hidden");
-        sAws.setAttribute("hidden","hidden");
-        pAws.setAttribute("hidden","hidden");
+        lAws.setAttribute("hidden", "hidden");
+        vAws.setAttribute("hidden", "hidden");
+        tAws.setAttribute("hidden", "hidden");
+        sAws.setAttribute("hidden", "hidden");
+        pAws.setAttribute("hidden", "hidden");
     } else {
         lAws.removeAttribute("hidden");
         vAws.removeAttribute("hidden");
         tAws.removeAttribute("hidden");
         sAws.removeAttribute("hidden");
         pAws.removeAttribute("hidden");
-        lAzure.setAttribute("hidden","hidden");
-        vAzure.setAttribute("hidden","hidden");
-        sAzure.setAttribute("hidden","hidden");
-        slidecontainerSpeed.setAttribute("hidden","hidden");
-        slidecontainerPitch.setAttribute("hidden","hidden");
-}  }
-    
+        lAzure.setAttribute("hidden", "hidden");
+        vAzure.setAttribute("hidden", "hidden");
+        sAzure.setAttribute("hidden", "hidden");
+        slidecontainerSpeed.setAttribute("hidden", "hidden");
+        slidecontainerPitch.setAttribute("hidden", "hidden");
+    }
+
+}
+

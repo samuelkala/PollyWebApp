@@ -8,23 +8,9 @@ const router = express.Router();
 router.use(pino);
 router.use(cors());
 
-router.get('/', (req, res) => {
-    res.send('azure convertion')
-});
 
 router.post('/getconvparams', startPolly, (req, res) => {
-    let settings = [];
-    settings = req.body.settings;
-
-    /* for(let i = 0; i < settings.length; i++){
-        console.log(settings[0]);
-    } */
-    settings.forEach((element) => {
-        console.log(element.voice);
-    });
-
-    console.log(req.body.file_to_download);
-    //console.log(settings);
+    res.status(200).send({message: 'Convertion terminated successfully'});
 });
 
 router.get('/api/get-speech-token', async (req, res, next) => {
@@ -42,7 +28,7 @@ router.get('/api/get-speech-token', async (req, res, next) => {
         const tokenResponse = await axios.post(`https://${speechRegion}.api.cognitive.microsoft.com/sts/v1.0/issueToken`, null, headers);
         res.send({ token: tokenResponse.data, region: speechRegion });
     } catch (err) {
-        res.status(401).send('There was an error authorizing your speech key.');
+        res.status(401);
     }
 });
 

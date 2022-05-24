@@ -77,7 +77,7 @@ app.get('/',function(req,res) {
 
 app.post('/upload-ppt', uploadFile, getNumberOfSlides , (req, res) => {
   if (req.file == null) {
-    res.sendStatus(400).send('error while uploading the file!');
+    res.sendStatus(500);
   } else {
     let to_send = {
       number_of_slides: res.locals.number_of_slides,
@@ -88,12 +88,13 @@ app.post('/upload-ppt', uploadFile, getNumberOfSlides , (req, res) => {
 }
 )
 
+
 app.post('/download', (req, res) => {
   let file_to_download = './downloads/' + req.body.dwnFile;
   res.download(file_to_download, (err) => {
     if (err) {
-      res.sendStatus(400).send('Error during Download');
-    }
+      res.sendStatus(404);
+    } 
     fs.unlinkSync(file_to_download);
   });
 })

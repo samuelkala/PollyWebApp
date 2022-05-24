@@ -8,7 +8,7 @@ speechConfig.speechSynthesisOutputFormat = AUDIO_FORMAT;
 
 async function generateAudioAzure(text, filename, audiopath) {
   return new Promise((resolve, reject) => {
-    console.log("\Generating Audio Azure...");
+    console.log("\nGenerating Audio Azure...");
     let filePath = audiopath + '/' + filename + '.mp3';
     let audioConfig = sdkAzure.AudioConfig.fromAudioFileOutput(filePath);
     let synthesizer = new sdkAzure.SpeechSynthesizer(speechConfig, audioConfig);

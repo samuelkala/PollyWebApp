@@ -1,11 +1,16 @@
+let lAws = document.getElementById('lAws');
+let vAws = document.getElementById('vAws');
+let tAws = document.getElementById('tAws');
+let sAws = document.getElementById('sAws');
+let pAws = document.getElementById('pAws');
+
+
 {
     let languageOptions = document.getElementById('languageOptionsAws');
     let voiceOptions = document.getElementById('voiceOptionsAws');
     let speedSlider = document.getElementById('myRangeSpeedAws');
     let pitchSlider = document.getElementById('myRangePitchAws');
     let timbreSlider = document.getElementById('timbreRangeAws');
-    let settingsButton = document.getElementById('settingsBtnAws');
-    let allsettingsBtn = document.getElementById('allsettingsBtnAws');
     let selectedVoice;
     let selectedEngine;
     let selectedSpeed = speedSlider.value;
@@ -90,10 +95,10 @@
                 languageOptions.innerHTML += "<option value=\"" + lang + "\">" +
                     lang + "</option>";
             });
-            if(languages.includes('US English')){
+            if (languages.includes('US English')) {
                 languageOptions.selectedIndex = languages.indexOf('US English');
                 loadNames('US English');
-            }else{
+            } else {
                 languageOptions.selectedIndex = 0;
                 loadNames(languages.at(0));
             }
@@ -106,7 +111,7 @@
         let names = mapLanguageName.get(language);
         names.forEach((element, i) => {
             element.SupportedEngines.forEach((engine, j) => {
-                if(i === 0 && j === 0){
+                if (i === 0 && j === 0) {
                     selectedVoice = element.Name;
                     selectedEngine = engine;
                 }
@@ -128,7 +133,7 @@
     function convertTimbre(timbre) {
         let result = Math.round(((Number(timbre) - 1) * 50)).toString() + '%';
         //because timbre needs sign in SSml tag for Aws
-        if(result >= 0){
+        if (result >= 0) {
             return '+' + result;
         }
         return result;
@@ -139,7 +144,7 @@
         if (languages.includes(event.target.value)) {
             loadNames(event.target.value);
         }
-        if(names_engine.includes(event.target.value)){
+        if (names_engine.includes(event.target.value)) {
             let split = event.target.value.split('-');
             selectedVoice = split[0];
             selectedEngine = split[1];
@@ -163,15 +168,19 @@
         document.getElementById('rangevalueTimbreAws').textContent = timbreSlider.value;
     })
 
-    settingsButton.addEventListener('click', () => {
-        let modifiedSettings = new Settings(selectedVoice, selectedEngine, convertTimbre(selectedTimbre),convertSpeed(selectedSpeed),convertPitch(selectedPitch));
-        modifySettings(allsettings, modifiedSettings, selectedSlide);
-        console.log('check if the selected slide has been modified');
+    settingsBtn.addEventListener('click', () => {
+        if (tts.value === 'aws') {
+            let modifiedSettings = new Settings(selectedVoice, selectedEngine, convertTimbre(selectedTimbre), convertSpeed(selectedSpeed), convertPitch(selectedPitch));
+            modifySettings(allsettings, modifiedSettings, selectedSlide);
+            console.log('check if the selected slide has been modified');
+        }
     })
 
     allsettingsBtn.addEventListener('click', () => {
-        let settingsAllSlides = new Settings(selectedVoice, selectedEngine, convertTimbre(selectedTimbre),convertSpeed(selectedSpeed),convertPitch(selectedPitch));
-        modifyAllSettings(allsettings, settingsAllSlides);
+        if (tts.value === 'aws') {
+            let settingsAllSlides = new Settings(selectedVoice, selectedEngine, convertTimbre(selectedTimbre), convertSpeed(selectedSpeed), convertPitch(selectedPitch));
+            modifyAllSettings(allsettings, settingsAllSlides);
+        }
     })
 
 }

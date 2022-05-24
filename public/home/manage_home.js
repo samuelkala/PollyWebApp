@@ -27,8 +27,6 @@
             loadingDots.style.display = 'none';
             voiceSet.style.display = 'inline'
         } catch (err) {
-            /* alert.innerHTML = "";
-            alert.innerHTML = "Error during upload! Please try again!" */
             loadingDots.style.display = 'none';
             missingMessage.style.display = 'inline';
         }
