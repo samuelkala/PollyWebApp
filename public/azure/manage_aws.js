@@ -132,7 +132,7 @@ let pAws = document.getElementById('pAws');
 
     function convertTimbre(timbre) {
         let result = Math.round(((Number(timbre) - 1) * 50)).toString() + '%';
-        //because timbre needs sign in SSml tag for Aws
+        //because timbre needs sign '+' in SSml tag for Aws
         if (result >= 0) {
             return '+' + result;
         }
