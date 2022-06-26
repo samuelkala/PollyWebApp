@@ -3,7 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
-const azureRouter = require('./routes/azure');
+const settingsRouter = require('./routes/settings');
 const camaro = require('camaro');
 const {unzip} = require('./libs/compress');
 const port = 3000;
@@ -19,7 +19,7 @@ require('dotenv').config();
 
 app.use(express.static('public'));
 app.use(express.json());
-app.use('/azure_convert', azureRouter);
+app.use('/settings', settingsRouter);
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
@@ -71,7 +71,7 @@ async function getNumberOfSlides(req, res, next){
 }
 
 app.get('/',function(req,res) {
-  res.sendFile(path.join(__dirname + '/public/home/index.html'));
+  res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 

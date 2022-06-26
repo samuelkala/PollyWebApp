@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const axios = require('axios');
 const pino = require('express-pino-logger')();
 const cors = require('cors');
@@ -8,6 +9,9 @@ const router = express.Router();
 router.use(pino);
 router.use(cors());
 
+router.get('/',(req, res) => {
+    res.sendFile(path.join(__dirname , '..' ,  'public' ,'settings.html'));
+});
 
 router.post('/getconvparams', startPolly, (req, res) => {
     res.status(200).send({message: 'Convertion terminated successfully'});
@@ -40,7 +44,7 @@ async function startPolly(req, res, next) {
       }
     }
     next();
-  }
+}
 
 
 module.exports = router;

@@ -49,7 +49,7 @@ function convertPitch(pitch) {
 
     let authorizationToken;
     let region;
-    let authorizationendpoint = '../azure_convert/api/get-speech-token';
+    let authorizationendpoint = '../settings/api/get-speech-token';
     let languageOptions = document.getElementById('languageOptions');
     let voiceOptions = document.getElementById('voiceOptions');
     let styleOptions = document.getElementById('styleOptions');
@@ -107,9 +107,12 @@ function convertPitch(pitch) {
         }
     }
 
-    function getAllVoices(info, allVoices) {
+    function getAllVoicesLanguages(info, allVoices, allLanguages) {
         info.forEach((element) => {
             allVoices.push(element.ShortName);
+            if(!allLanguages.includes(element.LocaleName)){
+                allLanguages.push(element.LocaleName);
+            }
         });
     }
 
@@ -168,31 +171,25 @@ function convertPitch(pitch) {
     }
 
     function fillMap(info) {
-        if (info[0].LocaleName != undefined) {
-            let curLocale = info[0].LocaleName;
-            let names = [];
-            info.forEach((element) => {
-                if (curLocale === element.LocaleName) {
-                    names.push(new Name(element.LocalName, element.ShortName, element.StyleList));
-                    if (element.StyleList != undefined) {
-                        if (element.StyleList.length > maxStyles) {
-                            maxStyles = element.StyleList.length;
-                        }
+        let peoplespeakinglang = [];
+        let names = [];
+        allLanguages.forEach((lang) => {
+            peoplespeakinglang = info.filter(voice => voice.LocaleName === lang);
+            peoplespeakinglang.forEach((p) => {
+                names.push(new Name(p.LocalName, p.ShortName, p.StyleList));
+                if (p.StyleList != undefined) {
+                    if (p.StyleList.length > maxStyles) {
+                        maxStyles = p.StyleList.length;
                     }
-                } else {
-                    mapLanguageName.set(`${curLocale}`, names);
-                    names = new Array();
-                    curLocale = element.LocaleName;
                 }
             });
-            allLanguages = Array.from(mapLanguageName.keys());
-            for (let i = 0; i <= maxStyles; i++) {
-                allStyles.push('style' + i.toString());
-            }
+            mapLanguageName.set(lang, names);
+            names = new Array();
+        });
+        for (let i = 0; i <= maxStyles; i++) {
+            allStyles.push('style' + i.toString());
         }
     }
-
-
 
     function fillNumberOfSlides() {
         slideNumber.innerHTML = "";
@@ -209,7 +206,7 @@ function convertPitch(pitch) {
     }
 
 
-
+    //this function retrieves the token to get all the available voices and related speaking styles
     async function getAuthorizationToken() {
         try {
             const response = await fetch(authorizationendpoint);
@@ -234,7 +231,7 @@ function convertPitch(pitch) {
                 }
             });
             const info = await response.json();
-            getAllVoices(info, allVoices);
+            getAllVoicesLanguages(info, allVoices, allLanguages);
             fillMap(info);
             loadLanguages();
         } catch (err) {
@@ -308,7 +305,7 @@ function convertPitch(pitch) {
         doneMessage.style.display = 'none';
         loadingDots.style.display = 'inline';
         try {
-            const response = await fetch('../azure_convert/getconvparams', {
+            const response = await fetch('../settings/getconvparams', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -330,7 +327,7 @@ function convertPitch(pitch) {
 
 }
 
-download_button.addEventListener('click', async () => {
+download_button.addEventListener('click', () => {
     download_button.style.display = 'none';
     doneMessage.style.display = 'inline';
 })

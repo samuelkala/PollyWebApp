@@ -29,6 +29,5 @@
             missingMessage.style.display = 'inline';
         }
     });
-
 }
 
