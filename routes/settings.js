@@ -10,6 +10,11 @@ const AWS = require('aws-sdk');
 router.use(pino);
 router.use(cors());
 
+const Polly = new AWS.Polly({
+    signatureVersion: 'v4',
+    region: 'us-east-1'
+})
+
 router.get('/',(req, res) => {
     res.sendFile(path.join(__dirname , '..' , 'public' ,'settings.html'));
 });
@@ -41,11 +46,7 @@ router.get('/api/get-speech-token', async (req, res, next) => {
 
 router.get('/getAwsSettings', async(req, res) => {
     try{
-        const Polly = new AWS.Polly({
-            signatureVersion: 'v4',
-            region: 'us-east-1'
-        })
-        let voices = await getVoices(res,Polly);
+        let voices = await getVoices(res);
         let to_send = {
             voices: voices
         }
@@ -66,8 +67,7 @@ async function startPolly(req, res, next) {
     next();
 }
 
-
-function getVoices(res,Polly) {
+function getVoices(res) {
     let voices = [];
     let params = {};
     return new Promise((resolve, reject) => {
@@ -75,7 +75,7 @@ function getVoices(res,Polly) {
             Polly.describeVoices(params, (err, data) => {
                 if (err) {
                     console.log(err);
-                    reject();
+                    reject('error while retrieving the voices');
                 } else {
                     voices = voices.concat(data.Voices);
                     //if there are a lot of voices a NextToken is released from the response

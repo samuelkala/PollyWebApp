@@ -56,7 +56,6 @@ function convertPitch(pitch) {
     let speedSlider = document.getElementById('myRangeSpeed');
     let pitchSlider = document.getElementById('myRangePitch');
     let convertButton = document.getElementById('convertBtn');
-    let testButton = document.getElementById('test');
     let mapLanguageName = new Map();
     let allLanguages = [];
     let allVoices = [];
@@ -177,10 +176,8 @@ function convertPitch(pitch) {
             peoplespeakinglang = info.filter(voice => voice.LocaleName === lang);
             peoplespeakinglang.forEach((p) => {
                 names.push(new Name(p.LocalName, p.ShortName, p.StyleList));
-                if (p.StyleList != undefined) {
-                    if (p.StyleList.length > maxStyles) {
-                        maxStyles = p.StyleList.length;
-                    }
+                if (p.StyleList != undefined && p.StyleList.length > maxStyles) {
+                    maxStyles = p.StyleList.length;
                 }
             });
             mapLanguageName.set(lang, names);
