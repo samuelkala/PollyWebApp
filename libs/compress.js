@@ -1,4 +1,3 @@
-const path = require('path');
 const fs = require('fs');
 const pump = require('pump');
 const compressing = require('compressing');

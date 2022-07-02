@@ -141,18 +141,11 @@ let pAws = document.getElementById('pAws');
         document.getElementById('rangevalueTimbreAws').textContent = timbreSlider.value;
     })
 
-    settingsBtn.addEventListener('click', () => {
-        if (tts.value === 'aws') {
-            let modifiedSettings = new Settings(selectedVoice, selectedEngine, convertTimbre(selectedTimbre), convertSpeed(selectedSpeed), convertPitch(selectedPitch));
-            modifySettings(allsettings, modifiedSettings, selectedSlide);
-            console.log('check if the selected slide has been modified');
-        }
-    })
 
     allsettingsBtn.addEventListener('click', () => {
         if (tts.value === 'aws') {
-            let settingsAllSlides = new Settings(selectedVoice, selectedEngine, convertTimbre(selectedTimbre), convertSpeed(selectedSpeed), convertPitch(selectedPitch));
-            modifyAllSettings(allsettings, settingsAllSlides);
+            let newsettings = new Settings(selectedVoice, selectedEngine, convertTimbre(selectedTimbre), convertSpeed(selectedSpeed), convertPitch(selectedPitch));
+            modifyAllSettings(newsettings);
         }
     })
 

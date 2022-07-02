@@ -1,4 +1,3 @@
-const path = require('path');
 const fs = require('fs');
 
 const {addAwsSsml} = require('./addSsml');
@@ -19,7 +18,6 @@ async function getNotes(folderPath, settings) {
     return new Promise((resolve, reject) => {
         let texts=[];
 
-        //TODO: Need to absolute path from Driver funcation.
         fs.readdir(folderPath, function (err, files) {
             //handling error
             if (err) {
@@ -49,11 +47,10 @@ async function getNotes(folderPath, settings) {
                             openTextTag = xmlContent.indexOf('<a:t>', closeTextTag)
                         }
                         // Add Ssml tags for azure or polly
-
-                        if(settings[Number(slide_number - 1)].type.localeCompare('azure') === 0){
-                            text = addAzureSsml(text, settings[Number(slide_number) - 1]);
+                        if(settings.type.localeCompare('azure') === 0){
+                            text = addAzureSsml(text, settings);
                         }else{
-                            text = addAwsSsml(text, settings[Number(slide_number) - 1]);
+                            text = addAwsSsml(text, settings);
                         }
 
                         texts.push([slide_number,text]);

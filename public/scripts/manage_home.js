@@ -21,7 +21,6 @@
             });
             let info = await response.json();
             localStorage.setItem('filename', info.file_to_download);
-            localStorage.setItem('n_slides', info.number_of_slides);
             loadingDots.style.display = 'none';
             voiceSet.style.display = 'inline'
         } catch (err) {

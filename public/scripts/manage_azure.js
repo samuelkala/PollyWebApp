@@ -1,10 +1,7 @@
 //Global Variables
-//This array will contain the settings for each slide
-let allsettings = [];
+//This object will contain the settings for all the slides
+let allsettings;
 let slideNumber = document.getElementById('slidenumber');
-let allSlides = [];
-let number_of_slides = localStorage.getItem('n_slides');
-let selectedSlide = '1';
 let file_to_download = localStorage.getItem('filename');
 let tts = document.getElementById("tts")
 let lAzure = document.getElementById('lAzure');
@@ -12,14 +9,12 @@ let vAzure = document.getElementById('vAzure');
 let sAzure = document.getElementById('sAzure');
 let slidecontainerSpeed = document.getElementById('slidecontainerSpeed');
 let slidecontainerPitch = document.getElementById('slidecontainerPitch');
-let settingsBtn = document.getElementById('settingsBtn');
 let allsettingsBtn = document.getElementById('allsettingsBtn');
 let download_button = document.getElementById('dwn');
 let returnbutton = document.getElementById('return');
 let errorAlert = document.getElementById('error');
 let hidInput = document.getElementById('hidInp');
 download_button.style.display = 'none';
-//returnbutton.style.display = 'none';
 errorAlert.innerHTML = "";
 hidInput.value = file_to_download;
 let loadingDots = document.getElementById('LoadDots');
@@ -27,16 +22,8 @@ let doneMessage = document.getElementById('done');
 
 
 
-function modifySettings(allsettings, settings, selectedSlide) {
-    //put in the selectedSlide the new settings
-    allsettings[Number(selectedSlide) - 1] = settings;
-    console.log('check if slide modified correctly');
-}
-
-function modifyAllSettings(allsettings, settings) {
-    for (let i = 0; i < allsettings.length; i++) {
-        allsettings[i] = settings;
-    }
+function modifyAllSettings(newsettings) {
+    allsettings = newsettings;
     console.log('check if slides modified correctly');
 }
 
@@ -93,17 +80,13 @@ function convertPitch(pitch) {
     (async function initAzure() {
         //console.log(localStorage.getItem('filename'));
         await getAuthorizationToken();
-        fillNumberOfSlides();
         await getSettings();
-        //init settings for each slide with default parameters
-        initSettings(allsettings, number_of_slides);
+        initSettings();
         console.log('check if all slides are with default settings');
     })()
 
-    function initSettings(allsettings, number_of_slides) {
-        for (let i = 1; i <= number_of_slides; i++) {
-            allsettings.push(createDefaultSettings());
-        }
+    function initSettings() {
+        allsettings = new Settings(selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
     }
 
     function getAllVoicesLanguages(info, allVoices, allLanguages) {
@@ -188,21 +171,6 @@ function convertPitch(pitch) {
         }
     }
 
-    function fillNumberOfSlides() {
-        slideNumber.innerHTML = "";
-        for (let i = 1; i <= number_of_slides; i++) {
-            allSlides.push(i.toString());
-            slideNumber.innerHTML += "<option value=\"" + i + "\">" + i + "</option>";
-        }
-
-    }
-
-
-    function createDefaultSettings() {
-        return new Settings(selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
-    }
-
-
     //this function retrieves the token to get all the available voices and related speaking styles
     async function getAuthorizationToken() {
         try {
@@ -262,20 +230,7 @@ function convertPitch(pitch) {
             speakingStyle = selectedStyle.text;
             console.log(speakingStyle);
         }
-
-        if (allSlides.includes(event.target.value)) {
-            selectedSlide = event.target.value;
-            console.log(selectedSlide);
-        }
     }, false)
-
-    settingsBtn.addEventListener('click', () => {
-        if (tts.value === 'microsoft') {
-            let modifiedSettings = new Settings(selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
-            modifySettings(allsettings, modifiedSettings, selectedSlide);
-            console.log('check if the selected slide has been modified');
-        }
-    })
 
     speedSlider.addEventListener('change', () => {
         selectedSpeed = speedSlider.value;
@@ -289,8 +244,8 @@ function convertPitch(pitch) {
 
     allsettingsBtn.addEventListener('click', () => {
         if (tts.value === 'microsoft') {
-            let settingsAllSlides = new Settings(selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
-            modifyAllSettings(allsettings, settingsAllSlides);
+            let newsettings = new Settings(selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
+            modifyAllSettings(newsettings);
         }
     })
 

@@ -27,13 +27,11 @@ const delay = (duration) =>
 async function processPPTXAudioHelper(notes, settings, fileName, relPath) {
     return new Promise(async (resolve) => {
         let promiseArray = [];
-        let j;
         for(i in notes){
-            j = Number(notes[i][0]) - 1;
-            if(settings[j].type.localeCompare('aws') === 0){
+            if(settings.type.localeCompare('aws') === 0){
                 pollyParams.Text = notes[i][1];
-                pollyParams.Engine = settings[j].engine;
-                pollyParams.VoiceId = settings[j].voice;
+                pollyParams.Engine = settings.engine;
+                pollyParams.VoiceId = settings.voice;
                 promiseArray.push(generateAudioAws(pollyParams, `media${notes[i][0]}`, `${relPath}${fileName}/ppt/media/`));
                 await delay(200);
             } else {
