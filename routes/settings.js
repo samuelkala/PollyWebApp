@@ -1,13 +1,11 @@
 const express = require('express');
 const path = require('path');
 const axios = require('axios');
-const pino = require('express-pino-logger')();
 const cors = require('cors');
 const { startApp } = require('../startPolly');
 const router = express.Router();
 const AWS = require('aws-sdk');
 
-router.use(pino);
 router.use(cors());
 
 const Polly = new AWS.Polly({

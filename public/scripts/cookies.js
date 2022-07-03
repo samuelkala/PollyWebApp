@@ -1,5 +1,3 @@
-
-
 function setCookie(name, value) {
     // Encode value in order to escape semicolons, commas, and whitespace
     let cookie = name + "=" + encodeURIComponent(value);
@@ -10,7 +8,7 @@ function setCookie(name, value) {
 function getCookie(name) {
     // Split cookie string and get all individual name=value pairs in an array
     let cookieArr = document.cookie.split(";");
-
+    let savedSettings;
     // Loop through the array elements
     for (let i = 0; i < cookieArr.length; i++) {
         let cookiePair = cookieArr[i].split("=");
@@ -18,7 +16,8 @@ function getCookie(name) {
         and compare it with the given string */
         if (name == cookiePair[0].trim()) {
             // Decode the cookie value and return
-            return decodeURIComponent(cookiePair[1]);
+            savedSettings = decodeURIComponent(cookiePair[1]);
+            return JSON.parse(savedSettings);
         }
     }
 

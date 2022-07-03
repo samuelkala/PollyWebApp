@@ -1,9 +1,11 @@
 //Global Variables
 //This object will contain the settings for all the slides
 let allsettings;
-let slideNumber = document.getElementById('slidenumber');
+//variable which will contain the settings saved by the cookie
+let savedsettings = getCookie('saveSettings');
+
 let file_to_download = localStorage.getItem('filename');
-let tts = document.getElementById("tts")
+let tts = document.getElementById("tts");
 let lAzure = document.getElementById('lAzure');
 let vAzure = document.getElementById('vAzure');
 let sAzure = document.getElementById('sAzure');
@@ -21,14 +23,20 @@ let loadingDots = document.getElementById('LoadDots');
 let doneMessage = document.getElementById('done');
 
 
+function convertPitch(pitch) {
+    let p = Math.round(((Number(pitch) - 1) * 50)).toString() + '%';
+    return p;
+}
+
+function invertPitch(pitchpercentage){
+    let pitch = Number(pitchpercentage.split('%')[0]);
+    pitch = ((pitch/50) + 1).toFixed(2);
+    return pitch;
+}
 
 function modifyAllSettings(newsettings) {
     allsettings = newsettings;
     console.log('check if slides modified correctly');
-}
-
-function convertPitch(pitch) {
-    return Math.round(((Number(pitch) - 1) * 50)).toString() + '%';
 }
 
 
@@ -47,19 +55,19 @@ function convertPitch(pitch) {
     let allLanguages = [];
     let allVoices = [];
     let allStyles = [];
-    //not to send to the server because it is not needed for SSML
-    let selectedLanguage;
-    //to send to the server for SSML synthesis
-    let selectedVoice;
 
+    //variable to support the selection of voice and style in case they are saved by a cookie
+    let isSaved = false;
+
+    //these are the variables which contain the current status of the settings
+
+    let selectedLanguage;
+    let selectedVoice;
     //initialize speed and pitch with the html default values
     let selectedSpeed = speedSlider.value;
     let selectedPitch = pitchSlider.value;
     let speakingStyle;
-    // variable to track the maximum number of styles of all the available voices
-    let maxStyles = 0;
-
-
+    
 
     function Name(LocalName, ShortName, StyleList) {
         this.LocalName = LocalName;
@@ -68,8 +76,9 @@ function convertPitch(pitch) {
     }
 
 
-    function Settings(voice, speakingstyle, speed, pitch) {
+    function Settings(language, voice, speakingstyle, speed, pitch) {
         this.type = 'azure';
+        this.language = language;
         this.voice = voice;
         this.speakingstyle = speakingstyle
         this.speed = speed;
@@ -78,22 +87,54 @@ function convertPitch(pitch) {
 
     //this function initiliazes all the Web Page
     (async function initAzure() {
-        //console.log(localStorage.getItem('filename'));
         await getAuthorizationToken();
         await getSettings();
-        initSettings();
+        if(savedsettings !== null && savedsettings.type.localeCompare('azure') === 0){
+            isSaved = true;
+            selectedLanguage = savedsettings.language;
+            selectedVoice = savedsettings.voice;
+            speakingStyle = savedsettings.speakingstyle;
+            selectedSpeed = invertSpeed(savedsettings.speed);
+            selectedPitch = invertPitch(savedsettings.pitch);
+            setSavedSettings();
+            isSaved = false;
+        }
+        if(savedsettings === null || (savedsettings !== null && savedsettings.type.localeCompare('azure') === 0)){
+            initSettings();
+        }
         console.log('check if all slides are with default settings');
     })()
 
+
     function initSettings() {
-        allsettings = new Settings(selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
+        allsettings = new Settings(selectedLanguage, selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
     }
 
-    function getAllVoicesLanguages(info, allVoices, allLanguages) {
+    function setSavedSettings(){
+        languageOptions.value = selectedLanguage;
+        loadVoices(selectedLanguage);
+        voiceOptions.value = selectedVoice;
+        let voices = mapLanguageName.get(selectedLanguage);
+        loadSpeakingStyles(voices,selectedVoice);
+        styleOptions.value = speakingStyle;
+        speedSlider.value = selectedSpeed;
+        document.getElementById('rangevalueSpeed').textContent = selectedSpeed;
+        pitchSlider.value = selectedPitch;
+        document.getElementById('rangevaluePitch').textContent = selectedPitch;
+    }
+
+    function getAllVoicesLanguagesStyles(info) {
         info.forEach((element) => {
             allVoices.push(element.ShortName);
             if(!allLanguages.includes(element.LocaleName)){
                 allLanguages.push(element.LocaleName);
+            }
+            if(element.StyleList != null){
+                element.StyleList.forEach((style) => {
+                    if(!allStyles.includes(style)){
+                        allStyles.push(style);
+                    }
+                })
             }
         });
     }
@@ -106,8 +147,9 @@ function convertPitch(pitch) {
             voiceOptions.innerHTML += "<option value=\"" + element.ShortName + "\">" +
                 element.LocalName + "</option>";
         });
-
-        selectedVoice = voices[0].ShortName;
+        if(!isSaved){
+            selectedVoice = voices[0].ShortName;
+        }
         voiceOptions.disabled = false;
         loadSpeakingStyles(voices, selectedVoice);
         console.log(selectedVoice);
@@ -121,16 +163,16 @@ function convertPitch(pitch) {
         let styles = voice.StyleList;
 
         styleOptions.innerHTML = "";
+        styleOptions.innerHTML += "<option value=\"general\">general</option>";
         if (styles != undefined) {
-            styleOptions.innerHTML += "<option value=style0>general</option>";
             styles.forEach((element, index) => {
-                styleOptions.innerHTML += "<option value=\"style" + (index + 1) + "\">" +
+                styleOptions.innerHTML += "<option value=\"" + element + "\">" +
                     element + "</option>";
             });
-        } else {
-            styleOptions.innerHTML += "<option value=style0>general</option>";
         }
-        speakingStyle = 'general';
+        if(!isSaved){
+            speakingStyle = 'general';
+        }
         styleOptions.disabled = false;
         console.log('check if speaking styles loaded correctly');
     }
@@ -159,16 +201,10 @@ function convertPitch(pitch) {
             peoplespeakinglang = info.filter(voice => voice.LocaleName === lang);
             peoplespeakinglang.forEach((p) => {
                 names.push(new Name(p.LocalName, p.ShortName, p.StyleList));
-                if (p.StyleList != undefined && p.StyleList.length > maxStyles) {
-                    maxStyles = p.StyleList.length;
-                }
             });
             mapLanguageName.set(lang, names);
             names = new Array();
         });
-        for (let i = 0; i <= maxStyles; i++) {
-            allStyles.push('style' + i.toString());
-        }
     }
 
     //this function retrieves the token to get all the available voices and related speaking styles
@@ -196,7 +232,7 @@ function convertPitch(pitch) {
                 }
             });
             const info = await response.json();
-            getAllVoicesLanguages(info, allVoices, allLanguages);
+            getAllVoicesLanguagesStyles(info);
             fillMap(info);
             loadLanguages();
         } catch (err) {
@@ -210,14 +246,20 @@ function convertPitch(pitch) {
         return Math.round(((Number(speed) - 1) * 100)).toString() + '%';
     }
 
+    function invertSpeed(speedpercentage){
+        let speed = Number(speedpercentage.split('%')[0]);
+        speed = ((speed/100) + 1).toFixed(2);
+        return speed;
+    }
 
+    
     //this method is listening for clicks on all the Html document
     //based on what part of the whole document is clicked there is a particular behaviour
     //this method is used to manage events on dynamically created Html elements
     document.addEventListener('click', function (event) {
         if (allLanguages.includes(event.target.value)) {
             selectedLanguage = event.target.value;
-            loadVoices(event.target.value);
+            loadVoices(selectedLanguage);
         }
         if (allVoices.includes(event.target.value)) {
             let voices = mapLanguageName.get(selectedLanguage);
@@ -244,12 +286,15 @@ function convertPitch(pitch) {
 
     allsettingsBtn.addEventListener('click', () => {
         if (tts.value === 'microsoft') {
-            let newsettings = new Settings(selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
+            let newsettings = new Settings(selectedLanguage, selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
             modifyAllSettings(newsettings);
         }
     })
 
     convertButton.addEventListener('click', async () => {
+        //save settings before convertion
+        //so that next time the user uses the app he will find the last settings used
+        setCookie('saveSettings',JSON.stringify(allsettings));
         let settings_to_send = JSON.stringify({
             file_to_download: file_to_download,
             settings: allsettings
