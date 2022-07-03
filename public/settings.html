@@ -264,15 +264,26 @@
                 -webkit-animation-delay: 0.45s;
                 animation-delay: 0.45s;
             }
-
+            .loader .dots2 {
+          opacity: 0;
+          position: absolute;
+          padding: 40px;
+          border-radius: 50%;
+          background: #ff9d01;
+          -webkit-animation: myani2 1s ease-in-out 0s infinite;
+          animation: myani2 1s ease-in-out 0s infinite;
+        } 
+            .loader .dots2:nth-child(1) {
+          -webkit-animation-delay: 0s;
+          animation-delay: 0s;
         }
 
-        p {
-            height: auto;
-            position: relative;
+        .loader .dots2:nth-child(2) {
+          -webkit-animation-delay: 0.35s;
+          animation-delay: 0.35s;
         }
-
-        @keyframes myani {
+        }
+            @keyframes myani {
             0% {
                 -webkit-transform: translateX(-100px);
                 transform: translateX(-100px);
@@ -288,82 +299,48 @@
                 transform: translateX(100px);
                 opacity: 0;
             }
+ 
         }
 
-        svg#play {
-            width: 50px;
-            margin: 2px auto;
-            display: block;
-            cursor: pointer;
-            transform-origin: 50% 50%;
+        p {
+            height: auto;
+            position: relative;
+        }
+        @keyframes myani2 {
+        0% {
+          -webkit-transform: translateX(-100px);
+          transform: translateX(-100px);
+          opacity: 0;
         }
 
-        svg#play #triangle {
-            fill: rgba(22, 22, 22, 0);
-            transition: 500ms;
-            transform-origin: 50% 50%;
+        50% {
+          opacity: 0.8;
         }
 
-        svg#play:hover #triangle {
-            fill: #000000;
-            transform-origin: 50% 50%;
+        100% {
+          -webkit-transform: translateX(100px);
+          transform: translateX(100px);
+          opacity: 0;
         }
-
-        svg #lineOne,
-        svg #lineTwo {
-            transform-origin: 50% 50%;
-            transition: 1s;
         }
-
-        svg:hover #lineOne {
-            transform: rotate(260deg);
-            -webkit-transform: rotate(260deg);
-            -moz-transform: rotate(260deg);
-            -o-transform: rotate(260deg);
-            transform-origin: 50% 50%;
-        }
-
-        svg:hover #lineTwo {
-            transform: rotate(-450deg);
-            transform-origin: 50% 50%;
-        }
-
-        #vbottomdates {
-            color: black;
-            display: block;
-            float: left;
-        }
-
-        #vbottomcreator {
-            color: black;
-            display: inline-block;
-        }
-
-        #vbottomdevelopment {
-            color: black;
-            display: block;
-            float: right;
-        }
-
-        .center {
-            width: 100%;
-            margin: 0 auto;
-            display: inline-block;
-            text-align: center;
-        }
+        
     </style>
 </head>
 
 <body>
     <img src="images/background.jpg" width="100%" height="100%" style="position: absolute;  right: 0px; top: 0px;" />
     <div class="wrapper" style="position: relative; left: 2%; top: 5%;  text-align: center;">
-        
+        <br><br>  
         <button id="return" class="button button2" style="font-size: 13px; margin-top: 5px;" onclick="document.location='/'"> Return to
             Homepage</button>
+            <br><br><br><br>
         <form style="width:50%; ">
+            <div class="loader" id="setLoadDots" style="display: none; position:absolute">
+                <div class="dots2"></div>
+                <div class="dots2"></div>
+                <div class="dots2"></div>
+              </div>
             <h1>Customize and test voices</h1>
-            <label>Slide number </label>
-            <select title="slidenumber" id="slidenumber"></select>
             <br><br>
             <label>Text-to-speech service </label>
             <select title="tts" id="tts" onchange="selectService()">
@@ -449,42 +426,14 @@
             </div>
             <br>
             <div class="wrapper">
-            <table>
-                <tr>
-                    <th><button id="settingsBtn" type="button">Confirm these settings for the slide</button></th>
-                    <th>
-                        <button id="test" title="test" class="button button1" type="button"
-                            style="background-color: #ff990068;">
-                            <svg id="play" viewBox="0 0 163 163" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"="0px">
-                                <g fill="none">
-                                    <g transform="translate(2.000000, 2.000000)" stroke-width="4">
-                                        <path
-                                            d="M10,80 C10,118.107648 40.8923523,149 79,149 L79,149 C117.107648,149 148,118.107648 148,80 C148,41.8923523 117.107648,11 79,11"
-                                            id="lineOne" stroke="#403e3d"></path>
-                                        <path
-                                            d="M105.9,74.4158594 L67.2,44.2158594 C63.5,41.3158594 58,43.9158594 58,48.7158594 L58,109.015859 C58,113.715859 63.4,116.415859 67.2,113.515859 L105.9,83.3158594 C108.8,81.1158594 108.8,76.6158594 105.9,74.4158594 L105.9,74.4158594 Z"
-                                            id="triangle" stroke="#403e3d"></path>
-                                        <path
-                                            d="M159,79.5 C159,35.5933624 123.406638,0 79.5,0 C35.5933624,0 0,35.5933624 0,79.5 C0,123.406638 35.5933624,159 79.5,159 L79.5,159"
-                                            id="lineTwo" stroke="#403e3d"></path>
-                                    </g>
-                                </g>
-                            </svg>
-                        </button>
-                    </th>
-                    <th>
-                        <button id="allsettingsBtn" type="button">Confirm these settings for all slides</button>
-                    </th>
-                </tr>
-            </table>
+                        <button id="allsettingsBtn" type="button">Confirm settings</button>
         </div>
             <br>
-            <button id="convertBtn" class="button" type="button" style="font-size: larger; width: 70%;">Start
-                conversion</button>
         </form>
 
         <form class="form form1" method="post" action = "../download">
+            <button id="convertBtn" class="button" type="button" style="font-size: larger; width: 60%; display: none">Start
+                conversion</button>
             <input id="hidInp" type="hidden" name="dwnFile" position="relative">
             <button type="submit" id="dwn" class="button button2" type="button">Download my lesson</button>
             <div class="loader" id="LoadDots" style="display: none;">

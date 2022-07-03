@@ -20,6 +20,7 @@ download_button.style.display = 'none';
 errorAlert.innerHTML = "";
 hidInput.value = file_to_download;
 let loadingDots = document.getElementById('LoadDots');
+let setloadingDots = document.getElementById('setLoadDots');
 let doneMessage = document.getElementById('done');
 
 
@@ -87,6 +88,7 @@ function modifyAllSettings(newsettings) {
 
     //this function initiliazes all the Web Page
     (async function initAzure() {
+        setloadingDots.style.display= 'inline';
         await getAuthorizationToken();
         await getSettings();
         if(savedsettings !== null && savedsettings.type.localeCompare('azure') === 0){
@@ -108,6 +110,7 @@ function modifyAllSettings(newsettings) {
 
     function initSettings() {
         allsettings = new Settings(selectedLanguage, selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
+        setloadingDots.style.display= 'none';
     }
 
     function setSavedSettings(){
@@ -285,6 +288,7 @@ function modifyAllSettings(newsettings) {
     })
 
     allsettingsBtn.addEventListener('click', () => {
+        convertButton.style.display = 'inline';
         if (tts.value === 'microsoft') {
             let newsettings = new Settings(selectedLanguage, selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
             modifyAllSettings(newsettings);
@@ -292,6 +296,7 @@ function modifyAllSettings(newsettings) {
     })
 
     convertButton.addEventListener('click', async () => {
+        allsettingsBtn.style.display = 'none';
         //save settings before convertion
         //so that next time the user uses the app he will find the last settings used
         setCookie('saveSettings',JSON.stringify(allsettings));
@@ -299,6 +304,7 @@ function modifyAllSettings(newsettings) {
             file_to_download: file_to_download,
             settings: allsettings
         });
+        convertButton.style.display = 'none';
         doneMessage.style.display = 'none';
         loadingDots.style.display = 'inline';
         try {
