@@ -288,7 +288,6 @@ function modifyAllSettings(newsettings) {
     })
 
     allsettingsBtn.addEventListener('click', () => {
-        convertButton.style.display = 'inline';
         if (tts.value === 'microsoft') {
             let newsettings = new Settings(selectedLanguage, selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
             modifyAllSettings(newsettings);
