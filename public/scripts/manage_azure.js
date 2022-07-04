@@ -20,6 +20,7 @@ download_button.style.display = 'none';
 errorAlert.innerHTML = "";
 hidInput.value = file_to_download;
 let loadingDots = document.getElementById('LoadDots');
+let loadingDots1 = document.getElementById('LoadDots1');
 let setloadingDots = document.getElementById('setLoadDots');
 let doneMessage = document.getElementById('done');
 
@@ -288,10 +289,18 @@ function modifyAllSettings(newsettings) {
     })
 
     allsettingsBtn.addEventListener('click', () => {
+        allsettingsBtn.style.display = 'none';
+        loadingDots1.style.display = 'inline'; 
         if (tts.value === 'microsoft') {
             let newsettings = new Settings(selectedLanguage, selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
             modifyAllSettings(newsettings);
         }
+        setTimeout(() => {
+          loadingDots1.style.display = 'none'; 
+          allsettingsBtn.style.display = 'inline';  
+        }, 1200);
+        
+
     })
 
     convertButton.addEventListener('click', async () => {
