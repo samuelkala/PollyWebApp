@@ -92,7 +92,7 @@ function modifyAllSettings(newsettings) {
         setloadingDots.style.display= 'inline';
         await getAuthorizationToken();
         await getSettings();
-        if(savedsettings !== null && savedsettings.type.localeCompare('azure') === 0){
+        if(savedsettings != null && savedsettings.type.localeCompare('azure') === 0){
             isSaved = true;
             selectedLanguage = savedsettings.language;
             selectedVoice = savedsettings.voice;
@@ -102,7 +102,7 @@ function modifyAllSettings(newsettings) {
             setSavedSettings();
             isSaved = false;
         }
-        if(savedsettings === null || (savedsettings !== null && savedsettings.type.localeCompare('azure') === 0)){
+        if(savedsettings === null || (savedsettings != null && savedsettings.type.localeCompare('azure') === 0)){
             initSettings();
         }
         console.log('check if all slides are with default settings');
@@ -127,6 +127,7 @@ function modifyAllSettings(newsettings) {
         document.getElementById('rangevaluePitch').textContent = selectedPitch;
     }
 
+    //add General style too AllStyles
     function getAllVoicesLanguagesStyles(info) {
         info.forEach((element) => {
             allVoices.push(element.ShortName);
@@ -141,6 +142,7 @@ function modifyAllSettings(newsettings) {
                 })
             }
         });
+        allStyles.push('general');
     }
 
     function loadVoices(language) {
