@@ -38,7 +38,7 @@ let pAws = document.getElementById('pAws');
         getLanguages(voices);
         fillMap();
         loadLanguages();
-        if (savedsettings !== null && savedsettings.type.localeCompare('aws') === 0) {
+        if (savedsettings != null && savedsettings.type.localeCompare('aws') === 0) {
             isSaved = true;
             selectedLanguage = savedsettings.language;
             selectedVoice = savedsettings.voice;
@@ -93,7 +93,7 @@ let pAws = document.getElementById('pAws');
 
     function loadLanguages() {
 
-        if (languages.length !== 0) {
+        if (languages.length != 0) {
             languageOptions.innerHTML = "";
             // display voices for clicked language
             languages.forEach((lang) => {
