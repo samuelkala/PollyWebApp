@@ -297,7 +297,7 @@ function modifyAllSettings(newsettings) {
         }
         setTimeout(() => {
               idone.style.display = 'none';      
-        }, 1200);
+        }, 200);
 
         
     })
