@@ -21,6 +21,7 @@ let pAws = document.getElementById('pAws');
     let names_engine = [];
     let languages = [];
     let mapLanguageName = new Map();
+    let setloadingDots = document.getElementById('setLoadDots');
     let isSaved = false;
 
     function Settings(language, voice, engine, timbre, speed, pitch) {
@@ -52,6 +53,7 @@ let pAws = document.getElementById('pAws');
             allsettings = new Settings(selectedLanguage, selectedVoice, selectedEngine, convertTimbre(selectedTimbre), convertSpeed(selectedSpeed), convertPitch(selectedPitch));
             isSaved = false;
         }
+        setloadingDots.style.display= 'none';
 
     })();
 
