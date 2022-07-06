@@ -307,6 +307,8 @@ function modifyAllSettings(newsettings) {
 
         } catch (error) {
             loadingDots.style.display = 'none';
+            download_button.style.display = 'none';
+            convertButton.style.display = 'inline';
             console.log(error);
             errorAlert.innerHTML = "<h4>Conversion error, return to home and retry. <i class='fa fa-warning'></i></h4>";
             returnbutton.style.display = 'inline';
