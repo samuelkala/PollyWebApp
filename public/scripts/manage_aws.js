@@ -56,11 +56,11 @@ let awsSettings = {
 
     function setSavedSettings() {
         loadLanguages();
-        speedSlider.value = convertSpeed(awsSettings.speed);
+        speedSlider.value = invertSpeed(awsSettings.speed);
         document.getElementById('rangevalueSpeedAws').textContent = speedSlider.value;
-        pitchSlider.value = convertPitch(awsSettings.pitch);
+        pitchSlider.value = invertPitch(awsSettings.pitch);
         document.getElementById('rangevaluePitchAws').textContent = pitchSlider.value;
-        timbreSlider.value = convertTimbre(awsSettings.timbre);
+        timbreSlider.value = invertTimbre(awsSettings.timbre);
         document.getElementById('rangevalueTimbreAws').textContent = timbreSlider.value;
     }
 
