@@ -32,25 +32,22 @@ async function processPPTXFile(fileName, settings) {
   fileName = fileNameSplit[0];
   let fileExt = fileNameSplit[1];
 
-  try {
-    fs.renameSync(`${relPath}${fileName}.${fileExt}`, `${relPath}${fileName}.zip`);
+  fs.renameSync(`${relPath}${fileName}.${fileExt}`, `${relPath}${fileName}.zip`);
 
-    await unzip(`${relPath}${fileName}.zip`, `${relPath}${fileName}`);
+  await unzip(`${relPath}${fileName}.zip`, `${relPath}${fileName}`);
 
-    await addAudioToSlides(`${relPath}${fileName}`)
+  await addAudioToSlides(`${relPath}${fileName}`)
 
-    let notes = await getNotes(`${relPath}${fileName}/ppt/notesSlides/`, settings);
-    await processPPTXAudioHelper(notes, settings, fileName, relPath);
+  let notes = await getNotes(`${relPath}${fileName}/ppt/notesSlides/`, settings);
+  await processPPTXAudioHelper(notes, settings, fileName, relPath);
 
-    await zipMulti([`${relPath}${fileName}/_rels/`, `${relPath}${fileName}/[Content_Types].xml`, `${relPath}${fileName}/docProps/`, `${relPath}${fileName}/ppt/`], `${relPath}${fileName}_new.zip`);
-    await delay(5000);
+  await zipMulti([`${relPath}${fileName}/_rels/`, `${relPath}${fileName}/[Content_Types].xml`, `${relPath}${fileName}/docProps/`, `${relPath}${fileName}/ppt/`], `${relPath}${fileName}_new.zip`);
+  await delay(5000);
 
-    fs.unlinkSync(`${relPath}${fileName}.zip`);
-    fs.renameSync(`${relPath}${fileName}_new.zip`, `./downloads/${fileName}.${fileExt}`);
-    await removeDir(`${relPath}${fileName}`);
-  } catch (e) {
-    console.log('error during convertion');
-  }
+  fs.unlinkSync(`${relPath}${fileName}.zip`);
+  fs.renameSync(`${relPath}${fileName}_new.zip`, `./downloads/${fileName}.${fileExt}`);
+  await removeDir(`${relPath}${fileName}`);
+
 }
 
 module.exports = {

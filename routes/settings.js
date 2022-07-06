@@ -18,7 +18,12 @@ router.get('/',(req, res) => {
 });
 
 router.post('/getconvparams', startPolly, (req, res) => {
-    res.status(200).send({message: 'Convertion terminated successfully'});
+    if(!res.locals.err){
+       res.status(200).send({message: 'Convertion terminated successfully'}); 
+    }else{
+        res.status(500).send({message: 'error'});
+    }
+    
 });
 
 //this token will be sent to the client who will retrieve all the available voices
@@ -57,9 +62,16 @@ router.get('/getAwsSettings', async(req, res) => {
 });
 
 async function startPolly(req, res, next) {
+
     if (req.body != null) {
       if (req.body.settings != undefined && req.body.file_to_download != undefined) {
-        await startApp(req.body.file_to_download,req.body.settings);
+        try{
+            await startApp(req.body.file_to_download,req.body.settings);
+        }catch(e){
+            console.log('error during convertion');
+            res.locals.err = true;
+        }
+        
       }
     }
     next();

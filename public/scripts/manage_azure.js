@@ -301,10 +301,18 @@ function modifyAllSettings(newsettings) {
                 },
                 body: settings_to_send
             });
-            await response.json();
-            loadingDots.style.display = 'none';
-            download_button.style.display = 'inline';
-
+            let info = await response.json();
+            console.log(info);
+            if(info.message.localeCompare("error") === 0){
+                loadingDots.style.display = 'none';
+                download_button.style.display = 'none';
+                convertButton.style.display = 'inline';
+                console.log(error);
+                errorAlert.innerHTML = "<h4>Conversion error, return to home and retry. <i class='fa fa-warning'></i></h4>";
+            }else{
+                loadingDots.style.display = 'none';
+                download_button.style.display = 'inline';
+            }  
         } catch (error) {
             loadingDots.style.display = 'none';
             download_button.style.display = 'none';
