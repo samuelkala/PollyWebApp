@@ -213,7 +213,7 @@ function modifyAllSettings(newsettings) {
             console.log('Token fetched from back-end: ' + authorizationToken);
         } catch (err) {
             console.log(err);
-            errorAlert.innerHTML = 'error while getting authorization Token! Reload the WebPage!';
+            errorAlert.innerHTML = "<h4>Error while getting authorization Token! Reload the WebPage! <i class='fa fa-warning'></i></h4>";
         }
     }
 
