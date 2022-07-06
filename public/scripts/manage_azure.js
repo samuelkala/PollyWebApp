@@ -91,8 +91,8 @@ function modifyAllSettings(newsettings) {
             azureSettings.language = savedsettings.language;
             azureSettings.voice = savedsettings.voice;
             azureSettings.speakingstyle = savedsettings.speakingstyle;
-            azureSettings.speed = invertSpeed(savedsettings.speed);
-            azureSettings.pitch = invertPitch(savedsettings.pitch);
+            azureSettings.speed = savedsettings.speed;
+            azureSettings.pitch = savedsettings.pitch;
             setSavedSettings();
             isSaved = false;
         }
@@ -106,10 +106,10 @@ function modifyAllSettings(newsettings) {
 
     function setSavedSettings() {
         loadLanguages();
-        speedSlider.value = azureSettings.speed;
-        document.getElementById('rangevalueSpeed').textContent = azureSettings.speed;
-        pitchSlider.value = azureSettings.pitch;
-        document.getElementById('rangevaluePitch').textContent = azureSettings.pitch;
+        speedSlider.value = invertSpeed(azureSettings.speed);
+        document.getElementById('rangevalueSpeed').textContent = speedSlider.value;
+        pitchSlider.value = invertPitch(azureSettings.pitch);
+        document.getElementById('rangevaluePitch').textContent = pitchSlider.value;
     }
 
     //add General style too AllStyles

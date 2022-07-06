@@ -40,9 +40,9 @@ let awsSettings = {
             awsSettings.language = savedsettings.language;
             awsSettings.voice = savedsettings.voice;
             awsSettings.engine = savedsettings.engine;
-            awsSettings.speed = invertSpeed(savedsettings.speed);
-            awsSettings.pitch = invertPitch(savedsettings.pitch);
-            awsSettings.timbre = invertTimbre(savedsettings.timbre);
+            awsSettings.speed = savedsettings.speed;
+            awsSettings.pitch = savedsettings.pitch;
+            awsSettings.timbre = savedsettings.timbre;
             tts.value = 'aws';
             selectService();
             setSavedSettings();
@@ -56,12 +56,12 @@ let awsSettings = {
 
     function setSavedSettings() {
         loadLanguages();
-        speedSlider.value = awsSettings.speed;
-        document.getElementById('rangevalueSpeedAws').textContent = awsSettings.speed;
-        pitchSlider.value = awsSettings.pitch;
-        document.getElementById('rangevaluePitchAws').textContent = awsSettings.pitch;
-        timbreSlider.value = awsSettings.timbre;
-        document.getElementById('rangevalueTimbreAws').textContent = awsSettings.timbre;
+        speedSlider.value = convertSpeed(awsSettings.speed);
+        document.getElementById('rangevalueSpeedAws').textContent = speedSlider.value;
+        pitchSlider.value = convertPitch(awsSettings.pitch);
+        document.getElementById('rangevaluePitchAws').textContent = pitchSlider.value;
+        timbreSlider.value = convertTimbre(awsSettings.timbre);
+        document.getElementById('rangevalueTimbreAws').textContent = timbreSlider.value;
     }
 
     async function getVoices() {
