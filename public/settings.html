@@ -334,7 +334,7 @@
     <div class="wrapper" style="position: relative; left: 2%; top: 5%;  text-align: center;">
         <br><br>  
             <br><br><br><br>
-        <form style="width:50%; ">
+        <form style="width:50%; " method="post" action = "../download">
             <div class="loader" id="setLoadDots" style="display: none; position:absolute">
                 <div class="dots2"></div>
                 <div class="dots2"></div>
@@ -432,7 +432,9 @@
                         Homepage <i class='fa fa-home'></i></button>
     </div>
     <div id="right"><button id="convertBtn" class="button  button2" type="button" style="font-size: larger; width: 60%;">Start
-            conversion <i class='fa fa-arrow-right'></i></button> 
+            conversion <i class='fa fa-arrow-right'></i></button>
+            <input id="hidInp" type="hidden" name="dwnFile" position="relative">
+            <button type="submit" id="dwn" class="button button2" type="button">Download my lesson <i class='fa fa-download'></i></button> 
             <div class="loader" id="LoadDots" style="display: none;">
                 <div class="dots"></div>
                 <div class="dots"></div>
@@ -447,12 +449,7 @@
             <br>
         </form>
 
-        <form class="form form1" method="post" action = "../download">
-            <input id="hidInp" type="hidden" name="dwnFile" position="relative">
-            <button type="submit" id="dwn" class="button button2" type="button">Download my lesson <i class='fa fa-download'></i></button>
-            
-           
-        </form>
+
     </div>
     <div id="error"></div>
 </body>
