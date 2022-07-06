@@ -23,15 +23,24 @@ let loadingDots = document.getElementById('LoadDots');
 let setloadingDots = document.getElementById('setLoadDots');
 let doneMessage = document.getElementById('done');
 
+let azureSettings = {
+    type: "azure",
+    language: "",
+    voice: "",
+    speakingstyle: "",
+    speed: "",
+    pitch: ""
+};
+
 
 function convertPitch(pitch) {
     let p = Math.round(((Number(pitch) - 1) * 50)).toString() + '%';
     return p;
 }
 
-function invertPitch(pitchpercentage){
+function invertPitch(pitchpercentage) {
     let pitch = Number(pitchpercentage.split('%')[0]);
-    pitch = ((pitch/50) + 1).toFixed(2);
+    pitch = ((pitch / 50) + 1).toFixed(2);
     return pitch;
 }
 
@@ -53,6 +62,8 @@ function modifyAllSettings(newsettings) {
     let pitchSlider = document.getElementById('myRangePitch');
     let convertButton = document.getElementById('convertBtn');
     let mapLanguageName = new Map();
+
+
     let allLanguages = [];
     let allVoices = [];
     let allStyles = [];
@@ -60,15 +71,9 @@ function modifyAllSettings(newsettings) {
     //variable to support the selection of voice and style in case they are saved by a cookie
     let isSaved = false;
 
-    //these are the variables which contain the current status of the settings
 
-    let selectedLanguage;
-    let selectedVoice;
-    //initialize speed and pitch with the html default values
-    let selectedSpeed = speedSlider.value;
-    let selectedPitch = pitchSlider.value;
-    let speakingStyle;
-    
+    azureSettings.speed = convertSpeed(speedSlider.value);
+    azureSettings.pitch = convertPitch(speedSlider.value);
 
     function Name(LocalName, ShortName, StyleList) {
         this.LocalName = LocalName;
@@ -77,65 +82,47 @@ function modifyAllSettings(newsettings) {
     }
 
 
-    function Settings(language, voice, speakingstyle, speed, pitch) {
-        this.type = 'azure';
-        this.language = language;
-        this.voice = voice;
-        this.speakingstyle = speakingstyle
-        this.speed = speed;
-        this.pitch = pitch;
-    }
-
     //this function initiliazes all the Web Page
     (async function initAzure() {
-        setloadingDots.style.display= 'inline';
+        setloadingDots.style.display = 'inline';
         await getAuthorizationToken();
         await getSettings();
-        if(savedsettings != null && savedsettings.type.localeCompare('azure') === 0){
+        if (savedsettings != null && savedsettings.type.localeCompare('azure') === 0) {
             isSaved = true;
-            selectedLanguage = savedsettings.language;
-            selectedVoice = savedsettings.voice;
-            speakingStyle = savedsettings.speakingstyle;
-            selectedSpeed = invertSpeed(savedsettings.speed);
-            selectedPitch = invertPitch(savedsettings.pitch);
+            azureSettings.language = savedsettings.language;
+            azureSettings.voice = savedsettings.voice;
+            azureSettings.speakingstyle = savedsettings.speakingstyle;
+            azureSettings.speed = invertSpeed(savedsettings.speed);
+            azureSettings.pitch = invertPitch(savedsettings.pitch);
             setSavedSettings();
             isSaved = false;
         }
-        if(savedsettings === null || (savedsettings != null && savedsettings.type.localeCompare('azure') === 0)){
-            initSettings();
+        if (savedsettings === null || (savedsettings != null && savedsettings.type.localeCompare('azure') === 0)) {
+            allsettings = azureSettings;
+            setloadingDots.style.display = 'none';
         }
         console.log('check if all slides are with default settings');
     })()
 
 
-    function initSettings() {
-        allsettings = new Settings(selectedLanguage, selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
-        setloadingDots.style.display= 'none';
-    }
-
-    function setSavedSettings(){
-        languageOptions.value = selectedLanguage;
-        loadVoices(selectedLanguage);
-        voiceOptions.value = selectedVoice;
-        let voices = mapLanguageName.get(selectedLanguage);
-        loadSpeakingStyles(voices,selectedVoice);
-        styleOptions.value = speakingStyle;
-        speedSlider.value = selectedSpeed;
-        document.getElementById('rangevalueSpeed').textContent = selectedSpeed;
-        pitchSlider.value = selectedPitch;
-        document.getElementById('rangevaluePitch').textContent = selectedPitch;
+    function setSavedSettings() {
+        loadLanguages();
+        speedSlider.value = azureSettings.speed;
+        document.getElementById('rangevalueSpeed').textContent = azureSettings.speed;
+        pitchSlider.value = azureSettings.pitch;
+        document.getElementById('rangevaluePitch').textContent = azureSettings.pitch;
     }
 
     //add General style too AllStyles
     function getAllVoicesLanguagesStyles(info) {
         info.forEach((element) => {
             allVoices.push(element.ShortName);
-            if(!allLanguages.includes(element.LocaleName)){
+            if (!allLanguages.includes(element.LocaleName)) {
                 allLanguages.push(element.LocaleName);
             }
-            if(element.StyleList != null){
+            if (element.StyleList != null) {
                 element.StyleList.forEach((style) => {
-                    if(!allStyles.includes(style)){
+                    if (!allStyles.includes(style)) {
                         allStyles.push(style);
                     }
                 })
@@ -152,12 +139,13 @@ function modifyAllSettings(newsettings) {
             voiceOptions.innerHTML += "<option value=\"" + element.ShortName + "\">" +
                 element.LocalName + "</option>";
         });
-        if(!isSaved){
-            selectedVoice = voices[0].ShortName;
+        if (!isSaved) {
+            azureSettings.voice = voices[0].ShortName;
         }
+        voiceOptions.value = azureSettings.voice;
         voiceOptions.disabled = false;
-        loadSpeakingStyles(voices, selectedVoice);
-        console.log(selectedVoice);
+        loadSpeakingStyles(voices, azureSettings.voice);
+        console.log(azureSettings.voice);
     }
 
     function loadSpeakingStyles(voices, selVoice) {
@@ -175,28 +163,32 @@ function modifyAllSettings(newsettings) {
                     element + "</option>";
             });
         }
-        if(!isSaved){
-            speakingStyle = 'general';
+        if (!isSaved) {
+            azureSettings.speakingstyle = 'general';
         }
+        styleOptions.value = azureSettings.speakingstyle;
         styleOptions.disabled = false;
         console.log('check if speaking styles loaded correctly');
     }
 
     function loadLanguages() {
-        let selectId;
         languageOptions.innerHTML = "";
-        if (allLanguages.includes('English (United States)')) {
-            selectId = allLanguages.indexOf('English (United States)');
-        } else {
-            selectId = 0;
-        }
-        selectedLanguage = allLanguages.at(selectId);
         allLanguages.forEach((element) => {
             languageOptions.innerHTML += "<option value=\"" + element + "\">" + element + "</option>";
         });
-        languageOptions.selectedIndex = selectId;
+
+        if (!isSaved) {
+            let selectId;
+            if (allLanguages.includes('English (United States)')) {
+                selectId = allLanguages.indexOf('English (United States)');
+            } else {
+                selectId = 0;
+            }
+            azureSettings.language = allLanguages.at(selectId);
+        }
+        languageOptions.value = azureSettings.language;
         languageOptions.disabled = false;
-        loadVoices(selectedLanguage);
+        loadVoices(azureSettings.language);
     }
 
     function fillMap(info) {
@@ -239,7 +231,9 @@ function modifyAllSettings(newsettings) {
             const info = await response.json();
             getAllVoicesLanguagesStyles(info);
             fillMap(info);
-            loadLanguages();
+            if (savedsettings === null || (savedsettings != null && savedsettings.type.localeCompare('aws') === 0)) {
+                loadLanguages();
+            }
         } catch (err) {
             console.log(err);
             errorAlert.innerHTML = "Error during the retrieving of available voices. Reload the Web Page";
@@ -251,62 +245,49 @@ function modifyAllSettings(newsettings) {
         return Math.round(((Number(speed) - 1) * 100)).toString() + '%';
     }
 
-    function invertSpeed(speedpercentage){
+    function invertSpeed(speedpercentage) {
         let speed = Number(speedpercentage.split('%')[0]);
-        speed = ((speed/100) + 1).toFixed(2);
+        speed = ((speed / 100) + 1).toFixed(2);
         return speed;
     }
 
-    
+
     //this method is listening for clicks on all the Html document
     //based on what part of the whole document is clicked there is a particular behaviour
     //this method is used to manage events on dynamically created Html elements
     document.addEventListener('click', function (event) {
         if (allLanguages.includes(event.target.value)) {
-            selectedLanguage = event.target.value;
-            loadVoices(selectedLanguage);
+            azureSettings.language = event.target.value;
+            loadVoices(azureSettings.language);
         }
         if (allVoices.includes(event.target.value)) {
-            let voices = mapLanguageName.get(selectedLanguage);
-            selectedVoice = event.target.value;
-            loadSpeakingStyles(voices, selectedVoice);
-            console.log(selectedVoice);
+            let voices = mapLanguageName.get(azureSettings.language);
+            azureSettings.voice = event.target.value;
+            loadSpeakingStyles(voices, azureSettings.voice);
+            console.log(azureSettings.voice);
         }
         if (allStyles.includes(event.target.value)) {
             let selectedStyle = styleOptions.options[styleOptions.selectedIndex];
-            speakingStyle = selectedStyle.text;
-            console.log(speakingStyle);
+            azureSettings.speakingstyle = selectedStyle.text;
+            console.log(azureSettings.speakingstyle);
         }
     }, false)
 
     speedSlider.addEventListener('change', () => {
-        selectedSpeed = speedSlider.value;
+        azureSettings.speed = convertSpeed(speedSlider.value);
         document.getElementById('rangevalueSpeed').textContent = speedSlider.value;
     })
 
     pitchSlider.addEventListener('change', () => {
-        selectedPitch = pitchSlider.value;
+        azureSettings.pitch = convertPitch(pitchSlider.value);
         document.getElementById('rangevaluePitch').textContent = pitchSlider.value;
-    })
-
-    allsettingsBtn.addEventListener('click', () => {
-        idone.style.display= 'inline';
-        if (tts.value === 'microsoft') {
-            let newsettings = new Settings(selectedLanguage, selectedVoice, speakingStyle, convertSpeed(selectedSpeed), convertPitch(selectedPitch));
-            modifyAllSettings(newsettings);
-        }
-        setTimeout(() => {
-              idone.style.display = 'none';      
-        }, 200);
-
-        
     })
 
     convertButton.addEventListener('click', async () => {
         allsettingsBtn.style.display = 'none';
         //save settings before convertion
         //so that next time the user uses the app he will find the last settings used
-        setCookie('saveSettings',JSON.stringify(allsettings));
+        setCookie('saveSettings', JSON.stringify(allsettings));
         let settings_to_send = JSON.stringify({
             file_to_download: file_to_download,
             settings: allsettings
@@ -344,6 +325,7 @@ download_button.addEventListener('click', () => {
 
 function selectService() {
     if (tts.value == "microsoft") {
+        allsettings = azureSettings;
         lAzure.removeAttribute("hidden");
         vAzure.removeAttribute("hidden");
         sAzure.removeAttribute("hidden");
@@ -355,6 +337,7 @@ function selectService() {
         sAws.setAttribute("hidden", "hidden");
         pAws.setAttribute("hidden", "hidden");
     } else {
+        allsettings = awsSettings;
         lAws.removeAttribute("hidden");
         vAws.removeAttribute("hidden");
         tAws.removeAttribute("hidden");

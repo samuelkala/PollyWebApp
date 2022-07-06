@@ -4,6 +4,15 @@ let tAws = document.getElementById('tAws');
 let sAws = document.getElementById('sAws');
 let pAws = document.getElementById('pAws');
 
+let awsSettings = {
+    type: "aws",
+    language: "",
+    voice: "",
+    engine: "",
+    timbre: "",
+    speed: "",
+    pitch: ""
+};
 
 {
     let languageOptions = document.getElementById('languageOptionsAws');
@@ -11,12 +20,6 @@ let pAws = document.getElementById('pAws');
     let speedSlider = document.getElementById('myRangeSpeedAws');
     let pitchSlider = document.getElementById('myRangePitchAws');
     let timbreSlider = document.getElementById('timbreRangeAws');
-    let selectedLanguage;
-    let selectedVoice;
-    let selectedEngine;
-    let selectedSpeed = speedSlider.value;
-    let selectedPitch = pitchSlider.value;
-    let selectedTimbre = timbreSlider.value;
     let voices = [];
     let names_engine = [];
     let languages = [];
@@ -24,56 +27,48 @@ let pAws = document.getElementById('pAws');
     let setloadingDots = document.getElementById('setLoadDots');
     let isSaved = false;
 
-    function Settings(language, voice, engine, timbre, speed, pitch) {
-        this.type = 'aws';
-        this.language = language;
-        this.voice = voice;
-        this.engine = engine;
-        this.timbre = timbre;
-        this.speed = speed;
-        this.pitch = pitch;
-    }
+    awsSettings.speed = convertSpeed(speedSlider.value);
+    awsSettings.timbre = convertTimbre(timbreSlider.value);
+    awsSettings.pitch = convertPitch(pitchSlider.value);
 
     (async function initAws() {
         await getVoices();
         getLanguages(voices);
         fillMap();
-        loadLanguages();
         if (savedsettings != null && savedsettings.type.localeCompare('aws') === 0) {
             isSaved = true;
-            selectedLanguage = savedsettings.language;
-            selectedVoice = savedsettings.voice;
-            selectedEngine = savedsettings.engine;
-            selectedSpeed = invertSpeed(savedsettings.speed);
-            selectedPitch = invertPitch(savedsettings.pitch);
-            selectedTimbre = invertTimbre(savedsettings.timbre);
+            awsSettings.language = savedsettings.language;
+            awsSettings.voice = savedsettings.voice;
+            awsSettings.engine = savedsettings.engine;
+            awsSettings.speed = invertSpeed(savedsettings.speed);
+            awsSettings.pitch = invertPitch(savedsettings.pitch);
+            awsSettings.timbre = invertTimbre(savedsettings.timbre);
             tts.value = 'aws';
             selectService();
             setSavedSettings();
-            allsettings = new Settings(selectedLanguage, selectedVoice, selectedEngine, convertTimbre(selectedTimbre), convertSpeed(selectedSpeed), convertPitch(selectedPitch));
             isSaved = false;
+        }else{
+            loadLanguages();
         }
-        setloadingDots.style.display= 'none';
+        setloadingDots.style.display = 'none';
 
     })();
 
     function setSavedSettings() {
-        languageOptions.value = selectedLanguage;
-        loadNames(selectedLanguage);
-        voiceOptions.value = selectedVoice + '-' + selectedEngine;
-        speedSlider.value = selectedSpeed;
-        document.getElementById('rangevalueSpeedAws').textContent = selectedSpeed;
-        pitchSlider.value = selectedPitch;
-        document.getElementById('rangevaluePitchAws').textContent = selectedPitch;
-        timbreSlider.value = selectedTimbre;
-        document.getElementById('rangevalueTimbreAws').textContent = selectedTimbre;
+        loadLanguages();
+        speedSlider.value = awsSettings.speed;
+        document.getElementById('rangevalueSpeedAws').textContent = awsSettings.speed;
+        pitchSlider.value = awsSettings.pitch;
+        document.getElementById('rangevaluePitchAws').textContent = awsSettings.pitch;
+        timbreSlider.value = awsSettings.timbre;
+        document.getElementById('rangevalueTimbreAws').textContent = awsSettings.timbre;
     }
 
     async function getVoices() {
         const response = await fetch('settings/getAwsSettings');
         let info = await response.json();
         voices = info.voices;
-        loadLanguages(selectedLanguage);
+        
     };
 
     function getLanguages(voices) {
@@ -94,25 +89,25 @@ let pAws = document.getElementById('pAws');
     }
 
     function loadLanguages() {
-
-        if (languages.length != 0) {
-            languageOptions.innerHTML = "";
-            // display voices for clicked language
-            languages.forEach((lang) => {
-                languageOptions.innerHTML += "<option value=\"" + lang + "\">" +
-                    lang + "</option>";
-            });
+        languageOptions.innerHTML = "";
+        // display voices for clicked language
+        languages.forEach((lang) => {
+            languageOptions.innerHTML += "<option value=\"" + lang + "\">" +
+                lang + "</option>";
+        });
+        if (!isSaved) {
+            let selectId;
             if (languages.includes('US English')) {
-                languageOptions.selectedIndex = languages.indexOf('US English');
-                selectedLanguage = 'US English';
-                loadNames(selectedLanguage);
+                selectId = languages.indexOf('US English');
             } else {
-                languageOptions.selectedIndex = 0;
-                selectedLanguage = languages.at(0);
-                loadNames(selectedLanguage);
+                selectId = 0;
             }
-            languageOptions.disabled = false;
+            awsSettings.language = languages.at(selectId);
         }
+        languageOptions.value = awsSettings.language;
+        languageOptions.disabled = false;
+        loadNames(awsSettings.language);
+
     }
 
     function loadNames(language) {
@@ -121,14 +116,15 @@ let pAws = document.getElementById('pAws');
         names.forEach((element, i) => {
             element.SupportedEngines.forEach((engine, j) => {
                 if (!isSaved && i === 0 && j === 0) {
-                    selectedVoice = element.Name;
-                    selectedEngine = engine;
+                    awsSettings.voice = element.Name;
+                    awsSettings.engine = engine;
                 }
                 voiceOptions.innerHTML += "<option value=\"" + element.Name + "-" + engine + "\">" +
                     element.Name + " (" + engine + ")" + "</option>";
                 names_engine.push(element.Name + '-' + engine);
             })
         })
+        voiceOptions.value = awsSettings.voice + '-' + awsSettings.engine;
         voiceOptions.disabled = false;
     }
 
@@ -164,39 +160,32 @@ let pAws = document.getElementById('pAws');
 
     document.addEventListener('click', function (event) {
         if (languages.includes(event.target.value)) {
-            selectedLanguage = event.target.value;
-            loadNames(selectedLanguage);
+            awsSettings.language = event.target.value;
+            loadNames(awsSettings.language);
         }
         if (names_engine.includes(event.target.value)) {
             let split = event.target.value.split('-');
-            selectedVoice = split[0];
-            selectedEngine = split[1];
+            awsSettings.voice = split[0];
+            awsSettings.engine = split[1];
             console.log('check');
         }
 
     }, false)
 
     speedSlider.addEventListener('change', () => {
-        selectedSpeed = speedSlider.value;
+        awsSettings.speed = convertSpeed(speedSlider.value);
         document.getElementById('rangevalueSpeedAws').textContent = speedSlider.value;
     })
 
     pitchSlider.addEventListener('change', () => {
-        selectedPitch = pitchSlider.value;
+        awsSettings.pitch = convertPitch(pitchSlider.value);
         document.getElementById('rangevaluePitchAws').textContent = pitchSlider.value;
     })
 
     timbreSlider.addEventListener('change', () => {
-        selectedTimbre = timbreSlider.value;
+        awsSettings.timbre = convertTimbre(timbreSlider.value);
         document.getElementById('rangevalueTimbreAws').textContent = timbreSlider.value;
     })
 
-
-    allsettingsBtn.addEventListener('click', () => {
-        if (tts.value === 'aws') {
-            let newsettings = new Settings(selectedLanguage ,selectedVoice, selectedEngine, convertTimbre(selectedTimbre), convertSpeed(selectedSpeed), convertPitch(selectedPitch));
-            modifyAllSettings(newsettings);
-        }
-    })
 
 }
