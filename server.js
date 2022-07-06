@@ -65,7 +65,11 @@ app.post('/download', (req, res) => {
     if (err) {
       res.sendStatus(404);
     } 
-    fs.unlinkSync(file_to_download);
+    try{
+      fs.unlinkSync(file_to_download);
+    }catch(e){
+      console.log('file to download not found');
+    } 
   });
 })
 
