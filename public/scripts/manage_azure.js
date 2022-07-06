@@ -235,7 +235,7 @@ function modifyAllSettings(newsettings) {
             }
         } catch (err) {
             console.log(err);
-            errorAlert.innerHTML = "Error during the retrieving of available voices. Reload the Web Page <i class='fa fa-warning'></i>";
+            errorAlert.innerHTML = "<h4>Error during the retrieving of available voices. Reload the Web Page <i class='fa fa-warning'></i></h4>";
         }
     }
 
@@ -308,7 +308,7 @@ function modifyAllSettings(newsettings) {
         } catch (error) {
             loadingDots.style.display = 'none';
             console.log(error);
-            errorAlert.innerHTML = "Conversion error, return to home and retry.";
+            errorAlert.innerHTML = "<h4>Conversion error, return to home and retry. <i class='fa fa-warning'></i></h4>";
             returnbutton.style.display = 'inline';
         }
 
