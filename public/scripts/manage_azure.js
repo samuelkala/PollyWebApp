@@ -18,6 +18,8 @@ let hidInput = document.getElementById('hidInp');
 download_button.style.display = 'none';
 errorAlert.innerHTML = "";
 hidInput.value = file_to_download;
+let convmessage = document.getElementById('converror');
+
 let loadingDots = document.getElementById('LoadDots');
 let setloadingDots = document.getElementById('setLoadDots');
 let doneMessage = document.getElementById('done');
@@ -308,7 +310,7 @@ function modifyAllSettings(newsettings) {
         } catch (error) {
             loadingDots.style.display = 'none';
             console.log(error);
-            errorAlert.innerHTML = "Error during the convertion. Return to Home and retry!";
+            convmessage.style.display = 'inline';
             returnbutton.style.display = 'inline';
         }
 
