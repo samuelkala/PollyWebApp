@@ -18,8 +18,6 @@ let hidInput = document.getElementById('hidInp');
 download_button.style.display = 'none';
 errorAlert.innerHTML = "";
 hidInput.value = file_to_download;
-let convmessage = document.getElementById('converror');
-
 let loadingDots = document.getElementById('LoadDots');
 let setloadingDots = document.getElementById('setLoadDots');
 let doneMessage = document.getElementById('done');
@@ -237,7 +235,7 @@ function modifyAllSettings(newsettings) {
             }
         } catch (err) {
             console.log(err);
-            errorAlert.innerHTML = "Error during the retrieving of available voices. Reload the Web Page";
+            errorAlert.innerHTML = "Error during the retrieving of available voices. Reload the Web Page <i class='fa fa-warning'></i>";
         }
     }
 
@@ -310,7 +308,7 @@ function modifyAllSettings(newsettings) {
         } catch (error) {
             loadingDots.style.display = 'none';
             console.log(error);
-            convmessage.style.display = 'inline';
+            errorAlert.innerHTML = "Conversion error, return to home and retry.";
             returnbutton.style.display = 'inline';
         }
 
