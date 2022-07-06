@@ -11,7 +11,6 @@ let vAzure = document.getElementById('vAzure');
 let sAzure = document.getElementById('sAzure');
 let slidecontainerSpeed = document.getElementById('slidecontainerSpeed');
 let slidecontainerPitch = document.getElementById('slidecontainerPitch');
-let allsettingsBtn = document.getElementById('allsettingsBtn');
 let download_button = document.getElementById('dwn');
 let returnbutton = document.getElementById('return');
 let errorAlert = document.getElementById('error');
@@ -284,7 +283,6 @@ function modifyAllSettings(newsettings) {
     })
 
     convertButton.addEventListener('click', async () => {
-        allsettingsBtn.style.display = 'none';
         //save settings before convertion
         //so that next time the user uses the app he will find the last settings used
         setCookie('saveSettings', JSON.stringify(allsettings));
