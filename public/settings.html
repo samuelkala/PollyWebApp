@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Convert Panel</title>
-    <link rel="shortcut icon" type="image/jpg" href="images/p.png"/>
+    <link rel="shortcut icon" type="image/jpg" href="images/p.png" />
     <script src="scripts/cookies.js" charset="utf-8" defer></script>
     <script src="scripts/manage_azure.js" charset="utf-8" defer></script>
     <script src="scripts/manage_aws.js" charset="utf-8" defer></script>
@@ -42,12 +42,14 @@
         }
 
         select {
-            width:45%;
+            width: 45%;
         }
+
         .wrapper {
             text-align: center;
             width: 100%;
         }
+
         h1 {
             position: relative;
             margin: 0;
@@ -64,10 +66,11 @@
             margin: 0;
             text-align: center;
             font-size: 40px;
-            color:  rgb(255, 136, 0);
+            color: rgb(255, 136, 0);
             z-index: 2;
             line-height: 0px;
         }
+
         h4 {
             display: none;
             position: relative;
@@ -102,6 +105,7 @@
             background: #fff;
             box-shadow: 0 0 8px #cc7a00;
         }
+
         .form1 {
             margin: auto;
             margin-top: 5px;
@@ -113,6 +117,7 @@
             background: #fff;
             box-shadow: 0 0 8px #ffffff;
         }
+
         .banner {
             position: relative;
             height: 350px;
@@ -277,26 +282,29 @@
                 -webkit-animation-delay: 0.45s;
                 animation-delay: 0.45s;
             }
+
             .loader .dots2 {
-          opacity: 0;
-          position: absolute;
-          padding: 40px;
-          border-radius: 50%;
-          background: #ff9d01;
-          -webkit-animation: myani2 1s ease-in-out 0s infinite;
-          animation: myani2 1s ease-in-out 0s infinite;
-        } 
+                opacity: 0;
+                position: absolute;
+                padding: 40px;
+                border-radius: 50%;
+                background: #ff9d01;
+                -webkit-animation: myani2 1s ease-in-out 0s infinite;
+                animation: myani2 1s ease-in-out 0s infinite;
+            }
+
             .loader .dots2:nth-child(1) {
-          -webkit-animation-delay: 0s;
-          animation-delay: 0s;
+                -webkit-animation-delay: 0s;
+                animation-delay: 0s;
+            }
+
+            .loader .dots2:nth-child(2) {
+                -webkit-animation-delay: 0.35s;
+                animation-delay: 0.35s;
+            }
         }
 
-        .loader .dots2:nth-child(2) {
-          -webkit-animation-delay: 0.35s;
-          animation-delay: 0.35s;
-        }
-        }
-            @keyframes myani {
+        @keyframes myani {
             0% {
                 -webkit-transform: translateX(-100px);
                 transform: translateX(-100px);
@@ -312,45 +320,45 @@
                 transform: translateX(100px);
                 opacity: 0;
             }
- 
+
         }
 
         p {
             height: auto;
             position: relative;
         }
+
         @keyframes myani2 {
-        0% {
-          -webkit-transform: translateX(-100px);
-          transform: translateX(-100px);
-          opacity: 0;
-        }
+            0% {
+                -webkit-transform: translateX(-100px);
+                transform: translateX(-100px);
+                opacity: 0;
+            }
 
-        50% {
-          opacity: 0.8;
-        }
+            50% {
+                opacity: 0.8;
+            }
 
-        100% {
-          -webkit-transform: translateX(100px);
-          transform: translateX(100px);
-          opacity: 0;
+            100% {
+                -webkit-transform: translateX(100px);
+                transform: translateX(100px);
+                opacity: 0;
+            }
         }
-        }
-        
     </style>
 </head>
 
 <body>
     <img src="images/background.jpg" width="100%" height="100%" style="position: absolute;  right: 0px; top: 0px;" />
     <div class="wrapper" style="position: relative; left: 2%; top: 5%;  text-align: center;">
-        <br><br>  
-            <br><br><br><br>
-        <form style="width:50%; " method="post" action = "../download">
+        <br><br>
+        <br><br><br><br>
+        <form style="width:50%; " method="post" action="../download">
             <div class="loader" id="setLoadDots" style="display: none; position:absolute">
                 <div class="dots2"></div>
                 <div class="dots2"></div>
                 <div class="dots2"></div>
-              </div>
+            </div>
             <h1>Customize and test voices</h1>
             <br><br>
             <label>Text-to-speech service </label>
@@ -439,33 +447,30 @@
             <br>
             <div id="wrapper">
                 <div id="left">
-                    <button type="button" id="return" class="button" style="font-size: 13px; width: 60%;" onclick="document.location='/'"> Return to
+                    <button type="button" id="return" class="button" style="font-size: 13px; width: 60%;"
+                        onclick="document.location='/'"> Return to
                         Homepage <i class='fa fa-home'></i></button>
+                </div>
+                <div id="right"><button id="convertBtn" class="button  button2" type="button" style=" width: 60%;">Start
+                        conversion <i class='fa fa-arrow-right'></i></button>
+                    <input id="hidInp" type="hidden" name="dwnFile" position="relative">
+                    <button type="submit" id="dwn" class="button button2" type="button" style=" width: 60%;">Download my
+                        lesson <i class='fa fa-download'></i></button>
+                    <div class="loader" id="LoadDots" style="display: none;">
+                        <div class="dots"></div>
+                        <div class="dots"></div>
+                        <div class="dots"></div>
+                        <div class="dots"></div>
+                        <div class="dots"></div>
+                    </div>
+                    <div>
+                        <h2 id="done"><i class='fa fa-check-circle'></i></h2>
+                    </div>
+                </div>
+            </div><br><br>
+            <div id="error"><i class='fa fa-warning'></i></div>
+        </form><br><br>
     </div>
-    <div id="right"><button id="convertBtn" class="button  button2" type="button" style=" width: 60%;">Start
-            conversion <i class='fa fa-arrow-right'></i></button>
-            <input id="hidInp" type="hidden" name="dwnFile" position="relative">
-            <button type="submit" id="dwn" class="button button2" type="button" style=" width: 60%;">Download my lesson <i class='fa fa-download'></i></button> 
-            <div class="loader" id="LoadDots" style="display: none;">
-                <div class="dots"></div>
-                <div class="dots"></div>
-                <div class="dots"></div>
-                <div class="dots"></div>
-                <div class="dots"></div>
-            </div>
-            <div>
-                <h2 id="done"><i class='fa fa-check-circle'></i></h2>
-            </div>
-        </div></div><br>
-        <div>
-            <h4 id="converror">Error, return to Home and retry!<i class='fa fa-warning'></i></h4>
-        </div>
-            
-        </form>
-
-
-    </div>
-    <div id="error"></div>
 </body>
 
 </html>
