@@ -47,11 +47,10 @@ let awsSettings = {
             selectService();
             setSavedSettings();
             isSaved = false;
+            setloadingDots.style.display = 'none';
         }else{
             loadLanguages();
         }
-        setloadingDots.style.display = 'none';
-
     })();
 
     function setSavedSettings() {
@@ -85,7 +84,6 @@ let awsSettings = {
             names = voices.filter(voice => voice.LanguageName === lang);
             mapLanguageName.set(lang, names);
         });
-        console.log(mapLanguageName);
     }
 
     function loadLanguages() {

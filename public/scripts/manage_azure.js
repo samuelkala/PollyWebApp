@@ -2,7 +2,7 @@
 //This object will contain the settings for all the slides
 let allsettings;
 //variable which will contain the settings saved by the cookie
-let savedsettings = getCookie('saveSettings');
+let savedsettings = JSON.parse(getCookie('saveSettings'));
 
 let file_to_download = localStorage.getItem('filename');
 let tts = document.getElementById("tts");

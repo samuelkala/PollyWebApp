@@ -6,12 +6,10 @@ function setCookie(name, value) {
 
 function getCookie(name) {
     let cookieArr = document.cookie.split(";");
-    let savedSettings;
     for (let i = 0; i < cookieArr.length; i++) {
         let cookiePair = cookieArr[i].split("=");
         if (name == cookiePair[0].trim()) {
-            savedSettings = decodeURIComponent(cookiePair[1]);
-            return JSON.parse(savedSettings);
+            return decodeURIComponent(cookiePair[1]);
         }
     }
     return null;
