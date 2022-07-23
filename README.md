@@ -15,7 +15,7 @@ As for the front-end it has been written using the classical client-side languag
 #### Cloud Services Authentication
 
 The .env file should contain the credentials for the TTS services (Microsoft Azure and Amazon Polly). In order for the app to work you should add those credentials 
-to the .env file. You can easily get them creating an account for the Cloud Services of both Microsoft and Amazon. In particular the creation of Amazon Aws' credentials is slightly trickier. In particular you should look for the creation of a IAM user role (after creating the main Aws account), putting amazon Polly as the only service in this IAM user role because in the PollyWebApp we only need Amazon Polly out of all Aws Cloud services.
+to the .env file. You can easily get them creating an account for the Cloud Services of both Microsoft and Amazon. The creation of Amazon Aws' credentials is slightly trickier. In particular you should look for the creation of a IAM user role (after creating the main Aws account), putting Aws Polly as the only service in this IAM user role because in the PollyWebApp we only need Amazon Polly out of all Aws Cloud services.
 
 #### Notes on the App settings
 
