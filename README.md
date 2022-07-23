@@ -6,7 +6,7 @@ In particular the app uses two text-to-speech services: Microsoft Azure text-to-
 The project has not been created from scratch, but the original core available here(), has been modified to make it a Web Appplication. These changes brought a significant advantage in terms of usability since, prior to them, the app could be only used via terminal, making it difficult to use for people who don't have advanced computer skills. Futhermore the app has been extended adding much more modularity and settings. In particular the Microsoft Azure text-to-speech service has been added and also the possibility to change voice parameters (speed, timbre, pitch, speaking style) through a nice and user friendly UI.
 
 
-### Technologies Used
+## Technologies Used
 The back-end has been written in JavaScript in a Node Js run-time enviroment. This choice has been done considering the fact that also the previous app used Node Js.
 As for the front-end it has been written using the classical client-side languages: Html, Css, JavaScript. No particular front-end frame(Angular, React...) has been used.
 
@@ -21,7 +21,7 @@ As for Aws voices the neural ones cannot support the change of the timbre and pi
 Nevertheless you can change timbre and pitch for neural voices but this change will not be reflected in the final lesson which will be created.
 The last thing to add is that this app has cookies. Their purpose is to save the settings used by the user during the last time he used the website assuming that those settings are his favorite ones. So the next time he uses the Website he has by default his last used settings.
 
-### How to run the project locally (using VSCode)
+## How to run the project locally (using VSCode)
 1- After cloning the project repo in a folder run the following command to install all the needed dependendencies and modules:
 ```
 npm install
