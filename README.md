@@ -40,7 +40,16 @@ If all went good the following statement should appear: 'App is listening on por
 The Homepage of the Polly website should open at this point. 
 From now on the UI itself should be pretty self-explanatory about the website usage.
 
+## Comments on the Save Branch
+The save branch is a snapshot of the project before the last modifications made to it.
+In particular in the project hosted in this branch there is the possibility to change voices and settings for each slide (e.g. for slide 1 i can choose voice Jenny from Azure and for slide 2 voice Brian from Aws). In this version there is also a play button in the UI. The idea was to make the user able to test the voices and the settings before the subsequent production of the final lesson, but the functionality has not been implemented. Another difference is that the files are organized in a different way (less clear) and have appropriate names. Cookies are also missing. So in conclusion the advice is to look at this version of the project only if you are interested in the feature "change settings for each slide".
 
+
+
+## Credits
+Last but not least this project was made possible thanks to the work of the two authors:
+Samuel Kala samuel.kala@mail.polimi.it
+Marina Russo marina.russo@mail.polimi.it
 
 
 
