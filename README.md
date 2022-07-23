@@ -36,7 +36,7 @@ npm run devStart
 
 If all went good the following statement should appear: 'App is listening on port 3000'.
 
-3-The next step is to open your Browser and type in the searchbar the following: http://localhost:3000/.\
+3-The next step is to open your Browser and type in the searchbar the following: http://localhost:3000/. \
 The Homepage of the Polly website should open at this point. 
 From now on the UI itself should be pretty self-explanatory about the website usage and you can upload the demo.pptx file to try the app and produce a spoken lesson from it.
 
