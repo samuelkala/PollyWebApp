@@ -21,7 +21,7 @@ to the .env file. You can easily get them creating an account for the Cloud Serv
 
 Microsoft Azure voices are all Neural (which means more natural and less robotic), while Aws voices can be also standard. Some Azure voices can have the "speaking style" option, which means that the chosen voice can express emotions (cheerful, sad, excited...). 
 As for Aws voices the neural ones cannot support the change of the timbre and pitch settings, because they have not been implemented yet by Amazon.
-Nevertheless you can change timbre and pitch for neural voices but this change will not be reflected in the final lesson which will be created.
+Nevertheless you can change timbre and pitch for Aws neural voices, but this change will not be reflected in the final lesson which will be created.
 The last thing to add is that this app has cookies. Their purpose is to save the settings used by the user during the last time he used the website assuming that those settings are his favorite ones. So the next time he uses the Website he has by default his last used settings.
 
 ## How to run the project locally (using VSCode)
