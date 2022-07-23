@@ -47,8 +47,8 @@ In particular in the project hosted in this branch there is the possibility to c
 
 
 ## Credits
-Last but not least this project was made possible thanks to the work of the two authors:
-Samuel Kala samuel.kala@mail.polimi.it
+Last but not least this project was made possible thanks to the work of the two authors:\
+Samuel Kala samuel.kala@mail.polimi.it\
 Marina Russo marina.russo@mail.polimi.it
 
 
