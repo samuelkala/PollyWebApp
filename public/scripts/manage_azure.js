@@ -48,7 +48,7 @@ function modifyAllSettings(newsettings) {
     console.log('check if slides modified correctly');
 }
 
-
+// local variables
 {
 
     let authorizationToken;
