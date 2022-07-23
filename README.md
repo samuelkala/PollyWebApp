@@ -24,6 +24,10 @@ As for Aws voices the neural ones cannot support the change of the timbre and pi
 Nevertheless you can change timbre and pitch for Aws neural voices, but this change will not be reflected in the final lesson which will be created.
 The last thing to add is that this app has cookies. Their purpose is to save the settings used by the user during the last time he used the website assuming that those settings are his favorite ones. So the next time he uses the Website he has by default his last used settings.
 
+#### Notes on SharedFolder\pptx folders
+These nested folders will host the powerpoint to convert once the user uploaded it. While the "download" folder has a self-explanatory name, SharedFolder\pptx
+not. The reason for this is that these folders are inherited from the previous project and we decided to not change them, although a replacement with an "upload" folder would have been cleaner.
+
 ## How to run the project locally (using VSCode)
 1- After cloning the project repo in a folder run the following command to install all the needed dependendencies and modules:
 ```
