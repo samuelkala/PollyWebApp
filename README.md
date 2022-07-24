@@ -30,6 +30,10 @@ These nested folders will host the powerpoint to convert once the user uploaded 
 not. The reason for this is that these folders are inherited from the previous project and we decided to not change them, although a replacement with an "upload" folder would have been cleaner.
 
 ## How to run the project locally (using VSCode)
+
+To run the project NodeJs and npm packet manager are needed. They are easily downloadable from the Internet. 
+The next steps are:
+
 1- After cloning the project repo in a folder run the following command to install all the needed dependendencies and modules:
 ```
 npm install
