@@ -7,7 +7,8 @@ The project has not been created from scratch, but the original core available h
 
 
 ## Technologies Used
-The back-end has been written in JavaScript (NodeJs run-time enviroment) using the Express framework. This choice has been done considering the fact that also the previous app used NodeJs.
+The back-end has been written in JavaScript (NodeJs run-time enviroment) using the Express framework. This choice has been made
+ considering the fact that also the previous app used NodeJs.
 As for the front-end it has been written using the classical client-side languages: Html, Css, JavaScript. No particular front-end framework (Angular, React...) has been used.
 
 ## Things to know before running Polly
