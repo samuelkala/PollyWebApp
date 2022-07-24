@@ -34,7 +34,7 @@ not. The reason for this is that these folders are inherited from the previous p
 1-To run the project NodeJs and npm packet manager are needed. Download them from the Internet. 
 
 
-2- After cloning the project repo in a folder run in the terminal the following command to install all the needed dependendencies and modules:
+2- After cloning the project repo in a folder, run in the terminal the following command to install all the needed dependendencies and modules:
 ```
 npm install
 ```
