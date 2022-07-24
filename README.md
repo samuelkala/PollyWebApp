@@ -31,21 +31,21 @@ not. The reason for this is that these folders are inherited from the previous p
 
 ## How to run the project locally (using VSCode)
 
-To run the project NodeJs and npm packet manager are needed. They are easily downloadable from the Internet. 
-The next steps are:
+1-To run the project NodeJs and npm packet manager are needed. Download them from the Internet. 
 
-1- After cloning the project repo in a folder run the following command to install all the needed dependendencies and modules:
+
+2- After cloning the project repo in a folder run in the terminal the following command to install all the needed dependendencies and modules:
 ```
 npm install
 ```
-2- To run the application type the following command:
+3- To run the application type the following command:
 ```
 npm run devStart
 ```
 
 If all went good the following statement should appear: 'App is listening on port 3000'.
 
-3-The next step is to open your Browser and type in the searchbar the following: http://localhost:3000/. \
+4-The next step is to open your Browser and type in the searchbar the following: http://localhost:3000/. \
 The Homepage of the Polly website should open at this point. 
 From now on the UI itself should be pretty self-explanatory about the website usage and you can upload the demo.pptx file to try the app and produce a spoken lesson from it.
 
